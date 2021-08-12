@@ -31,6 +31,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/foodgroups', App\Http\Controllers\FoodGroup\IndexController::class)->name('foodgroups.index');
+    Route::get('/foods', App\Http\Controllers\Food\IndexController::class)->name('foods.index');
 });
 
 

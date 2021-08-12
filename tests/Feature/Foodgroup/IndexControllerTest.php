@@ -28,7 +28,21 @@ class IndexControllerTest extends TestCase
     {
         Foodgroup::factory()->count(10)->create();
 
-        $response = $this->get(route('foodgroups.index'))
+        $this->get(route('foodgroups.index'))
             ->assertRedirect();
+    }
+
+    /** @test */
+    public function it_returns_foodgroup_with_name()
+    {
+        $user = User::factory()->create();
+        $foodgroup = Foodgroup::factory()->create([
+            'name' => 'my food group',
+        ]);
+
+        $response = $this->actingAs($user)->get(route('foodgroups.index'))
+            ->assertSuccessful();
+
+        $this->assertEquals($foodgroup->toArray()['name'], $response->getOriginalContent()[0]['name']);
     }
 }

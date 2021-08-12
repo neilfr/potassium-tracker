@@ -14,6 +14,7 @@ class CreateFoodgroupsTable extends Migration
     public function up()
     {
         Schema::create('foodgroups', function (Blueprint $table) {
+            $table->string('name');
             $table->id();
             $table->timestamps();
         });
