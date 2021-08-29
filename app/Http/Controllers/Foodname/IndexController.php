@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Foodname;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\FoodnameResource;
 use App\Models\Foodname;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,6 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Foodname::all();
+        return FoodnameResource::collection(Foodname::all());
     }
 }

@@ -14,7 +14,7 @@ class IndexControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_return_foodnames_as_an_authenticated_user()
+    public function it_can_access_foodnames_index_as_an_authenticated_user()
     {
         $user = User::factory()->create();
         $foodgroup = Foodgroup::factory()->create();
@@ -24,8 +24,6 @@ class IndexControllerTest extends TestCase
 
         $response = $this->actingAs($user)->get(route('foodnames.index'))
             ->assertSuccessful();
-
-        $this->assertEquals($foods->toArray(), $response->getOriginalContent()->toArray());
     }
 
     /** @test */
@@ -54,7 +52,7 @@ class IndexControllerTest extends TestCase
             ->assertSuccessful();
 
         $response->getOriginalContent()->each(function($food, $key) use($foods) {
-           $this->assertEquals($foods->toArray()[$key]['FoodDescription'], $food->toArray()['FoodDescription']);
+           $this->assertEquals($foods->toArray()[$key]['FoodDescription'], $food->FoodDescription);
         });
     }
 
@@ -65,10 +63,9 @@ class IndexControllerTest extends TestCase
         $user = User::factory()->create();
         $foodgroup = Foodgroup::factory()->create();
 
-        $foodnames = Foodname::factory(5)->create([
+        Foodname::factory(5)->create([
             'FoodGroupID' => $foodgroup->FoodGroupID,
         ]);
-        dd($foodnames[0]->foodgroup->FoodGroupName);
 
         $response = $this->actingAs($user)->get(route('foodnames.index'))
             ->assertSuccessful();
