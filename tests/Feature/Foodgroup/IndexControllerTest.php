@@ -37,12 +37,12 @@ class IndexControllerTest extends TestCase
     {
         $user = User::factory()->create();
         $foodgroup = Foodgroup::factory()->create([
-            'name' => 'my food group',
+            'FoodGroupName' => 'my food group',
         ]);
 
         $response = $this->actingAs($user)->get(route('foodgroups.index'))
             ->assertSuccessful();
 
-        $this->assertEquals($foodgroup->toArray()['name'], $response->getOriginalContent()[0]['name']);
+        $this->assertEquals($foodgroup->toArray()['FoodGroupName'], $response->getOriginalContent()[0]['FoodGroupName']);
     }
 }

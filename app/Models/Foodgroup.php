@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Foodgroup extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'FoodGroupID';
+
 }

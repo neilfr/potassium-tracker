@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\FoodGroup;
+namespace App\Http\Controllers\Foodname;
 
 use App\Http\Controllers\Controller;
-use App\Models\Foodgroup;
+use App\Models\Foodname;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -16,6 +16,6 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Foodgroup::all()->toArray();
+        return Foodname::all();
     }
 }
