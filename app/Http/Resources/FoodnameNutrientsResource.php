@@ -15,13 +15,15 @@ class FoodnameNutrientsResource extends JsonResource
     public function toArray($request)
     {
         $nutrientNames = $this->nutrientnames;
+        $potassium = $nutrientNames->firstWhere('NutrientID', 306);
+        $kcal = $nutrientNames->firstWhere('NutrientID', 208);
         return [
             'FoodID' => $this->FoodID,
             'FoodGroupID' => $this->FoodGroupID,
             'FoodCode' => $this->FoodCode,
             'FoodDescription' => $this->FoodDescription,
-            $nutrientNames->firstWhere('NutrientID', 306)->NutrientName => 100,
-            $nutrientNames->firstWhere('NutrientID', 208)->NutrientName => 100,
+            $potassium->NutrientName => $potassium->pivot->NutrientValue,
+            $kcal->NutrientName => $kcal->pivot->NutrientValue,
         ];
     }
 }

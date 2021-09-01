@@ -16,7 +16,8 @@ class Foodname extends Model
     }
 
     public function nutrientnames(){
-        return $this->belongsToMany(Nutrientname::class, 'nutrientamounts', 'NutrientID', 'FoodID');
+        return $this->belongsToMany(Nutrientname::class, 'nutrientamounts', 'NutrientID', 'FoodID')
+            ->withPivot('NutrientValue');
     }
 
 }

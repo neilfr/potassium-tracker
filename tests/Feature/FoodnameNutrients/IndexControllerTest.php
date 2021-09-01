@@ -26,7 +26,9 @@ class IndexControllerTest extends TestCase
             ]);
 
         $nutrientname = Nutrientname::factory()->create();
-        $foodname->nutrientnames()->attach($nutrientname);
+        $foodname->nutrientnames()->attach($nutrientname, [
+            'NutrientValue' => 50
+        ]);
 
         $this->assertEquals($nutrientname->NutrientName, $foodname->nutrientnames()->first()->NutrientName);
     }
@@ -42,34 +44,42 @@ class IndexControllerTest extends TestCase
                 'FoodGroupID' => $foodgroup->FoodGroupID,
             ]);
 
-        $nutrientnames[0] = Nutrientname::factory()->create([
+        $someNutrient = Nutrientname::factory()->create([
             'NutrientName' => 'not potassium or kcal'
         ]);
-        $nutrientnames[1] = Nutrientname::factory()->create([
+        $potassium = Nutrientname::factory()->create([
             'NutrientID' => 306,
             'NutrientName' => 'POTASSIUM'
         ]);
-        $nutrientnames[2] = Nutrientname::factory()->create([
+        $kcal = Nutrientname::factory()->create([
             'NutrientID' => 208,
             'NutrientName' => 'ENERGY (KILOCALORIES)'
         ]);
 
-        $foodname->nutrientnames()->sync(collect($nutrientnames)->pluck('NutrientID'));
+        $foodname->nutrientnames()->attach($someNutrient, [
+            'NutrientValue' => 50
+        ]);
+        $foodname->nutrientnames()->attach($potassium, [
+            'NutrientValue' => 100.6
+        ]);
+        $foodname->nutrientnames()->attach($kcal, [
+            'NutrientValue' => 150.568
+        ]);
 
-        $response = $this->actingAs($user)->get(route('foodname-nutrients.index'))
+        $this->actingAs($user)->get(route('foodname-nutrients.index'))
             ->assertSuccessful()
             ->assertJson([
                 "data" => [
                     [
-                        'POTASSIUM' => 100,
-                        'ENERGY (KILOCALORIES)' => 100,
+                        'POTASSIUM' => 100.6,
+                        'ENERGY (KILOCALORIES)' => 150.568,
                     ]
                 ]
             ])
             ->assertJsonMissing([
                 "data" => [
                     [
-                        'not potassium or kcal' => 100,
+                        'not potassium or kcal' => 50,
                     ]
                 ]
             ]);
