@@ -32,6 +32,7 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/foodgroups', App\Http\Controllers\FoodGroup\IndexController::class)->name('foodgroups.index');
     Route::get('/foodnames', App\Http\Controllers\Foodname\IndexController::class)->name('foodnames.index');
+    Route::get('/foodname-nutrients', App\Http\Controllers\FoodnameNutrients\IndexController::class)->name('foodname-nutrients.index');
 });
 
 
