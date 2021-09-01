@@ -18,7 +18,6 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function foodnames_have_nutrients()
     {
-        $user = User::factory()->create();
         $foodgroup = Foodgroup::factory()->create();
         $foodname = Foodname::factory()
             ->create([

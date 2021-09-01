@@ -20,4 +20,9 @@ class Foodname extends Model
             ->withPivot('NutrientValue');
     }
 
+    public function measurenames(){
+        return $this->belongsToMany(Measurename::class, 'conversionfactors', 'MeasureID', 'FoodID')
+            ->withPivot('ConversionFactorValue');
+    }
+
 }
