@@ -57,7 +57,6 @@ class IndexControllerTest extends TestCase
     }
 
     /** @test */
-    //FIX THIS
     public function it_returns_foodnames_with_foodgroup()
     {
         $user = User::factory()->create();

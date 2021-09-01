@@ -15,4 +15,8 @@ class Foodname extends Model
         return $this->belongsTo(Foodgroup::class, 'FoodGroupID', 'FoodGroupID');
     }
 
+    public function nutrientnames(){
+        return $this->belongsToMany(Nutrientname::class, 'nutrientamounts', 'NutrientID', 'FoodID');
+    }
+
 }
