@@ -35,7 +35,6 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function it_returns_foodnames_with_only_potassium_and_kilocalorie_nutrient_amounts()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $foodgroup = Foodgroup::factory()->create();
         $foodname = Foodname::factory()
