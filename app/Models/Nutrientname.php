@@ -10,4 +10,9 @@ class Nutrientname extends Model
     use HasFactory;
 
     protected $primaryKey = 'NutrientID';
+
+    public function foodnames(){
+        return $this->belongsToMany(Foodname::class, 'nutrientamounts', 'FoodID', 'NutrientID')
+            ->withPivot('NutrientValue');
+    }
 }

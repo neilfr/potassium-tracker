@@ -18,9 +18,12 @@ class IndexController extends Controller
     public function __invoke(Request $request)
     {
         $foodnames = Foodname::all();
+        $bar = Foodname::first()->pivot->ConversionFactorValue;
+        dd($bar);
 
         return [ 'data' => $foodnames->map( function ($foodname) {
-            return $foodname->measurenames->map( function ($measurename) use ($foodname) {
+            dd($foodname->measurenames()->pivot->ConversionFactorValue);
+            $foo = $foodname->measurenames->map( function ($measurename) use ($foodname) {
                 return
                     [
                         'FoodID' => $foodname->FoodID,
@@ -28,8 +31,10 @@ class IndexController extends Controller
                         'FoodCode' => $foodname->FoodCode,
                         'FoodDescription' => $foodname->FoodDescription,
                         'MeasureDescription' => $measurename->MeasureDescription,
+//                        'ConversionFactorValue' =>
                     ];
             });
+            return $foo;
         })];
     }
 }
