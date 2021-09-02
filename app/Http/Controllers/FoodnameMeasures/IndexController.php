@@ -18,23 +18,39 @@ class IndexController extends Controller
     public function __invoke(Request $request)
     {
         $foodnames = Foodname::all();
-        $bar = Foodname::first()->pivot->ConversionFactorValue;
-        dd($bar);
-
-        return [ 'data' => $foodnames->map( function ($foodname) {
-            dd($foodname->measurenames()->pivot->ConversionFactorValue);
-            $foo = $foodname->measurenames->map( function ($measurename) use ($foodname) {
-                return
-                    [
-                        'FoodID' => $foodname->FoodID,
-                        'FoodGroupID' => $foodname->FoodGroupID,
-                        'FoodCode' => $foodname->FoodCode,
-                        'FoodDescription' => $foodname->FoodDescription,
-                        'MeasureDescription' => $measurename->MeasureDescription,
-//                        'ConversionFactorValue' =>
-                    ];
+        $foobar = $foodnames->map(function($foodname) {
+            $baz = $foodname->measurenames->map(function($measurename) use($foodname) {
+                return [
+                    'FoodID' => $foodname->FoodID,
+                    'MeasureID' => $measurename->MeasureID,
+                    'FoodGroupID' => $foodname->FoodGroupID,
+                    'FoodCode' => $foodname->FoodCode,
+                    'FoodDescription' => $foodname->FoodDescription,
+                    'MeasureDescription' => $measurename->MeasureDescription,
+                    'ConversionFactorValue' => $measurename->pivot->ConversionFactorValue,
+                ];
             });
-            return $foo;
-        })];
+//            dd($baz);
+            return $baz;
+        });
+        return [
+            'data' => $foobar->flatten(1),
+            ];
+
+//        return [ 'data' => $foodnames->map( function ($foodname) {
+//            dd($foodname->measurenames()->pivot->ConversionFactorValue);
+//            $foo = $foodname->measurenames->map( function ($measurename) use ($foodname) {
+//                return
+//                    [
+//                        'FoodID' => $foodname->FoodID,
+//                        'FoodGroupID' => $foodname->FoodGroupID,
+//                        'FoodCode' => $foodname->FoodCode,
+//                        'FoodDescription' => $foodname->FoodDescription,
+//                        'MeasureDescription' => $measurename->MeasureDescription,
+//                        'ConversionFactorValue' => '',
+//                    ];
+//            });
+//            return $foo;
+//        })];
     }
 }

@@ -67,33 +67,39 @@ class IndexControllerTest extends TestCase
                 'FoodGroupID' => $foodgroup->FoodGroupID,
             ]);
 
-        $measurenames = Measurename::factory()->count(2)->create();
+        $measurenames[0] = Measurename::factory()->create([
+            'MeasureDescription' => 'measure0',
+        ]);
+        $measurenames[1] = Measurename::factory()->create([
+            'MeasureDescription' => 'measure1',
+        ]);
 
         $conversionFactorValues = [1.01234, 2.12345];
-        foreach($conversionFactorValues as $index => $conversionFactorValue) {
-            $foodname->measurenames()->attach($measurenames[$index], [
-                'ConversionFactorValue' => $conversionFactorValue,
-            ]);
-        }
+        collect($measurenames)->each( function ($measurename, $index) use($foodname, $conversionFactorValues) {
+            $foodname->measurenames()->attach(
+                $measurename,
+                [
+                    'ConversionFactorValue' => $conversionFactorValues[$index],
+                ]
+            );
+        });
 
         $this->actingAs($user)->get(route('foodname-measures.index'))
             ->assertSuccessful()
             ->assertJson([
                 "data" => [
                     [
-                        [
-                            'FoodID' => $foodname->FoodID,
-                            'FoodDescription' => $foodname->FoodDescription,
-                            'MeasureDescription' => $measurenames[0]->MeasureDescription,
-//                            'ConversionFactorValue' => $conversionFactorValues[0],
-                        ],
-                        [
-                            'FoodID' => $foodname->FoodID,
-                            'FoodDescription' => $foodname->FoodDescription,
-                            'MeasureDescription' => $measurenames[1]->MeasureDescription,
-//                            'ConversionFactorValue' => $conversionFactorValues[1],
-                        ],
-                    ]
+                        'FoodID' => $foodname->FoodID,
+                        'FoodDescription' => $foodname->FoodDescription,
+                        'MeasureDescription' => $measurenames[0]->MeasureDescription,
+                        'ConversionFactorValue' => $conversionFactorValues[0],
+                    ],
+                    [
+                        'FoodID' => $foodname->FoodID,
+                        'FoodDescription' => $foodname->FoodDescription,
+                        'MeasureDescription' => $measurenames[1]->MeasureDescription,
+                        'ConversionFactorValue' => $conversionFactorValues[1],
+                    ],
                 ]
             ]);
     }
