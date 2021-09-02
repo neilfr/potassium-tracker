@@ -37,18 +37,23 @@ class IndexControllerTest extends TestCase
     public function foodnames_have_nutrients_with_nutrient_values()
     {
         $foodgroup = Foodgroup::factory()->create();
-        $nutrientname = Nutrientname::factory()->create();
         $foodname = Foodname::factory()
-            ->hasAttached($nutrientname, [
-                'NutrientValue' => 50.5
-            ])
             ->create([
                 'FoodGroupID' => $foodgroup->FoodGroupID,
             ]);
 
-        $this->assertEquals($nutrientname->NutrientName, $foodname->nutrientnames()->first()->NutrientName);
+        $nutrientnames = Nutrientname::factory()->count(2)->create();
+        $nutrientValues = [50.5, 150.5];
+        $nutrientnames->each( function ($nutrientname, $index) use($foodname, $nutrientValues) {
+           $foodname->nutrientnames()->attach($nutrientname, [
+              'NutrientValue' => $nutrientValues[$index],
+           ]);
+        });
 
-        $this->assertEquals(50.5, $nutrientname->foodnames->find($foodname->FoodID)->pivot->NutrientValue);
+        $foodname->nutrientnames->each( function ($nutrientname, $index) use($foodname, $nutrientValues) {
+           $this->assertEquals($nutrientValues[$index], $foodname->nutrientnames()->find($nutrientname->NutrientID)->pivot->NutrientValue);
+           $this->assertEquals($nutrientValues[$index], $nutrientname->foodnames()->find($foodname->FoodID)->pivot->NutrientValue);
+        });
     }
 
     /** @test */

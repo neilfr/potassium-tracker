@@ -10,4 +10,9 @@ class Measurename extends Model
     use HasFactory;
 
     protected $primaryKey = 'MeasureID';
+
+    public function foodnames(){
+        return $this->belongsToMany(Foodname::class, 'conversionfactors', 'FoodID', 'MeasureID')
+            ->withPivot('ConversionFactorValue');
+    }
 }

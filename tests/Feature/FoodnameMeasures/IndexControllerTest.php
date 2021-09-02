@@ -26,10 +26,34 @@ class IndexControllerTest extends TestCase
 
         $measurename = Measurename::factory()->create();
         $foodname->measurenames()->attach($measurename, [
-            'ConversionFactorValue' => 50
+            'ConversionFactorValue' => 1.2345
         ]);
 
         $this->assertEquals($measurename->MeasureDescription, $foodname->measurenames()->first()->MeasureDescription);
+    }
+
+    /** @test */
+    public function foodnames_have_measures_with_conversion_factors()
+    {
+        $foodgroup = Foodgroup::factory()->create();
+        $foodname = Foodname::factory()
+            ->create([
+                'FoodGroupID' => $foodgroup->FoodGroupID,
+            ]);
+
+        $measurenames = Measurename::factory()->count(2)->create();
+        $conversionFactorValues = [1.2345,0.5];
+        $measurenames->each( function ($measurename, $index) use($foodname, $conversionFactorValues) {
+            $foodname->measurenames()->attach($measurename, [
+               'ConversionFactorValue' => $conversionFactorValues[$index],
+            ]);
+        });
+
+        $foodname->measurenames->each( function ($measurename, $index) use($foodname, $conversionFactorValues) {
+            $this->assertEquals($conversionFactorValues[$index], $foodname->measurenames()->find($measurename->MeasureID)->pivot->ConversionFactorValue);
+            $this->assertEquals($conversionFactorValues[$index], $measurename->foodnames()->find($foodname->FoodID)->pivot->ConversionFactorValue);
+        });
+
     }
 
     /** @test */
