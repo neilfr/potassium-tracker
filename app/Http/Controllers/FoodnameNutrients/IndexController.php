@@ -17,9 +17,6 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-//        $foodname = Foodname::first();
-//        $bar = Foodname::first()->pivot->NutrientName;
-//        dd('controller',$foodname->nutrientnames);
         return FoodnameNutrientsResource::collection(Foodname::all());
     }
 }

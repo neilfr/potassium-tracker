@@ -16,10 +16,12 @@ class FoodnameMeasureResource extends JsonResource
     {
         return [
             'FoodID' => $this->FoodID,
+            'MeasureID' => $this->MeasureID,
             'FoodGroupID' => $this->FoodGroupID,
             'FoodCode' => $this->FoodCode,
             'FoodDescription' => $this->FoodDescription,
             'MeasureDescription' => $this->MeasureDescription,
+            'ConversionFactorValue' => $this->ConversionFactorValue,
         ];
     }
 }
