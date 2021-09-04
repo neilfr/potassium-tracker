@@ -33,7 +33,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/foodgroups', App\Http\Controllers\FoodGroup\IndexController::class)->name('foodgroups.index');
     Route::get('/foodnames', App\Http\Controllers\Foodname\IndexController::class)->name('foodnames.index');
     Route::get('/foodname-nutrients', App\Http\Controllers\FoodnameNutrients\IndexController::class)->name('foodname-nutrients.index');
-    Route::get('/foodname-measures', App\Http\Controllers\FoodnameMeasures\IndexController::class)->name('foodname-measures.index');
     Route::get('/conversionfactors', App\Http\Controllers\Conversionfactor\IndexController::class)->name('conversionfactors.index');
 });
 
