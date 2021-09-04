@@ -12,7 +12,7 @@ class Measurename extends Model
     protected $primaryKey = 'MeasureID';
 
     public function foodnames(){
-        return $this->belongsToMany(Foodname::class, 'conversionfactors', 'FoodID', 'MeasureID')
+        return $this->belongsToMany(Foodname::class, 'conversionfactors', 'MeasureID', 'FoodID')
             ->withPivot('ConversionFactorValue');
     }
 }

@@ -14,9 +14,6 @@ class ConversionfactorResource extends JsonResource
      */
     public function toArray($request)
     {
-//        dd($this);
-//        dd('hi', $this->foodname->FoodID);
-//        dump($this);
         return [
             'FoodID' => $this->foodname->FoodID,
             'MeasureID' => $this->measurename->MeasureID,
@@ -27,10 +24,5 @@ class ConversionfactorResource extends JsonResource
             'ConversionFactorValue' => $this->ConversionFactorValue,
         ];
 
-//        return parent::toArray($request);
-
-//        return [
-//            'MeasureDescription' => $this->measurename->MeasureDescription,
-//        ];
     }
 }

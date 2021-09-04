@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\FoodnameMeasures;
 
+use App\Models\Conversionfactor;
 use App\Models\Foodgroup;
 use App\Models\Foodname;
 use App\Models\Measurename;

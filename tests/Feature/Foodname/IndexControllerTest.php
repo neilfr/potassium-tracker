@@ -62,12 +62,21 @@ class IndexControllerTest extends TestCase
         $user = User::factory()->create();
         $foodgroup = Foodgroup::factory()->create();
 
-        Foodname::factory(5)->create([
+        $foodnames = Foodname::factory()->count(2)->create([
             'FoodGroupID' => $foodgroup->FoodGroupID,
         ]);
 
         $response = $this->actingAs($user)->get(route('foodnames.index'))
-            ->assertSuccessful();
+            ->assertSuccessful()
+            ->assertJson([
+                    "data" => [
+                        [
+                            'FoodID' => $foodnames[0]->FoodID,
+                            'FoodDescription' => $foodnames[0]->FoodDescription,
+                            'FoodGroupName' => $foodnames[0]->foodgroup->FoodGroupName,
+                        ],
+                    ]
+            ]);
 
         $response->getOriginalContent()->each(function($foodname, $key) use($foodgroup) {
             $this->assertEquals($foodgroup->FoodGroupName, $foodname->foodgroup->FoodGroupName);

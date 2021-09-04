@@ -12,7 +12,7 @@ class Nutrientname extends Model
     protected $primaryKey = 'NutrientID';
 
     public function foodnames(){
-        return $this->belongsToMany(Foodname::class, 'nutrientamounts', 'FoodID', 'NutrientID')
+        return $this->belongsToMany(Foodname::class, 'nutrientamounts', 'NutrientID', 'FoodID')
             ->withPivot('NutrientValue');
     }
 }

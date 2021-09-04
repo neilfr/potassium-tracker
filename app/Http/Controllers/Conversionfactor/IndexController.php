@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\FoodnameMeasures;
+namespace App\Http\Controllers\Conversionfactor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ConversionfactorResource;
@@ -17,6 +17,8 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-       return ConversionfactorResource::collection(Conversionfactor::all());
+        $conversionfactors = Conversionfactor::all();
+//dd($conversionfactors);
+        return ConversionfactorResource::collection($conversionfactors);
     }
 }
