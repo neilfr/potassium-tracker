@@ -14,6 +14,10 @@ class ConversionfactorResource extends JsonResource
      */
     public function toArray($request)
     {
+        $nutrientNames = $this->foodname->nutrientnames;
+        $potassium = $nutrientNames->firstWhere('NutrientID', 306);
+        $kcal = $nutrientNames->firstWhere('NutrientID', 208);
+
         return [
             'FoodID' => $this->foodname->FoodID,
             'MeasureID' => $this->measurename->MeasureID,
@@ -22,6 +26,8 @@ class ConversionfactorResource extends JsonResource
             'FoodDescription' => $this->foodname->FoodDescription,
             'MeasureDescription' => $this->measurename->MeasureDescription,
             'ConversionFactorValue' => $this->ConversionFactorValue,
+            $potassium->NutrientName => $potassium->pivot->NutrientValue * $this->ConversionFactorValue,
+            $kcal->NutrientName => $kcal->pivot->NutrientValue * $this->ConversionFactorValue,
         ];
 
     }
