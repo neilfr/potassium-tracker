@@ -38,6 +38,8 @@ class IndexControllerTest extends TestCase
             );
         });
 
+        $nutrientIds = explode(',', env('NUTRIENTS'));
+
         $potassium = Nutrientname::factory()->create([
             'NutrientID' => 306,
             'NutrientName' => 'POTASSIUM'

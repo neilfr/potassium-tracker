@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Nutrientname;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ConversionfactorResource extends JsonResource
@@ -14,11 +15,10 @@ class ConversionfactorResource extends JsonResource
      */
     public function toArray($request)
     {
-        $nutrientNames = $this->foodname->nutrientnames;
-        $potassium = $nutrientNames->firstWhere('NutrientID', 306);
-        $kcal = $nutrientNames->firstWhere('NutrientID', 208);
+        $nutrientIds = collect(explode(',', env('NUTRIENTS')));
+        $nutrients = $this->foodname->nutrientnames->whereIn('NutrientID', $nutrientIds);
 
-        return [
+        $conversionFactor = [
             'FoodID' => $this->foodname->FoodID,
             'MeasureID' => $this->measurename->MeasureID,
             'FoodGroupID' => $this->foodname->FoodGroupID,
@@ -26,9 +26,15 @@ class ConversionfactorResource extends JsonResource
             'FoodDescription' => $this->foodname->FoodDescription,
             'MeasureDescription' => $this->measurename->MeasureDescription,
             'ConversionFactorValue' => $this->ConversionFactorValue,
-            $potassium->NutrientName => $potassium->pivot->NutrientValue * $this->ConversionFactorValue,
-            $kcal->NutrientName => $kcal->pivot->NutrientValue * $this->ConversionFactorValue,
         ];
+
+        $nutrients->each( function($nutrient) use(&$conversionFactor) {
+            $conversionFactor = array_merge($conversionFactor, [
+               $nutrient->NutrientName => $nutrient->pivot->NutrientValue * $this->ConversionFactorValue,
+            ]);
+        });
+
+        return $conversionFactor;
 
     }
 }
