@@ -15,8 +15,7 @@ class ConversionfactorResource extends JsonResource
      */
     public function toArray($request)
     {
-        $nutrientIds = collect(explode(',', env('NUTRIENTS')));
-        $nutrients = $this->foodname->nutrientnames->whereIn('NutrientID', $nutrientIds);
+        $nutrients = $this->foodname->nutrientnames->whereIn('NutrientID', app('app_nutrient_ids'));
 
         $conversionFactor = [
             'FoodID' => $this->foodname->FoodID,
