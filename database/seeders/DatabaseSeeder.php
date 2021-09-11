@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Conversionfactor;
 use App\Models\Foodgroup;
 use App\Models\Foodname;
+use App\Models\Measurename;
+use App\Models\Nutrientamount;
+use App\Models\Nutrientname;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
@@ -16,20 +20,41 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        $foodgroups = $this->importCSV(
-//            Foodgroup::class,
-//            './storage/csv/Food Group.csv',
-//            ["FoodGroupID", "FoodGroupName"]
-//        );
+        $foodgroups = $this->importCSV(
+            Foodgroup::class,
+            './storage/csv/FOOD GROUP.csv',
+            ["FoodGroupID", "FoodGroupName"]
+        );
 
-//        $foodnames = $this->importCSV(
-//            Foodname::class,
-//            './storage/csv/Food Name.csv',
-//            ["FoodID", "FoodGroupID", "FoodCode", "FoodDescription"]
-//        );
+        $foodnames = $this->importCSV(
+            Foodname::class,
+            './storage/csv/FOOD NAME.csv',
+            ["FoodID", "FoodGroupID", "FoodCode", "FoodDescription"]
+        );
 
-//        $this->call(FoodgroupSeeder::class);
-        $this->call(FoodnameSeeder::class);
+        $measurenames = $this->importCSV(
+            Measurename::class,
+            './storage/csv/MEASURE NAME.csv',
+            ["MeasureID", "MeasureDescription"]
+        );
+
+        $conversionfactors = $this->importCSV(
+            Conversionfactor::class,
+            './storage/csv/CONVERSION FACTOR.csv',
+            ["FoodID", "MeasureID", "ConversionFactorValue"]
+        );
+
+        $nutrientnames = $this->importCSV(
+            Nutrientname::class,
+            './storage/csv/NUTRIENT NAME.csv',
+            ["NutrientID", "NutrientName"]
+        );
+
+        $nutrientamounts = $this->importCSV(
+            Nutrientamount::class,
+            './storage/csv/NUTRIENT AMOUNT.csv',
+            ["FoodID", "NutrientID", "NutrientValue"]
+        );
     }
 
     private function importCSV(String $model, String $filePath, Array $fields): Collection
@@ -43,6 +68,7 @@ class DatabaseSeeder extends Seeder
 
         if (($handle = fopen($filePath, "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 0,',','"','"')) !== FALSE) {
+                $data = array_map("utf8_encode", $data); //added
                 $csvDataRows[]= $data;
             }
             fclose($handle);
@@ -68,7 +94,6 @@ class DatabaseSeeder extends Seeder
                     $acc[$keys[$index]] = $row[$index];
                     return $acc;
                 },[]);
-                dd($row);
                 $model::create($row);
                 return $row;
             });

@@ -17,7 +17,7 @@ class CreateConversionfactorsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('FoodID');
             $table->unsignedBigInteger('MeasureID');
-            $table->float('ConversionFactorValue', 7, 5);
+            $table->float('ConversionFactorValue', 8, 5);
             $table->timestamps();
         });
     }
