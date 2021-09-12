@@ -20,44 +20,46 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $foodgroups = $this->importCSV(
+        $foodgroups = $this->seedFromCSV(
             Foodgroup::class,
             './storage/csv/FOOD GROUP.csv',
             ["FoodGroupID", "FoodGroupName"]
         );
 
-        $foodnames = $this->importCSV(
+        $foodnames = $this->seedFromCSV(
             Foodname::class,
             './storage/csv/FOOD NAME.csv',
             ["FoodID", "FoodGroupID", "FoodCode", "FoodDescription"]
         );
 
-        $measurenames = $this->importCSV(
+        $measurenames = $this->seedFromCSV(
             Measurename::class,
             './storage/csv/MEASURE NAME.csv',
             ["MeasureID", "MeasureDescription"]
         );
 
-        $conversionfactors = $this->importCSV(
+        $conversionfactors = $this->seedFromCSV(
             Conversionfactor::class,
             './storage/csv/CONVERSION FACTOR.csv',
             ["FoodID", "MeasureID", "ConversionFactorValue"]
         );
 
-        $nutrientnames = $this->importCSV(
+        $nutrientnames = $this->seedFromCSV(
             Nutrientname::class,
             './storage/csv/NUTRIENT NAME.csv',
             ["NutrientID", "NutrientName"]
         );
 
-        $nutrientamounts = $this->importCSV(
+        $nutrientamounts = $this->seedFromCSV(
             Nutrientamount::class,
             './storage/csv/NUTRIENT AMOUNT.csv',
             ["FoodID", "NutrientID", "NutrientValue"]
         );
+
+        $this->call(TestUserSeeder::class);
     }
 
-    private function importCSV(String $model, String $filePath, Array $fields): Collection
+    private function seedFromCSV(String $model, String $filePath, Array $fields): Collection
     {
         return $this->convertRowsIntoKeyedData($model, $this->getCSVDataAsRows($filePath), collect($fields));
     }
@@ -79,7 +81,6 @@ class DatabaseSeeder extends Seeder
 
     private function convertRowsIntoKeyedData(String $model, Collection $csvDataRows, Collection $fields): Collection
     {
-        // should take in the model... and then create a new model for each row here
         $keys = collect($csvDataRows[0]);
 
         $flippedKeys = $keys->flip();
