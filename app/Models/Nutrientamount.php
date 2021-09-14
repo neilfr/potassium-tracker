@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Nutrientamount extends Pivot
 {
-    protected $primaryKey = true;
+    use HasFactory;
+
+//    protected $primaryKey = true;
 
     protected $table='nutrientamounts';
 }

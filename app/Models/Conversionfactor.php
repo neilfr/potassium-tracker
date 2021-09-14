@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Conversionfactor extends Pivot
 {
-    protected $primaryKey = true;
+    use HasFactory;
 
     protected $table='conversionfactors';
 
