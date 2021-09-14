@@ -11,90 +11,59 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use phpDocumentor\Reflection\Types\Parent_;
 use Tests\TestCase;
 
 class IndexControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $user, $foodgroup, $foodname, $measurename, $conversionfactor, $logentry;
-
-    public function setUp(): void
+    /** @test */
+    public function it_can_return_a_list_of_log_entries()
     {
-        parent::setUp();
         Carbon::setTestNow();
-        $this->user = User::factory()->create();
+        $user = User::factory()->create();
 
-        $this->foodgroup = Foodgroup::factory()->create();
+        $foodgroup = Foodgroup::factory()->create();
 
-        $this->foodname = Foodname::factory()->create([
+        $foodname = Foodname::factory()->create([
             'FoodID' => 7,
             'FoodDescription' => 'My Food Description',
-            'FoodGroupID' => $this->foodgroup->FoodGroupID,
+            'FoodGroupID' => $foodgroup->FoodGroupID,
         ]);
 
-        $this->measurename = Measurename::factory()->create([
+        $measurename = Measurename::factory()->create([
             'MeasureID' => 5,
         ]);
 
-        $this->foodname->measurenames()->attach($this->measurename, [
+        $foodname->measurenames()->attach($measurename, [
             'id' => 9,
             'ConversionFactorValue' => 100,
         ]);
 
-        $this->conversionfactor = Conversionfactor::query()
-            ->where('MeasureID', $this->measurename->MeasureID)
-            ->where('FoodID', $this->foodname->FoodID)
+        $conversionfactor = Conversionfactor::query()
+            ->where('MeasureID', $measurename->MeasureID)
+            ->where('FoodID', $foodname->FoodID)
             ->first();
 
-        $this->logentry = Logentry::factory()->create([
-            'UserID' => $this->user->id,
-            'ConversionFactorID' => $this->conversionfactor->id,
+        $logentry = Logentry::factory()->create([
+            'UserID' => $user->id,
+            'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => now(),
         ]);
 
-    }
+        $anotherUser = User::factory()->create();
+        $anotherUsersLogEntry = Logentry::factory()->create([
+            'UserID' => $anotherUser->id,
+            'ConversionFactorID' => $conversionfactor->id,
+            'ConsumedAt' => now(),
+        ]);
 
-
-    /** @test */
-    public function it_can_return_a_list_of_log_entries()
-    {
-//        Carbon::setTestNow();
-//        $user = User::factory()->create();
-//
-//        $foodgroup = Foodgroup::factory()->create();
-//
-//        $foodname = Foodname::factory()->create([
-//            'FoodID' => 7,
-//            'FoodDescription' => 'My Food Description',
-//            'FoodGroupID' => $foodgroup->FoodGroupID,
-//        ]);
-//
-//        $measurename = Measurename::factory()->create([
-//            'MeasureID' => 5,
-//        ]);
-//
-//        $foodname->measurenames()->attach($measurename, [
-//            'id' => 9,
-//            'ConversionFactorValue' => 100,
-//        ]);
-//
-//        $conversionfactor = Conversionfactor::query()
-//            ->where('MeasureID', $measurename->MeasureID)
-//            ->where('FoodID', $foodname->FoodID)
-//            ->first();
-//
-//        $logentry = Logentry::factory()->create([
-//            'UserID' => $user->id,
-//            'ConversionFactorID' => $conversionfactor->id,
-//            'ConsumedAt' => now(),
-//        ]);
-
-        $response = $this->actingAs($this->user)->get(route('logentries.index'))
+        $response = $this->actingAs($user)->get(route('logentries.index'))
             ->assertSuccessful();
 
-        $this->assertEquals($this->logentry->toArray()['ConversionFactorID'], $response->getOriginalContent()[0]['ConversionFactorID']);
-        $this->assertEquals($this->logentry->toArray()['ConsumedAt'], $response->getOriginalContent()[0]['ConsumedAt']);
+        $this->assertCount(1,$response->getOriginalContent());
+        $this->assertEquals($logentry->toArray()['UserID'], $response->getOriginalContent()[0]['UserID']);
+        $this->assertEquals($logentry->toArray()['ConversionFactorID'], $response->getOriginalContent()[0]['ConversionFactorID']);
+        $this->assertEquals($logentry->toArray()['ConsumedAt'], $response->getOriginalContent()[0]['ConsumedAt']);
     }
 }

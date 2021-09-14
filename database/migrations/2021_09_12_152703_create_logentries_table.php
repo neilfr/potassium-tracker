@@ -15,6 +15,7 @@ class CreateLogentriesTable extends Migration
     {
         Schema::create('logentries', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('UserID');
             $table->unsignedBigInteger('ConversionFactorID');
             $table->dateTime('ConsumedAt');
             $table->timestamps();
