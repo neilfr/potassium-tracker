@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLogentryTable extends Migration
+class CreateLogentriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateLogentryTable extends Migration
      */
     public function up()
     {
-        Schema::create('logentry', function (Blueprint $table) {
+        Schema::create('logentries', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('ConversionFactorID');
             $table->dateTime('ConsumedAt');
@@ -28,6 +28,6 @@ class CreateLogentryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('logentry');
+        Schema::dropIfExists('logentries');
     }
 }
