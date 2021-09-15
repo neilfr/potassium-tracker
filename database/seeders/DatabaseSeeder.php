@@ -57,6 +57,7 @@ class DatabaseSeeder extends Seeder
         );
 
         $this->call(TestUserSeeder::class);
+        $this->call(LogentrySeeder::class);
     }
 
     private function seedFromCSV(String $model, String $filePath, Array $fields): Collection
