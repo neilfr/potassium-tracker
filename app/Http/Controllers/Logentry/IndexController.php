@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Logentry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class IndexController extends Controller
 {
@@ -17,8 +18,9 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Logentry::query()
+        $logentries = Logentry::query()
             ->where('UserID', Auth::user()->id)
             ->get();
+        return Inertia::render('Logentry/Index', ['logentries' => $logentries->toArray()]);
     }
 }

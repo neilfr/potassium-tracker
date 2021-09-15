@@ -45,7 +45,7 @@ class IndexControllerTest extends TestCase
             ->where('FoodID', $foodname->FoodID)
             ->first();
 
-        $logentry = Logentry::factory()->create([
+        $logentries = Logentry::factory()->count(2)->create([
             'UserID' => $user->id,
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => now(),
@@ -61,9 +61,13 @@ class IndexControllerTest extends TestCase
         $response = $this->actingAs($user)->get(route('logentries.index'))
             ->assertSuccessful();
 
-        $this->assertCount(1,$response->getOriginalContent());
-        $this->assertEquals($logentry->toArray()['UserID'], $response->getOriginalContent()[0]['UserID']);
-        $this->assertEquals($logentry->toArray()['ConversionFactorID'], $response->getOriginalContent()[0]['ConversionFactorID']);
-        $this->assertEquals($logentry->toArray()['ConsumedAt'], $response->getOriginalContent()[0]['ConsumedAt']);
+        $data = collect($response->original->getData()['page']['props']['logentries']);
+
+        $this->assertCount(2,$data);
+        $data->each(function($logentry, $index) use ($logentries){
+            $this->assertEquals($logentries[$index]->toArray()['UserID'], $logentry['UserID']);
+            $this->assertEquals($logentries[$index]->toArray()['ConversionFactorID'], $logentry['ConversionFactorID']);
+            $this->assertEquals($logentries[$index]->toArray()['ConsumedAt'], $logentry['ConsumedAt']);
+        });
     }
 }
