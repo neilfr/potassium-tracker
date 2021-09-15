@@ -21,6 +21,6 @@ class IndexController extends Controller
         $logentries = Logentry::query()
             ->where('UserID', Auth::user()->id)
             ->get();
-        return Inertia::render('Logentry/Index', ['logentries' => $logentries->toArray()]);
+        return Inertia::render('Logentries/Index', ['logentries' => $logentries->toArray()]);
     }
 }

@@ -6,8 +6,12 @@
 
 <script>
     export default {
-        name: "Index.vue"
+        name: "Index.vue",
+        props: {
+            'logentries': Object,
+        }
     }
+
 </script>
 
 <style scoped>
