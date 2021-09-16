@@ -28,10 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call(NutrientnameSeeder::class);
         $this->call(NutrientamountSeeder::class);
 
-
-
-//        $this->call(TestUserSeeder::class);
-//        $this->call(LogentrySeeder::class);
+        $this->call(TestUserSeeder::class);
+        $this->call(LogentrySeeder::class);
     }
 
 }

@@ -7,44 +7,61 @@ use Illuminate\Support\Collection;
 trait CSVSeeder
 
 {
-    protected function getCSVDataAsRows(String $filePath): Collection
+    protected function seedFromCSV(String $model, String $filePath, Array $fields): void
     {
-        $csvDataRows = [];
-
         if (($handle = fopen($filePath, "r")) !== FALSE) {
+            $keys = $this->getKeyNames($handle);
+            $indexes = $this->getIndexesForDesiredKeys($keys, $fields);
+
+            $this->command->getOutput()->progressStart(0);
+
             while (($data = fgetcsv($handle, 0,',','"','"')) !== FALSE) {
-                $data = array_map("utf8_encode", $data); //added
-                $csvDataRows[]= $data;
+                $model::create($this->buildModelInstance($indexes, $data, $keys));
+                $this->command->getOutput()->progressAdvance();
             }
             fclose($handle);
+            $this->command->getOutput()->progressFinish();
         }
-
-        return collect($csvDataRows);
     }
 
-    protected function seedFromCSV(String $model, String $filePath, Array $fields): Collection
+    /**
+     * @param $handle
+     * @return Collection
+     */
+    private function getKeyNames($handle): Collection
     {
-        return $this->convertRowsIntoKeyedData($model, $this->getCSVDataAsRows($filePath), collect($fields));
+        $columnNameRow = fgetcsv($handle, 0, ',', '"', '"');
+        $keys = collect($columnNameRow);
+        return $keys;
     }
 
-    protected function convertRowsIntoKeyedData(String $model, Collection $csvDataRows, Collection $fields): Collection
+    /**
+     * @param Collection $keys
+     * @param array $fields
+     * @return Collection
+     */
+    private function getIndexesForDesiredKeys(Collection $keys, array $fields): Collection
     {
-        $keys = collect($csvDataRows[0]);
-
         $flippedKeys = $keys->flip();
-        $indexes = $fields->map(function($field) use($flippedKeys) {
+        $fieldsCollection = collect($fields);
+        $indexes = $fieldsCollection->map(function ($field) use ($flippedKeys) {
             return $flippedKeys[$field];
         });
+        return $indexes;
+    }
 
-        return $csvDataRows
-            ->skip(1)
-            ->map(function ($row) use($indexes, $fields, $keys, $model) {
-                $row = $indexes->reduce( function($acc, $index) use($row, $keys) {
-                    $acc[$keys[$index]] = $row[$index];
-                    return $acc;
-                },[]);
-                $model::create($row);
-                return $row;
-            });
+    /**
+     * @param Collection $indexes
+     * @param array|null $data
+     * @param Collection $keys
+     * @return mixed|null
+     */
+    private function buildModelInstance(Collection $indexes, ?array $data, Collection $keys)
+    {
+        return $indexes->reduce(function ($acc, $index) use ($data, $keys) {
+            $row = array_map("utf8_encode", $data);
+            $acc[$keys[$index]] = $row[$index];
+            return $acc;
+        }, []);
     }
 }
