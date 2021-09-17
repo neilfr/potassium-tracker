@@ -74,7 +74,6 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function it_returns_logentries_with_foodname_and_measurename()
     {
-        $this->markTestSkipped();
         Carbon::setTestNow();
         $user = User::factory()->create();
 
@@ -105,6 +104,11 @@ class IndexControllerTest extends TestCase
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => now(),
         ]);
+
+        $foo=$logentries[0]->ConversionFactorID;
+        dd($logentries[0]->Conversionfactor);
+        $cv = Conversionfactor::query()->where('id', $foo)->first();
+        dd($cv);
 
         $response = $this->actingAs($user)->get(route('logentries.index'))
             ->assertSuccessful();

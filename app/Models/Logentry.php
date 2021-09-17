@@ -9,8 +9,13 @@ class Logentry extends Model
 {
     use HasFactory;
 
-//    public function Conversionfactor()
+//    public function Foodnames()
 //    {
-//        return $this->belongsTo(Conversionfactor::class);
+//        return $this->belongsTo(Foodgroup::class);
 //    }
+
+    public function Conversionfactor()
+    {
+        return $this->belongsTo(Conversionfactor::class, 'ConversionFactorID', 'id');
+    }
 }
