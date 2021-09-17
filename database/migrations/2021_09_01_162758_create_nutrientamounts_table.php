@@ -18,6 +18,8 @@ class CreateNutrientamountsTable extends Migration
             $table->unsignedBigInteger('FoodID');
             $table->unsignedBigInteger('NutrientID');
             $table->float('NutrientValue', 9, 4);
+            $table->foreign('FoodID')->references('FoodID')->on('foodnames');
+            $table->foreign('NutrientID')->references('NutrientID')->on('nutrientnames');
             $table->timestamps();
         });
     }

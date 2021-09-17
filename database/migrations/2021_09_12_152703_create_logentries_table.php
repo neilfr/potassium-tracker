@@ -18,6 +18,8 @@ class CreateLogentriesTable extends Migration
             $table->unsignedBigInteger('UserID');
             $table->unsignedBigInteger('ConversionFactorID');
             $table->dateTime('ConsumedAt');
+            $table->foreign('UserID')->references('id')->on('users');
+            $table->foreign('ConversionFactorID')->references('id')->on('conversionfactors');
             $table->timestamps();
         });
     }

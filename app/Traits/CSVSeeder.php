@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 trait CSVSeeder
 
@@ -16,8 +17,18 @@ trait CSVSeeder
             $this->command->getOutput()->progressStart(0);
 
             while (($data = fgetcsv($handle, 0,',','"','"')) !== FALSE) {
-                $model::create($this->buildModelInstance($indexes, $data, $keys));
-                $this->command->getOutput()->progressAdvance();
+                try {
+                    $model::create($this->buildModelInstance($indexes, $data, $keys));
+                    $this->command->getOutput()->progressAdvance();
+                }
+                catch(\Exception $e) {
+                    Log::error('SeedFromCSV failure: ', [
+                        'model' => $model,
+                        'keys' => $keys,
+                        'data' => $data,
+                        'message' => $e->getMessage(),
+                    ]);
+                }
             }
             fclose($handle);
             $this->command->getOutput()->progressFinish();

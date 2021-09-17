@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Logentry extends Model
 {
     use HasFactory;
+
+//    public function Conversionfactor()
+//    {
+//        return $this->belongsTo(Conversionfactor::class);
+//    }
 }

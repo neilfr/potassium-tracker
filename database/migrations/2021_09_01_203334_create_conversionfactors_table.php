@@ -18,6 +18,8 @@ class CreateConversionfactorsTable extends Migration
             $table->unsignedBigInteger('FoodID');
             $table->unsignedBigInteger('MeasureID');
             $table->float('ConversionFactorValue', 8, 5);
+            $table->foreign('FoodID')->references('FoodID')->on('foodnames');
+            $table->foreign('MeasureID')->references('MeasureID')->on('measurenames');
             $table->timestamps();
         });
     }
