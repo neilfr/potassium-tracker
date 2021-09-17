@@ -25,4 +25,8 @@ class Foodname extends Model
             ->withPivot('ConversionFactorValue');
     }
 
+    public function foobar(){
+        return 'foobar';
+    }
+
 }
