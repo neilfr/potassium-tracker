@@ -79,6 +79,7 @@ class IndexControllerTest extends TestCase
             ]);
 
         $response->getOriginalContent()->each(function($foodname, $key) use($foodgroup) {
+            dd($foodname);
             $this->assertEquals($foodgroup->FoodGroupName, $foodname->foodgroup->FoodGroupName);
         });
     }

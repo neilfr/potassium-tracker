@@ -105,23 +105,19 @@ class IndexControllerTest extends TestCase
             'ConsumedAt' => now(),
         ]);
 
-        $foo=$logentries[0]->ConversionFactorID;
-        dd($logentries[0]->Conversionfactor);
-        $cv = Conversionfactor::query()->where('id', $foo)->first();
-        dd($cv);
-
         $response = $this->actingAs($user)->get(route('logentries.index'))
             ->assertSuccessful();
 
-        $data = collect($response->original->getData()['page']['props']['logentries']);
+        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+        $logentriesResponseData = collect($responseData['logentries']['data']);
+        $this->assertCount(count($logentries),$logentriesResponseData);
 
-        $this->assertCount(count($logentries),$data);
-        $data->each(function($logentry, $index) use ($logentries, $foodname, $measurename){
+        $logentriesResponseData->each(function($logentry, $index) use ($logentries, $foodname, $measurename){
             $this->assertEquals($logentries[$index]->toArray()['UserID'], $logentry['UserID']);
             $this->assertEquals($logentries[$index]->toArray()['ConversionFactorID'], $logentry['ConversionFactorID']);
             $this->assertEquals($logentries[$index]->toArray()['ConsumedAt'], $logentry['ConsumedAt']);
             $this->assertEquals($foodname->FoodDescription, $logentry['FoodDescription']);
-            $this->assertEquals($measurename->MeasureDescription, $logentry['FoodDescription']);
+            $this->assertEquals($measurename->MeasureDescription, $logentry['MeasureDescription']);
         });
 
     }

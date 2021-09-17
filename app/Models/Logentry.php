@@ -14,7 +14,7 @@ class Logentry extends Model
 //        return $this->belongsTo(Foodgroup::class);
 //    }
 
-    public function Conversionfactor()
+    public function conversionfactor()
     {
         return $this->belongsTo(Conversionfactor::class, 'ConversionFactorID', 'id');
     }

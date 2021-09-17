@@ -14,6 +14,12 @@ class LogentryResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'UserID' => $this->UserID,
+            'ConversionFactorID' => $this->ConversionFactorID,
+            'ConsumedAt' => $this->ConsumedAt,
+            'FoodDescription' => $this->conversionfactor->foodname->FoodDescription,
+            'MeasureDescription' => $this->conversionfactor->measurename->MeasureDescription,
+        ];
     }
 }

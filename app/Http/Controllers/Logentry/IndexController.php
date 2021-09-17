@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Logentry;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LogentryResource;
 use App\Models\Logentry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,9 +19,16 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $logentries = Logentry::query()
+        $logentries =
+            Logentry::query()
             ->where('UserID', Auth::user()->id)
             ->get();
-        return Inertia::render('Logentries/Index', ['logentries' => $logentries->toArray()]);
+        $foo=LogentryResource::collection($logentries);
+//        dd($foo);
+//dd($logentries[0]->conversionfactor->foodname);
+//        dd(LogentryResource::collection($logentries));
+        return Inertia::render('Logentries/Index', [
+            'logentries' => $foo]
+        );
     }
 }
