@@ -126,6 +126,7 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function it_returns_logentries_with_foodname_measurename_and_nutrient_values()
     {
+        $this->withoutExceptionHandling();
         Carbon::setTestNow();
         $user = User::factory()->create();
 
@@ -185,8 +186,8 @@ class IndexControllerTest extends TestCase
             $this->assertEquals($logentries[$index]->toArray()['ConsumedAt'], $logentry['ConsumedAt']);
             $this->assertEquals($foodname->FoodDescription, $logentry['FoodDescription']);
             $this->assertEquals($measurename->MeasureDescription, $logentry['MeasureDescription']);
-            $this->assertEquals(100.6, $logentry['POTASSIUM']);
-            $this->assertEquals(150.568, $logentry['ENERGY (KILOCALORIES)']);
+            $this->assertEquals(100.6 * 100, $logentry['POTASSIUM']);
+            $this->assertEquals(150.568 * 100, $logentry['ENERGY (KILOCALORIES)']);
         });
     }
 }
