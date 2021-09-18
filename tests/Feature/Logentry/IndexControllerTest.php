@@ -126,7 +126,6 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function it_returns_logentries_with_foodname_measurename_and_nutrient_values()
     {
-        $this->withoutExceptionHandling();
         Carbon::setTestNow();
         $user = User::factory()->create();
 
@@ -146,20 +145,23 @@ class IndexControllerTest extends TestCase
             'NutrientID' => 208,
             'NutrientName' => 'ENERGY (KILOCALORIES)'
         ]);
+        $potassiumNutrientValue = 100.6;
         $foodname->nutrientnames()->attach($potassium, [
-            'NutrientValue' => 100.6
+            'NutrientValue' => $potassiumNutrientValue
         ]);
+        $kcalNutrientValue = 50.568;
         $foodname->nutrientnames()->attach($kcal, [
-            'NutrientValue' => 150.568
+            'NutrientValue' => $kcalNutrientValue
         ]);
 
         $measurename = Measurename::factory()->create([
             'MeasureID' => 5,
         ]);
 
+        $conversionFactorValue = 100;
         $foodname->measurenames()->attach($measurename, [
             'id' => 9,
-            'ConversionFactorValue' => 100,
+            'ConversionFactorValue' => $conversionFactorValue,
         ]);
 
         $conversionfactor = Conversionfactor::query()
@@ -180,14 +182,16 @@ class IndexControllerTest extends TestCase
         $logentriesResponseData = collect($responseData['logentries']['data']);
         $this->assertCount(count($logentries), $logentriesResponseData);
 
-        $logentriesResponseData->each(function ($logentry, $index) use ($logentries, $foodname, $measurename) {
-            $this->assertEquals($logentries[$index]->toArray()['UserID'], $logentry['UserID']);
-            $this->assertEquals($logentries[$index]->toArray()['ConversionFactorID'], $logentry['ConversionFactorID']);
-            $this->assertEquals($logentries[$index]->toArray()['ConsumedAt'], $logentry['ConsumedAt']);
-            $this->assertEquals($foodname->FoodDescription, $logentry['FoodDescription']);
-            $this->assertEquals($measurename->MeasureDescription, $logentry['MeasureDescription']);
-            $this->assertEquals(100.6 * 100, $logentry['POTASSIUM']);
-            $this->assertEquals(150.568 * 100, $logentry['ENERGY (KILOCALORIES)']);
-        });
+        $logentriesResponseData->each(function ($logentry, $index)
+            use ($logentries, $foodname, $measurename, $potassiumNutrientValue, $conversionFactorValue, $kcalNutrientValue)
+            {
+                $this->assertEquals($logentries[$index]->toArray()['UserID'], $logentry['UserID']);
+                $this->assertEquals($logentries[$index]->toArray()['ConversionFactorID'], $logentry['ConversionFactorID']);
+                $this->assertEquals($logentries[$index]->toArray()['ConsumedAt'], $logentry['ConsumedAt']);
+                $this->assertEquals($foodname->FoodDescription, $logentry['FoodDescription']);
+                $this->assertEquals($measurename->MeasureDescription, $logentry['MeasureDescription']);
+                $this->assertEquals($potassiumNutrientValue * $conversionFactorValue, $logentry['POTASSIUM']);
+                $this->assertEquals($kcalNutrientValue * $conversionFactorValue, $logentry['ENERGY (KILOCALORIES)']);
+            });
     }
 }
