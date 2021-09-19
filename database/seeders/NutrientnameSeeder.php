@@ -20,7 +20,7 @@ class NutrientnameSeeder extends Seeder
         $this->seedFromCSV(
             Nutrientname::class,
             './storage/csv/NUTRIENT NAME.csv',
-            ["NutrientID", "NutrientName"]
+            ["NutrientID", "NutrientName", "NutrientSymbol", "NutrientUnit"]
         );
     }
 }

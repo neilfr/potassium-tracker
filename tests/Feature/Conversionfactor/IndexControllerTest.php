@@ -42,11 +42,15 @@ class IndexControllerTest extends TestCase
 
         $potassium = Nutrientname::factory()->create([
             'NutrientID' => 306,
-            'NutrientName' => 'POTASSIUM'
+            'NutrientName' => 'POTASSIUM',
+            'NutrientSymbol' => 'K',
+            'NutrientUnit' => 'mg',
         ]);
         $kcal = Nutrientname::factory()->create([
             'NutrientID' => 208,
-            'NutrientName' => 'ENERGY (KILOCALORIES)'
+            'NutrientName' => 'ENERGY (KILOCALORIES)',
+            'NutrientSymbol' => 'KCAL',
+            'NutrientUnit' => 'kCal',
         ]);
 
         $potassiumValue = 100;

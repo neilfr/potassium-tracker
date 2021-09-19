@@ -23,6 +23,8 @@ class NutrientnameFactory extends Factory
     {
         return [
             'NutrientName' => $this->faker->word,
+            'NutrientSymbol' => $this->faker->word,
+            'NutrientUnit' => $this->faker->word,
         ];
     }
 }

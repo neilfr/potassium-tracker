@@ -16,6 +16,8 @@ class CreateNutrientnamesTable extends Migration
         Schema::create('nutrientnames', function (Blueprint $table) {
             $table->id('NutrientID');
             $table->string('NutrientName');
+            $table->string('NutrientSymbol');
+            $table->string('NutrientUnit');
             $table->timestamps();
         });
     }
