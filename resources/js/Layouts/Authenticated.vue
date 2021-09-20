@@ -16,7 +16,7 @@
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <breeze-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    Potassium Tracker
                                 </breeze-nav-link>
                             </div>
                         </div>
