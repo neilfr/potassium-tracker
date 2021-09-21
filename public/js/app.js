@@ -19058,6 +19058,14 @@ __webpack_require__.r(__webpack_exports__);
 
 var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-3042a489");
 
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-3042a489");
+
+var _hoisted_1 = {
+  "class": "grid grid-cols-7 grid-rows-2 p-2"
+};
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   var _component_date_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("date-text");
 
@@ -19065,23 +19073,28 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   var _component_number_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("number-text");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_date_text, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_date_text, {
+    "class": "col-span-1 row-span-2",
     foo: $props.logentry.ConsumedAt
   }, null, 8
   /* PROPS */
   , ["foo"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
+    "class": "col-span-6",
     value: $props.logentry.FoodDescription
   }, null, 8
   /* PROPS */
   , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
+    "class": "col-span-2",
     value: $props.logentry.MeasureDescription
   }, null, 8
   /* PROPS */
   , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_number_text, {
+    "class": "col-span-2",
     value: $props.logentry.K
   }, null, 8
   /* PROPS */
   , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_number_text, {
+    "class": "col-span-2",
     value: $props.logentry.KCAL
   }, null, 8
   /* PROPS */
@@ -20254,6 +20267,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentries.data, function (logentry) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_log_entry_card, {
+          "class": "bg-gray-100 rounded-lg mb-2",
           key: logentry.id,
           logentry: logentry
         }, null, 8
