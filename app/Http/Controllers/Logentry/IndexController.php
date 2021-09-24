@@ -19,16 +19,31 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $logentries =
+        $logentries = LogentryResource::collection(
             Logentry::query()
             ->where('UserID', Auth::user()->id)
-            ->get();
-        $foo=LogentryResource::collection($logentries);
-//        dd($foo);
-//dd($logentries[0]->conversionfactor->foodname);
-//        dd(LogentryResource::collection($logentries));
-        return Inertia::render('Logentries/Index', [
-            'logentries' => $foo]
+            ->with('conversionfactor')
+            ->get()
         );
+
+        return Inertia::render('Logentries/Index', [
+            'logentries' => $logentries,
+            'nutrienttotals'=> [
+                'data' => $this->getNutrientTotalsForLogEntryCollection($logentries),
+             ]
+        ]);
+    }
+
+    private function getNutrientTotalsForLogEntryCollection($logentryCollection)
+    {
+        return $logentryCollection->reduce(function($acc, $logentry) {
+            $resolved = $logentry->resolve();
+            $acc['K'] += $resolved['K'];
+            $acc['KCAL'] += $resolved['KCAL'];
+            return $acc;
+        }, [
+            'KCAL' => 0,
+            'K' => 0,
+        ]);
     }
 }

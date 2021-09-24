@@ -93,4 +93,74 @@ class IndexControllerTest extends TestCase
                 $this->assertEquals($kcalNutrientValue * $conversionFactorValue, $logentry[$kcal->NutrientSymbol]);
             });
     }
+
+    /** @test */
+    public function it_returns_logentries_with_nutrient_totals()
+    {
+        Carbon::setTestNow();
+        $user = User::factory()->create();
+
+        $foodgroup = Foodgroup::factory()->create();
+
+        $foodname = Foodname::factory()->create([
+            'FoodID' => 7,
+            'FoodDescription' => 'My Food Description',
+            'FoodGroupID' => $foodgroup->FoodGroupID,
+        ]);
+
+        $potassium = Nutrientname::factory()->create([
+            'NutrientID' => 306,
+            'NutrientName' => 'POTASSIUM',
+            'NutrientSymbol' => 'K',
+            'NutrientUnit' => 'mg',
+        ]);
+        $potassiumNutrientValue = 100.6;
+        $foodname->nutrientnames()->attach($potassium, [
+            'NutrientValue' => $potassiumNutrientValue
+        ]);
+
+        $kcal = Nutrientname::factory()->create([
+            'NutrientID' => 208,
+            'NutrientName' => 'ENERGY (KILOCALORIES)',
+            'NutrientSymbol' => 'KCAL',
+            'NutrientUnit' => 'kCal',
+        ]);
+        $kcalNutrientValue = 50.568;
+        $foodname->nutrientnames()->attach($kcal, [
+            'NutrientValue' => $kcalNutrientValue
+        ]);
+
+        $measurename = Measurename::factory()->create([
+            'MeasureID' => 5,
+        ]);
+
+        $conversionFactorValue = 100;
+        $foodname->measurenames()->attach($measurename, [
+            'id' => 9,
+            'ConversionFactorValue' => $conversionFactorValue,
+        ]);
+
+        $conversionfactor = Conversionfactor::query()
+            ->where('MeasureID', $measurename->MeasureID)
+            ->where('FoodID', $foodname->FoodID)
+            ->first();
+
+        Logentry::factory()->count(2)->create([
+            'UserID' => $user->id,
+            'ConversionFactorID' => $conversionfactor->id,
+            'ConsumedAt' => now(),
+        ]);
+
+        $response = $this->actingAs($user)->get(route('logentries.index'))
+            ->assertSuccessful();
+        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+
+        $nutrientTotalsResponseData = collect($responseData['nutrienttotals']['data']);
+        $this->assertCount(2, $nutrientTotalsResponseData);
+
+        $this->assertArrayHasKey($potassium['NutrientSymbol'], $nutrientTotalsResponseData);
+        $this->assertArrayHasKey($kcal['NutrientSymbol'], $nutrientTotalsResponseData);
+        $this->assertEquals(20120, $nutrientTotalsResponseData[$potassium['NutrientSymbol']]);
+        $this->assertEquals(10113.6, $nutrientTotalsResponseData[$kcal['NutrientSymbol']]);
+    }
 }
