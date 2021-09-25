@@ -25,9 +25,9 @@ class IndexController extends Controller
             ->get()
             ->toArray();
 
-        $nutrientModelsWithTotals = array_map(function($nutrient){
+        $nutrientModelsWithTotals = collect(array_map(function($nutrient){
             return array_merge($nutrient, ['total' => 0]);
-        }, $nutrientModels);
+        }, $nutrientModels));
 
         $logentries = LogentryResource::collection(
             Logentry::query()
@@ -38,23 +38,27 @@ class IndexController extends Controller
 
         $logentriesCollection = collect($logentries->resolve());
 
-        $nutrientTotals = $logentriesCollection->reduce(function($acc, $logentry){
-            $total = array_replace($acc[0],
-                [
-                    'total' => $acc[0]['total']
-                        + $logentry['ConversionFactorValue']
-                        * $logentry['NutrientNames'][0]->pivot->NutrientValue
-                ]
-            );
+        $nutrientModelsWithTotals->each(function($nutrientModelWithTotal, $nutrientModelIndex) use($logentriesCollection, $nutrientModelsWithTotals){
+            $nutrientTotal = $logentriesCollection->reduce(function($acc, $logentry) use($nutrientModelIndex) {
+                $total = array_replace($acc,
+                    [
+                        'total' => $acc['total']
+                            + $logentry['ConversionFactorValue']
+                            * $logentry['NutrientNames'][$nutrientModelIndex]->pivot->NutrientValue
+                    ]
+                );
+//dd($total);
+                return $total;
+            }, $nutrientModelWithTotal);
+            $nutrientModelsWithTotals[$nutrientModelIndex] = $nutrientTotal;
+//            dd($nutrientModelsWithTotals);
+        });
 
-            return array_replace($acc,['0' => $total]);
-        }, $nutrientModelsWithTotals);
-dd($nutrientTotals);
         return Inertia::render('Logentries/Index', [
             'logentries' => $logentries,
-//            'nutrienttotals'=> [
-//                'data' => $this->getNutrientTotalsForLogEntryCollection($logentries),
-//             ]
+            'nutrienttotals'=> [
+                'data' => $nutrientModelsWithTotals,
+             ]
         ]);
     }
 
