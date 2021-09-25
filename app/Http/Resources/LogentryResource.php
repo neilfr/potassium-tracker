@@ -24,8 +24,10 @@ class LogentryResource extends JsonResource
             'ConsumedAt' => $this->ConsumedAt,
             'FoodDescription' => $this->conversionfactor->foodname->FoodDescription,
             'MeasureDescription' => $this->conversionfactor->measurename->MeasureDescription,
-            $potassium->NutrientSymbol => $potassium->pivot->NutrientValue * $this->conversionfactor->ConversionFactorValue,
-            $kcal->NutrientSymbol => $kcal->pivot->NutrientValue * $this->conversionfactor->ConversionFactorValue,
+            'ConversionFactorValue' => $this->conversionfactor->ConversionFactorValue,
+            'NutrientNames' => $this->conversionfactor->foodname->nutrientnames,
+//            $potassium->NutrientSymbol => $potassium->pivot->NutrientValue * $this->conversionfactor->ConversionFactorValue,
+//            $kcal->NutrientSymbol => $kcal->pivot->NutrientValue * $this->conversionfactor->ConversionFactorValue,
         ];
     }
 }

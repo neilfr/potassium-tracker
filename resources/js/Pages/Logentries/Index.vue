@@ -9,6 +9,7 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <log-entry-header :nutrienttotals="nutrienttotals.data"/>
                     <div class="p-6 bg-white border-b border-gray-200">
                         <log-entry-card class="bg-gray-100 rounded-lg mb-2" v-for="logentry in logentries.data" :key="logentry.id" :logentry="logentry"/>
                     </div>
@@ -21,14 +22,17 @@
 <script>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated'
     import LogEntryCard from "@/Components/LogEntryCard";
+    import LogEntryHeader from "@/Components/LogEntryHeader";
 
     export default {
         components: {
+            LogEntryHeader,
             LogEntryCard,
             BreezeAuthenticatedLayout,
         },
         props: {
             logentries: Object,
+            nutrienttotals: Object,
         }
     }
 </script>
