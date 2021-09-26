@@ -37,6 +37,7 @@ class IndexController extends Controller
         );
 
         $logentriesCollection = collect($logentries->resolve());
+        dd($logentriesCollection);
 
         $nutrientModelsWithTotals->each(function($nutrientModelWithTotal, $nutrientModelIndex) use($logentriesCollection, $nutrientModelsWithTotals){
             $nutrientTotal = $logentriesCollection->reduce(function($acc, $logentry) use($nutrientModelIndex) {
