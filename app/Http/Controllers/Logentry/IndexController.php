@@ -20,45 +20,38 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $nutrientModels = Nutrientname::query()
-            ->whereIn('NutrientID', explode(',', env('NUTRIENTS', false)))
-            ->get()
-            ->toArray();
-
-        $nutrientModelsWithTotals = collect(array_map(function($nutrient){
-            return array_merge($nutrient, ['total' => 0]);
-        }, $nutrientModels));
-
         $logentries = LogentryResource::collection(
             Logentry::query()
             ->where('UserID', Auth::user()->id)
-            ->with(['conversionfactor.measurename','conversionfactor.foodname'])
             ->get()
         );
 
-        $logentriesCollection = collect($logentries->resolve());
-        dd($logentriesCollection);
+        $nutrientsForAllLogentries = collect($logentries->resolve())->pluck('nutrients')->flatten(1);
+        $uniqueNutrientIds = $nutrientsForAllLogentries->pluck('NutrientID')->unique();
+        $nutrientModels = Nutrientname::query()
+            ->whereIn('NutrientID', explode(',', env('NUTRIENTS', false)))
+            ->get();
 
-        $nutrientModelsWithTotals->each(function($nutrientModelWithTotal, $nutrientModelIndex) use($logentriesCollection, $nutrientModelsWithTotals){
-            $nutrientTotal = $logentriesCollection->reduce(function($acc, $logentry) use($nutrientModelIndex) {
-                $total = array_replace($acc,
-                    [
-                        'total' => $acc['total']
-                            + $logentry['ConversionFactorValue']
-                            * $logentry['NutrientNames'][$nutrientModelIndex]->pivot->NutrientValue
-                    ]
-                );
-//dd($total);
-                return $total;
-            }, $nutrientModelWithTotal);
-            $nutrientModelsWithTotals[$nutrientModelIndex] = $nutrientTotal;
-//            dd($nutrientModelsWithTotals);
+        $nutrientTotals = $uniqueNutrientIds->map( function ($uniqueNutrientId) use($nutrientsForAllLogentries, $nutrientModels) {
+            $nutrientTotal = $nutrientsForAllLogentries->reduce(function ($acc, $nutrient) use($uniqueNutrientId) {
+                return $uniqueNutrientId === $nutrient['NutrientID']
+                    ? $acc + $nutrient['NutrientAmount']
+                    : $acc;
+            }, 0);
+            return array_merge(
+                $nutrientModels
+                    ->where('NutrientID', $uniqueNutrientId)
+                    ->first()
+                    ->toArray(),
+                ['total' => $nutrientTotal]
+            );
         });
+//dd($nutrientTotals);
 
         return Inertia::render('Logentries/Index', [
             'logentries' => $logentries,
             'nutrienttotals'=> [
-                'data' => $nutrientModelsWithTotals,
+                'data' => $nutrientTotals,
              ]
         ]);
     }

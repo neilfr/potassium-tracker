@@ -21,4 +21,13 @@ class Conversionfactor extends Pivot
         return $this->belongsTo(Measurename::class,'MeasureID');
     }
 
+    public function getNutrientsAttribute(){
+        $nutrients = $this->foodname->nutrientnames;
+        return $nutrients->map( function($nutrient) {
+            return array_merge($nutrient->toArray(), [
+                'NutrientAmount' => $nutrient->pivot->NutrientValue * $this->ConversionFactorValue,
+            ]);
+        });
+    }
+
 }

@@ -14,9 +14,9 @@ class LogentryResource extends JsonResource
      */
     public function toArray($request)
     {
-        $nutrientNames = $this->conversionfactor->foodname->nutrientnames;
-        $potassium = $nutrientNames->firstWhere('NutrientID', 306);
-        $kcal = $nutrientNames->firstWhere('NutrientID', 208);
+//        $nutrientNames = $this->conversionfactor->foodname->nutrientnames;
+//        $potassium = $nutrientNames->firstWhere('NutrientID', 306);
+//        $kcal = $nutrientNames->firstWhere('NutrientID', 208);
 
         return [
             'UserID' => $this->UserID,
@@ -25,9 +25,7 @@ class LogentryResource extends JsonResource
             'FoodDescription' => $this->conversionfactor->foodname->FoodDescription,
             'MeasureDescription' => $this->conversionfactor->measurename->MeasureDescription,
             'ConversionFactorValue' => $this->conversionfactor->ConversionFactorValue,
-            'NutrientNames' => $this->conversionfactor->foodname->nutrientnames,
-//            $potassium->NutrientSymbol => $potassium->pivot->NutrientValue * $this->conversionfactor->ConversionFactorValue,
-//            $kcal->NutrientSymbol => $kcal->pivot->NutrientValue * $this->conversionfactor->ConversionFactorValue,
+            'nutrients' => $this->conversionfactor->nutrients,
         ];
     }
 }
