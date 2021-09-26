@@ -11,6 +11,8 @@ class Foodname extends Model
 
     protected $primaryKey = 'FoodID';
 
+    protected $with = ['nutrientnames'];
+
     public function foodgroup(){
         return $this->belongsTo(Foodgroup::class, 'FoodGroupID', 'FoodGroupID');
     }
@@ -24,9 +26,4 @@ class Foodname extends Model
         return $this->belongsToMany(Measurename::class, 'conversionfactors', 'FoodID', 'MeasureID')
             ->withPivot('ConversionFactorValue');
     }
-
-    public function foobar(){
-        return 'foobar';
-    }
-
 }

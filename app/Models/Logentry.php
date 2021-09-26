@@ -9,10 +9,7 @@ class Logentry extends Model
 {
     use HasFactory;
 
-//    public function Foodnames()
-//    {
-//        return $this->belongsTo(Foodgroup::class);
-//    }
+    protected $with = ['conversionfactor'];
 
     public function conversionfactor()
     {

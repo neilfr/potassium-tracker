@@ -11,6 +11,8 @@ class Conversionfactor extends Pivot
 
     protected $table='conversionfactors';
 
+    protected $with = ['foodname','measurename'];
+
     public function foodname(){
         return $this->belongsTo(Foodname::class,'FoodID');
     }
