@@ -27,7 +27,11 @@ class IndexController extends Controller
         );
 
         $nutrientsForAllLogentries = collect($logentries->resolve())->pluck('nutrients')->flatten(1);
-        $uniqueNutrientIds = $nutrientsForAllLogentries->pluck('NutrientID')->unique();
+        $uniqueNutrientIds = $nutrientsForAllLogentries
+            ->whereIn('NutrientID', collect(explode(',', env('NUTRIENTS'))))
+            ->pluck('NutrientID')
+            ->unique();
+
         $nutrientModels = Nutrientname::query()
             ->whereIn('NutrientID', explode(',', env('NUTRIENTS', false)))
             ->get();
@@ -38,6 +42,7 @@ class IndexController extends Controller
                     ? $acc + $nutrient['NutrientAmount']
                     : $acc;
             }, 0);
+
             return array_merge(
                 $nutrientModels
                     ->where('NutrientID', $uniqueNutrientId)
@@ -46,7 +51,6 @@ class IndexController extends Controller
                 ['total' => $nutrientTotal]
             );
         });
-//dd($nutrientTotals);
 
         return Inertia::render('Logentries/Index', [
             'logentries' => $logentries,
