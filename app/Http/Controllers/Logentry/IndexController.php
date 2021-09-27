@@ -16,14 +16,16 @@ class IndexController extends Controller
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function __invoke(Request $request)
     {
         $logentries = LogentryResource::collection(
             Logentry::query()
-            ->where('UserID', Auth::user()->id)
-            ->get()
+                ->where('UserID', Auth::user()->id)
+                ->inDateRange('2021-09-18', '2021-09-18')
+//                ->inDateRange($request->query('from'), $request->query('to'))
+                ->get()
         );
 
         $nutrientsForAllLogentries = collect($logentries->resolve())->pluck('nutrients')->flatten(1);
@@ -60,16 +62,4 @@ class IndexController extends Controller
         ]);
     }
 
-//    private function getNutrientTotalsForLogEntryCollection($logentryCollection)
-//    {
-//        return $logentryCollection->reduce(function($acc, $logentry) {
-//            $resolved = $logentry->resolve();
-//            $acc['K'] += $resolved['K'];
-//            $acc['KCAL'] += $resolved['KCAL'];
-//            return $acc;
-//        }, [
-//            'KCAL' => 0,
-//            'K' => 0,
-//        ]);
-//    }
 }

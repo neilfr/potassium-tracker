@@ -5,8 +5,8 @@
         <string-text class="col-span-2" :value="logentry.MeasureDescription"/>
         <span class="col-span-2" v-for="nutrient in logentry.nutrients">
             <span>{{nutrient.NutrientSymbol}}:</span>
-            <number-text :value="Math.round(nutrient.NutrientAmount)"/>
-            <span>{{nutrient.NutrientUnit}}:</span>
+            <string-text :value="Math.round(nutrient.NutrientAmount)"/>
+            <span>{{nutrient.NutrientUnit}}</span>
         </span>
     </div>
 </template>
