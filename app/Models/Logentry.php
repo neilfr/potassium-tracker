@@ -20,20 +20,21 @@ class Logentry extends Model
 
     public function scopeInDateRange(Builder $query, $from, $to)
     {
-        $now = now()->toDateString();
+        $now = now();
+
         if (is_null($from) && is_null($to)){
-            return $query->where('ConsumedAt', '>=', $now)
-                ->where('ConsumedAt', '<=', $now);
+            return $query->where('ConsumedAt', '>=', $now->toDateString())
+                ->where('ConsumedAt', '<=', $now->addDay()->toDateString());
         }
 
         if (is_null($from)){
-            return $query->whereDate('ConsumedAt', '<=', Carbon::now($to)->addDay()->toDateString());
+            return $query->whereDate('ConsumedAt', '<=', Carbon::parse($to)->addDay()->toDateString());
         }
 
         if (is_null($to)){
-            return $query->whereDate('ConsumedAt', '>=', Carbon::now($from)->toDateString());
+            return $query->whereDate('ConsumedAt', '>=', Carbon::parse($from)->toDateString());
         }
 
-        $query->whereBetween('ConsumedAt', [$from, $to]);
+        $query->whereBetween('ConsumedAt', [Carbon::parse($from)->toDateString(), Carbon::parse($to)->addDay()->toDateString()]);
     }
 }
