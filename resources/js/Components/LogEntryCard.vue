@@ -3,8 +3,11 @@
         <date-text class="col-span-1 row-span-2" :foo="logentry.ConsumedAt"/>
         <string-text class="col-span-6" :value="logentry.FoodDescription"/>
         <string-text class="col-span-2" :value="logentry.MeasureDescription"/>
-        <number-text class="col-span-2" :value="logentry.K"/>
-        <number-text class="col-span-2" :value="logentry.KCAL"/>
+        <span class="col-span-2" v-for="nutrient in logentry.nutrients">
+            <span>{{nutrient.NutrientSymbol}}:</span>
+            <number-text :value="Math.round(nutrient.NutrientAmount)"/>
+            <span>{{nutrient.NutrientUnit}}:</span>
+        </span>
     </div>
 </template>
 

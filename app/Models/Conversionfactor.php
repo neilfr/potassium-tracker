@@ -22,7 +22,8 @@ class Conversionfactor extends Pivot
     }
 
     public function getNutrientsAttribute(){
-        $nutrients = $this->foodname->nutrientnames;
+        $nutrients = $this->foodname->nutrientnames
+            ->whereIn('NutrientID', collect(explode(',', env('NUTRIENTS'))));
         return $nutrients->map( function($nutrient) {
             return array_merge($nutrient->toArray(), [
                 'NutrientAmount' => $nutrient->pivot->NutrientValue * $this->ConversionFactorValue,
