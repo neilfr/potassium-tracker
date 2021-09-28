@@ -19,8 +19,9 @@ class IndexControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_returns_logentries_with_foodname_measurename_and_nutrient_values_symbol_and_units()
+    public function it_returns_todays_logentries_with_foodname_measurename_and_nutrient_values_symbol_and_units()
     {
+        Carbon::setTestNow();
         $user = User::factory()->create();
 
         $foodgroup = Foodgroup::factory()->create();
@@ -69,7 +70,7 @@ class IndexControllerTest extends TestCase
         $logentries = Logentry::factory()->count(2)->create([
             'UserID' => $user->id,
             'ConversionFactorID' => $conversionfactor->id,
-            'ConsumedAt' => now(),
+            'ConsumedAt' => now()->toDateString(),
         ]);
 
         $response = $this->actingAs($user)->get(route('logentries.index'))
@@ -84,7 +85,7 @@ class IndexControllerTest extends TestCase
             {
                 $this->assertEquals($logentries[$index]->toArray()['UserID'], $logentry['UserID']);
                 $this->assertEquals($logentries[$index]->toArray()['ConversionFactorID'], $logentry['ConversionFactorID']);
-                $this->assertEquals($logentries[$index]->toArray()['ConsumedAt'], $logentry['ConsumedAt']);
+                $this->assertEquals(Carbon::parse($logentries[$index]->toArray()['ConsumedAt'])->toDateString(), Carbon::parse($logentry['ConsumedAt'])->toDateString());
                 $this->assertEquals($foodname->FoodDescription, $logentry['FoodDescription']);
                 $this->assertEquals($measurename->MeasureDescription, $logentry['MeasureDescription']);
                 $this->assertCount(2, $logentry['nutrients']);
@@ -96,6 +97,111 @@ class IndexControllerTest extends TestCase
                     $this->assertArrayHasKey('NutrientValue', $nutrient['pivot']);
                 });
             });
+    }
+
+    /** @test */
+    public function it_returns_logentries_with_foodname_measurename_and_nutrient_values_symbol_and_units_for_a_date_range()
+    {
+        Carbon::setTestNow();
+        $now = now()->toDateString();
+        $user = User::factory()->create();
+
+        $foodgroup = Foodgroup::factory()->create();
+
+        $foodname = Foodname::factory()->create([
+            'FoodID' => 7,
+            'FoodDescription' => 'My Food Description',
+            'FoodGroupID' => $foodgroup->FoodGroupID,
+        ]);
+
+        $potassium = Nutrientname::factory()->create([
+            'NutrientID' => 306,
+            'NutrientName' => 'POTASSIUM',
+            'NutrientSymbol' => 'K',
+            'NutrientUnit' => 'mg',
+        ]);
+        $potassiumNutrientValue = 100.6;
+        $foodname->nutrientnames()->attach($potassium, [
+            'NutrientValue' => $potassiumNutrientValue
+        ]);
+
+        $kcal = Nutrientname::factory()->create([
+            'NutrientID' => 208,
+            'NutrientName' => 'ENERGY (KILOCALORIES)',
+            'NutrientSymbol' => 'KCAL',
+            'NutrientUnit' => 'kCal',
+        ]);
+        $kcalNutrientValue = 50.568;
+        $foodname->nutrientnames()->attach($kcal, [
+            'NutrientValue' => $kcalNutrientValue
+        ]);
+
+        $measurename = Measurename::factory()->create([
+            'MeasureID' => 5,
+        ]);
+        $conversionFactorValue = 100;
+        $foodname->measurenames()->attach($measurename, [
+            'id' => 9,
+            'ConversionFactorValue' => $conversionFactorValue,
+        ]);
+        $conversionfactor = Conversionfactor::query()
+            ->where('MeasureID', $measurename->MeasureID)
+            ->where('FoodID', $foodname->FoodID)
+            ->first();
+
+        // future logentry within range
+        $logentries[0] = Logentry::factory()->create([
+            'UserID' => $user->id,
+            'ConversionFactorID' => $conversionfactor->id,
+            'ConsumedAt' => Carbon::parse($now)->subDays(2)->toDateString(),
+        ]);
+        // old logentry within range
+        $logentries[1] = Logentry::factory()->create([
+            'UserID' => $user->id,
+            'ConversionFactorID' => $conversionfactor->id,
+            'ConsumedAt' => Carbon::parse($now)->addDays(2)->toDateString(),
+        ]);
+        // future logentry out of range
+        $logentries[2] = Logentry::factory()->create([
+            'UserID' => $user->id,
+            'ConversionFactorID' => $conversionfactor->id,
+            'ConsumedAt' => Carbon::parse($now)->addDays(7)->toDateString(),
+        ]);
+        // old logentry out of range
+        $logentries[3] = Logentry::factory()->create([
+            'UserID' => $user->id,
+            'ConversionFactorID' => $conversionfactor->id,
+            'ConsumedAt' => Carbon::parse($now)->subDays(7)->toDateString(),
+        ]);
+
+        $response = $this->actingAs($user)->get(route('logentries.index', [
+            'from' => Carbon::parse($now)->subDays(5)->toDateString(),
+            'to' => Carbon::parse($now)->addDays(5)->toDateString(),
+        ]))
+            ->assertSuccessful();
+
+        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+        $logentriesResponseData = collect($responseData['logentries']['data']);
+
+        $this->assertCount(2, $logentriesResponseData);
+
+        $logentriesResponseData->each(function ($logentry, $index)
+        use ($logentries, $foodname, $measurename, $potassiumNutrientValue, $conversionFactorValue, $kcalNutrientValue, $potassium, $kcal)
+        {
+            $this->assertEquals($logentries[$index]->toArray()['UserID'], $logentry['UserID']);
+            $this->assertEquals($logentries[$index]->toArray()['ConversionFactorID'], $logentry['ConversionFactorID']);
+            $this->assertEquals(Carbon::parse($logentries[$index]->toArray()['ConsumedAt'])->toDateString(), Carbon::parse($logentry['ConsumedAt'])->toDateString());
+            $this->assertEquals($foodname->FoodDescription, $logentry['FoodDescription']);
+            $this->assertEquals($measurename->MeasureDescription, $logentry['MeasureDescription']);
+            $this->assertCount(2, $logentry['nutrients']);
+            collect($logentry['nutrients'])->each(function($nutrient, $key){
+                $this->assertArrayHasKey('NutrientID', $nutrient);
+                $this->assertArrayHasKey('NutrientName', $nutrient);
+                $this->assertArrayHasKey('NutrientSymbol', $nutrient);
+                $this->assertArrayHasKey('NutrientUnit', $nutrient);
+                $this->assertArrayHasKey('NutrientValue', $nutrient['pivot']);
+            });
+        });
     }
 
     /** @test */

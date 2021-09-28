@@ -23,8 +23,8 @@ class IndexController extends Controller
         $logentries = LogentryResource::collection(
             Logentry::query()
                 ->where('UserID', Auth::user()->id)
-                ->inDateRange('2021-09-18', '2021-09-18')
-//                ->inDateRange($request->query('from'), $request->query('to'))
+//                ->inDateRange('2021-09-18', '2021-09-18')
+                ->inDateRange($request->query('from'), $request->query('to'))
                 ->get()
         );
 
