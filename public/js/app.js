@@ -18219,6 +18219,37 @@ __webpack_require__.r(__webpack_exports__);
   name: "LogEntryHeader",
   props: {
     nutrienttotals: Object
+  },
+  data: function data() {
+    return {
+      from: {
+        type: String,
+        "default": null
+      },
+      to: {
+        type: String,
+        "default": null
+      }
+    };
+  },
+  mounted: function mounted() {
+    var d = new Date();
+    this.from = d.toISOString().substring(0, 10);
+    this.to = d.toISOString().substring(0, 10);
+  },
+  methods: {
+    handleDateRangeChange: function handleDateRangeChange() {
+      console.log('date change');
+      var url = '/logentries';
+      url += "?from=".concat(this.from);
+      url += "&to=".concat(this.to);
+      console.log('url', url); // this.$inertia.get(url, {}, {preserveState:true});
+
+      this.$inertia.visit(url, {
+        data: {},
+        preserveState: true
+      });
+    }
   }
 });
 
@@ -19155,6 +19186,18 @@ var _hoisted_2 = {
   "class": ""
 };
 
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "for": "from"
+}, "From:", -1
+/* HOISTED */
+);
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "for": "to"
+}, "From:", -1
+/* HOISTED */
+);
+
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
@@ -19168,7 +19211,29 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     )]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))]);
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    id: "from",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.from = $event;
+    }),
+    type: "date",
+    onChange: _cache[2] || (_cache[2] = function () {
+      return $options.handleDateRangeChange && $options.handleDateRangeChange.apply($options, arguments);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.from]]), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    id: "to",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.to = $event;
+    }),
+    type: "date",
+    onChange: _cache[4] || (_cache[4] = function () {
+      return $options.handleDateRangeChange && $options.handleDateRangeChange.apply($options, arguments);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.to]])])]);
 });
 
 /***/ }),
