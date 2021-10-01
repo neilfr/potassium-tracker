@@ -39,16 +39,10 @@
         },
         methods: {
             handleDateRangeChange() {
-                console.log('date change');
-                let url = '/logentries';
-                url += `?from=${this.from}`;
-                url += `&to=${this.to}`;
-                console.log('url', url);
-                // this.$inertia.get(url, {}, {preserveState:true});
-                this.$inertia.visit(url, {
-                    data:{},
-                    preserveState: true,
-                });
+                this.$emit('datechange', {
+                    from: this.from,
+                    to: this.to,
+                })
             },
         }
     }
