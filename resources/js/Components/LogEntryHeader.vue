@@ -8,7 +8,7 @@
         <span>
             <label for="from">From:</label>
             <input id="from" v-model="startdate" type="date" @change="handleDateRangeChange"/>
-            <label for="to">From:</label>
+            <label for="to">To:</label>
             <input id="to" v-model="enddate" type="date" @change="handleDateRangeChange"/>
         </span>
     </div>
@@ -19,19 +19,8 @@
         name: "LogEntryHeader",
         props: {
             nutrienttotals: Object,
-            startdate: {
-                type: String,
-                default: null,
-            },
-            enddate: {
-                type: String,
-                default: null,
-            }
-        },
-        mounted() {
-            // let d = new Date();
-            // this.from = d.toISOString().substring(0,10);
-            // this.to = d.toISOString().substring(0,10);
+            startdate: String,
+            enddate: String,
         },
         methods: {
             handleDateRangeChange() {

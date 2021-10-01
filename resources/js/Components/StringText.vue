@@ -6,7 +6,7 @@
     export default {
         name: "StringText",
         props: {
-            value: String,
+            value: String|Number,
         }
     }
 </script>

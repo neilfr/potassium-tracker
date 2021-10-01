@@ -1,20 +1,20 @@
 <template>
-    <h1>{{bar}}</h1>
+    <h1>{{formatteddatestring}}</h1>
 </template>
 
 <script>
     export default {
         name: "DateText",
         props:{
-            foo: String
+            datestring: String
         },
         data() {
             return {
-               bar: String
+               formatteddatestring: String
             }
         },
         mounted() {
-            this.bar = new Date(this.foo).toDateString();
+            this.formatteddatestring = new Date(this.datestring).toDateString();
         }
     }
 </script>

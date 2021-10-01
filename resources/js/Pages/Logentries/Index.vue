@@ -48,59 +48,56 @@
             logentries: Object,
             nutrienttotals: Object,
         },
+        data(){
+            return {
+                page: Number,
+                startdate: String,
+                enddate: String,
+            }
+        },
         mounted() {
             let d = new Date();
             this.startdate = d.toISOString().substring(0,10);
             this.enddate = d.toISOString().substring(0,10);
-        },
-        data(){
-            return {
-                page: {
-                    type: Number,
-                    default: 1
-                },
-                startdate: String,
-                enddate: String,
-            }
+            this.page = this.logentries.meta.current_page;
         },
         methods: {
             handleDatechange(dates) {
                 this.startdate=dates.startdate;
                 this.enddate=dates.enddate;
-                let url = '/logentries';
-                url += `?from=${this.startdate}`;
-                url += `&to=${this.enddate}`;
-                console.log('url', url);
-                this.$inertia.visit(url, {
-                    data:{
-                    },
-                    preserveState: true,
-                });
+                this.refreshPage();
             },
             first() {
-                console.log('still first');
+                this.page = 1;
+                this.refreshPage();
             },
             previous() {
-                console.log('still previous');
+                if(this.page >1){
+                    this.page--;
+                }
+                this.refreshPage();
             },
             next() {
-                console.log('still next');
                 if (this.page < 4) {
                     this.page++;
                 }
+                this.refreshPage();
+            },
+            last() {
+                this.page = this.logentries.meta.last_page;
+                this.refreshPage();
+            },
+            refreshPage() {
                 let url = '/logentries';
-                url += `?from=${dates.from}`;
-                url += `&to=${dates.to}`;
+                url += `?from=${this.startdate}`;
+                url += `&to=${this.enddate}`;
                 this.$inertia.visit(url, {
                     data:{
-                        'page':page
+                        'page':this.page
                     },
                     preserveState: true,
                     preserveScroll: true,
                 });
-            },
-            last() {
-                console.log('still last');
             }
         }
     }
