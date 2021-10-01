@@ -20,7 +20,7 @@ class LogentrySeeder extends Seeder
             ->where('email', 'test@example.com')
             ->first();
 
-        $conversionfactors = Conversionfactor::all()->take(10);
+        $conversionfactors = Conversionfactor::limit(30)->get();
 
         $conversionfactors->each(function ($conversionfactor) use ($user) {
             Logentry::factory()->create([
