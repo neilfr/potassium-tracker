@@ -18853,7 +18853,7 @@ __webpack_require__.r(__webpack_exports__);
       this.refreshPage();
     },
     refreshPage: function refreshPage() {
-      var url = '/logentries';
+      var url = route('logentries.index');
       url += "?from=".concat(this.startdate);
       url += "&to=".concat(this.enddate);
       this.$inertia.visit(url, {

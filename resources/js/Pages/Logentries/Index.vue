@@ -88,7 +88,7 @@
                 this.refreshPage();
             },
             refreshPage() {
-                let url = '/logentries';
+                let url = route('logentries.index');
                 url += `?from=${this.startdate}`;
                 url += `&to=${this.enddate}`;
                 this.$inertia.visit(url, {
