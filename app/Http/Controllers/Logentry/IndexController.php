@@ -20,14 +20,21 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $logentries = LogentryResource::collection(
+        $paginatedLogentries = LogentryResource::collection(
             Logentry::query()
                 ->where('UserID', Auth::user()->id)
                 ->inDateRange($request->query('from'), $request->query('to'))
                 ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'))
         );
 
-        $nutrientsForAllLogentries = collect($logentries->resolve())->pluck('nutrients')->flatten(1);
+        $allLogentries = LogentryResource::collection(
+            Logentry::query()
+                ->where('UserID', Auth::user()->id)
+                ->inDateRange($request->query('from'), $request->query('to'))
+                ->get()
+        );
+
+        $nutrientsForAllLogentries = collect($allLogentries->resolve())->pluck('nutrients')->flatten(1);
         $uniqueNutrientIds = $nutrientsForAllLogentries
             ->whereIn('NutrientID', collect(explode(',', env('NUTRIENTS'))))
             ->pluck('NutrientID')
@@ -54,7 +61,7 @@ class IndexController extends Controller
         });
 
         return Inertia::render('Logentries/Index', [
-            'logentries' => $logentries,
+            'logentries' => $paginatedLogentries,
             'nutrienttotals'=> [
                 'data' => $nutrientTotals,
              ]
