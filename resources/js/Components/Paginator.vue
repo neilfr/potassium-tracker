@@ -1,14 +1,16 @@
 <template>
-    <button @click="first">First</button>
-    <button @click="previous">Previous</button>
-    <button @click="next">Next</button>
-    <button @click="last">Last</button>
-    <span>{{paginatordata.current_page}} of {{paginatordata.last_page}}</span>
+    <Button class="m-2" @click="first">First</Button>
+    <Button class="m-2" @click="previous">Previous</Button>
+    <Button class="m-2" @click="next">Next</Button>
+    <Button class="m-2" @click="last">Last</Button>
+    <span>Page {{paginatordata.current_page}} of {{paginatordata.last_page}}</span>
 </template>
 
 <script>
+    import Button from "@/Components/Button";
     export default {
         name: "Paginator",
+        components: {Button},
         props:{
           paginatordata:Object,
         },

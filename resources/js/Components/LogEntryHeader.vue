@@ -1,10 +1,17 @@
 <template>
     <div class="p-6 bg-white border-b border-gray-200 flex justify-between">
         <span v-if="nutrienttotals.length === 0">No Nutrient Totals</span>
-        <span v-for="nutrienttotal in nutrienttotals">
-            <span>{{nutrienttotal.NutrientSymbol}}: </span>
-            <span>{{Math.round(nutrienttotal.total)}}</span>
-            <span>{{nutrienttotal.NutrientUnit}}</span>
+        <span>
+            <div class="mb-4">Nutrient Totals for Date Range</div>
+            <div>
+                <span class="mr-6" v-for="nutrienttotal in nutrienttotals">
+                    <span>
+                        <span>{{nutrienttotal.NutrientSymbol}}: </span>
+                        <span>{{Math.round(nutrienttotal.total)}}</span>
+                        <span>{{nutrienttotal.NutrientUnit}}</span>
+                    </span>
+                </span>
+            </div>
         </span>
         <span>
             <label for="from">From:</label>
