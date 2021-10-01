@@ -18218,30 +18218,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "LogEntryHeader",
   props: {
-    nutrienttotals: Object
+    nutrienttotals: Object,
+    startdate: {
+      type: String,
+      "default": null
+    },
+    enddate: {
+      type: String,
+      "default": null
+    }
   },
-  data: function data() {
-    return {
-      from: {
-        type: String,
-        "default": null
-      },
-      to: {
-        type: String,
-        "default": null
-      }
-    };
-  },
-  mounted: function mounted() {
-    var d = new Date();
-    this.from = d.toISOString().substring(0, 10);
-    this.to = d.toISOString().substring(0, 10);
+  mounted: function mounted() {// let d = new Date();
+    // this.from = d.toISOString().substring(0,10);
+    // this.to = d.toISOString().substring(0,10);
   },
   methods: {
     handleDateRangeChange: function handleDateRangeChange() {
       this.$emit('datechange', {
-        from: this.from,
-        to: this.to
+        startdate: this.startdate,
+        enddate: this.enddate
       });
     }
   }
@@ -18823,12 +18818,28 @@ __webpack_require__.r(__webpack_exports__);
     logentries: Object,
     nutrienttotals: Object
   },
+  mounted: function mounted() {
+    var d = new Date();
+    this.startdate = d.toISOString().substring(0, 10);
+    this.enddate = d.toISOString().substring(0, 10);
+  },
+  data: function data() {
+    return {
+      page: {
+        type: Number,
+        "default": 1
+      },
+      startdate: String,
+      enddate: String
+    };
+  },
   methods: {
     handleDatechange: function handleDatechange(dates) {
-      console.log('date changed', dates);
+      this.startdate = dates.startdate;
+      this.enddate = dates.enddate;
       var url = '/logentries';
-      url += "?from=".concat(dates.from);
-      url += "&to=".concat(dates.to);
+      url += "?from=".concat(this.startdate);
+      url += "&to=".concat(this.enddate);
       console.log('url', url);
       this.$inertia.visit(url, {
         data: {},
@@ -18843,6 +18854,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     next: function next() {
       console.log('still next');
+
+      if (this.page < 4) {
+        this.page++;
+      }
+
+      var url = '/logentries';
+      url += "?from=".concat(dates.from);
+      url += "&to=".concat(dates.to);
       this.$inertia.visit(url, {
         data: {
           'page': page
@@ -19277,7 +19296,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     id: "from",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $data.from = $event;
+      return $props.startdate = $event;
     }),
     type: "date",
     onChange: _cache[2] || (_cache[2] = function () {
@@ -19285,10 +19304,10 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.from]]), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.startdate]]), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     id: "to",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      return $data.to = $event;
+      return $props.enddate = $event;
     }),
     type: "date",
     onChange: _cache[4] || (_cache[4] = function () {
@@ -19296,7 +19315,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.to]])])]);
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.enddate]])])]);
 });
 
 /***/ }),
@@ -20511,10 +20530,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_log_entry_header, {
         nutrienttotals: $props.nutrienttotals.data,
+        startdate: $data.startdate,
+        enddate: $data.enddate,
         onDatechange: $options.handleDatechange
       }, null, 8
       /* PROPS */
-      , ["nutrienttotals", "onDatechange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentries.data, function (logentry) {
+      , ["nutrienttotals", "startdate", "enddate", "onDatechange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentries.data, function (logentry) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_log_entry_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: logentry.id,

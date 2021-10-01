@@ -7,9 +7,9 @@
         </span>
         <span>
             <label for="from">From:</label>
-            <input id="from" v-model="from" type="date" @change="handleDateRangeChange"/>
+            <input id="from" v-model="startdate" type="date" @change="handleDateRangeChange"/>
             <label for="to">From:</label>
-            <input id="to" v-model="to" type="date" @change="handleDateRangeChange"/>
+            <input id="to" v-model="enddate" type="date" @change="handleDateRangeChange"/>
         </span>
     </div>
 </template>
@@ -19,29 +19,25 @@
         name: "LogEntryHeader",
         props: {
             nutrienttotals: Object,
-        },
-        data () {
-            return {
-                from: {
-                    type: String,
-                    default: null,
-                },
-                to: {
-                    type: String,
-                    default: null,
-                }
+            startdate: {
+                type: String,
+                default: null,
+            },
+            enddate: {
+                type: String,
+                default: null,
             }
         },
         mounted() {
-            let d = new Date();
-            this.from = d.toISOString().substring(0,10);
-            this.to = d.toISOString().substring(0,10);
+            // let d = new Date();
+            // this.from = d.toISOString().substring(0,10);
+            // this.to = d.toISOString().substring(0,10);
         },
         methods: {
             handleDateRangeChange() {
                 this.$emit('datechange', {
-                    from: this.from,
-                    to: this.to,
+                    startdate: this.startdate,
+                    enddate: this.enddate,
                 })
             },
         }
