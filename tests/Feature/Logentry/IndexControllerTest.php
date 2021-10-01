@@ -18,11 +18,20 @@ class IndexControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+
+    }
+
     /** @test */
     public function it_returns_todays_logentries_with_foodname_measurename_and_nutrient_values_symbol_and_units()
     {
         Carbon::setTestNow();
-        $user = User::factory()->create();
+        $this->user = User::factory()->create();
 
         $foodgroup = Foodgroup::factory()->create();
 
@@ -68,12 +77,12 @@ class IndexControllerTest extends TestCase
             ->first();
 
         $logentries = Logentry::factory()->count(2)->create([
-            'UserID' => $user->id,
+            'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => now()->toDateString(),
         ]);
 
-        $response = $this->actingAs($user)->get(route('logentries.index'))
+        $response = $this->actingAs($this->user)->get(route('logentries.index'))
             ->assertSuccessful();
 
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
@@ -104,7 +113,7 @@ class IndexControllerTest extends TestCase
     {
         Carbon::setTestNow();
         $now = now()->toDateString();
-        $user = User::factory()->create();
+        $this->user = User::factory()->create();
 
         $foodgroup = Foodgroup::factory()->create();
 
@@ -151,30 +160,30 @@ class IndexControllerTest extends TestCase
 
         // future logentry within range
         $logentries[0] = Logentry::factory()->create([
-            'UserID' => $user->id,
+            'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => Carbon::parse($now)->subDays(2)->toDateString(),
         ]);
         // old logentry within range
         $logentries[1] = Logentry::factory()->create([
-            'UserID' => $user->id,
+            'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => Carbon::parse($now)->addDays(2)->toDateString(),
         ]);
         // future logentry out of range
         $logentries[2] = Logentry::factory()->create([
-            'UserID' => $user->id,
+            'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => Carbon::parse($now)->addDays(7)->toDateString(),
         ]);
         // old logentry out of range
         $logentries[3] = Logentry::factory()->create([
-            'UserID' => $user->id,
+            'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => Carbon::parse($now)->subDays(7)->toDateString(),
         ]);
 
-        $response = $this->actingAs($user)->get(route('logentries.index', [
+        $response = $this->actingAs($this->user)->get(route('logentries.index', [
             'from' => Carbon::parse($now)->subDays(5)->toDateString(),
             'to' => Carbon::parse($now)->addDays(5)->toDateString(),
         ]))
@@ -207,7 +216,7 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function it_returns_logentries_with_nutrient_totals()
     {
-        $user = User::factory()->create();
+        $this->user = User::factory()->create();
 
         $foodgroup = Foodgroup::factory()->create();
 
@@ -250,12 +259,12 @@ class IndexControllerTest extends TestCase
             ->first();
 
         $logentries = Logentry::factory()->count(2)->create([
-            'UserID' => $user->id,
+            'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => now(),
         ]);
 
-        $response = $this->actingAs($user)->get(route('logentries.index'))
+        $response = $this->actingAs($this->user)->get(route('logentries.index'))
             ->assertSuccessful();
 
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
