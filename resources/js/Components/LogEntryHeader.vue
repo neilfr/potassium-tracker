@@ -1,6 +1,7 @@
 <template>
     <div class="p-6 bg-white border-b border-gray-200 flex justify-between">
-        <span class="" v-for="nutrienttotal in nutrienttotals">
+        <span v-if="nutrienttotals.length === 0">No Nutrient Totals</span>
+        <span v-for="nutrienttotal in nutrienttotals">
             <span>{{nutrienttotal.NutrientSymbol}}: </span>
             <span>{{Math.round(nutrienttotal.total)}}</span>
             <span>{{nutrienttotal.NutrientUnit}}</span>
@@ -29,6 +30,9 @@
                     enddate: this.enddate,
                 })
             },
+        },
+        mounted() {
+            console.log('mounted nutrienttotals', this.nutrienttotals);
         }
     }
 </script>
