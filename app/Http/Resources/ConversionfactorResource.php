@@ -15,9 +15,7 @@ class ConversionfactorResource extends JsonResource
      */
     public function toArray($request)
     {
-        $nutrients = $this->foodname->nutrientnames->whereIn('NutrientID', app('app_nutrient_ids'));
-
-        $conversionFactor = [
+        return [
             'FoodID' => $this->foodname->FoodID,
             'MeasureID' => $this->measurename->MeasureID,
             'FoodGroupID' => $this->foodname->FoodGroupID,
@@ -25,15 +23,7 @@ class ConversionfactorResource extends JsonResource
             'FoodDescription' => $this->foodname->FoodDescription,
             'MeasureDescription' => $this->measurename->MeasureDescription,
             'ConversionFactorValue' => $this->ConversionFactorValue,
+            'nutrients' => $this->nutrients,
         ];
-
-        $nutrients->each( function($nutrient) use(&$conversionFactor) {
-            $conversionFactor = array_merge($conversionFactor, [
-               $nutrient->NutrientName => $nutrient->pivot->NutrientValue * $this->ConversionFactorValue,
-            ]);
-        });
-
-        return $conversionFactor;
-
     }
 }

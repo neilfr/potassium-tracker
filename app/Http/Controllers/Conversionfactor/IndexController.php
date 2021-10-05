@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ConversionfactorResource;
 use App\Models\Conversionfactor;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class IndexController extends Controller
 {
@@ -17,8 +18,14 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $conversionfactors = Conversionfactor::all();
-//dd($conversionfactors);
-        return ConversionfactorResource::collection($conversionfactors);
+//        $conversionfactors = Conversionfactor::all();
+//        $foo = Conversionfactor::first();
+//        dd($foo->foodname->nutrientnames->first()->pivot->NutrientValue);
+        $conversionfactors = ConversionfactorResource::collection(Conversionfactor::all());
+//        return $conversionfactors;
+
+        return Inertia::render('Conversionfactors/Index', [
+            'conversionfactors' => $conversionfactors,
+        ]);
     }
 }
