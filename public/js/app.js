@@ -18825,17 +18825,62 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Layouts_Authenticated__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/Authenticated */ "./resources/js/Layouts/Authenticated.vue");
 /* harmony import */ var _Components_ConversionfactorHeader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/ConversionfactorHeader */ "./resources/js/Components/ConversionfactorHeader.vue");
 /* harmony import */ var _Components_ConversionfactorCard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/ConversionfactorCard */ "./resources/js/Components/ConversionfactorCard.vue");
+/* harmony import */ var _Components_Paginator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/Paginator */ "./resources/js/Components/Paginator.vue");
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
+    Paginator: _Components_Paginator__WEBPACK_IMPORTED_MODULE_3__.default,
     BreezeAuthenticatedLayout: _Layouts_Authenticated__WEBPACK_IMPORTED_MODULE_0__.default,
     ConversionfactorCard: _Components_ConversionfactorCard__WEBPACK_IMPORTED_MODULE_2__.default,
     ConversionfactorHeader: _Components_ConversionfactorHeader__WEBPACK_IMPORTED_MODULE_1__.default
   },
   props: {
     conversionfactors: Object
+  },
+  data: function data() {
+    return {
+      page: Number
+    };
+  },
+  mounted: function mounted() {
+    this.page = this.conversionfactors.meta.current_page;
+  },
+  methods: {
+    first: function first() {
+      this.page = 1;
+      this.refreshPage();
+    },
+    previous: function previous() {
+      if (this.page > 1) {
+        this.page--;
+      }
+
+      this.refreshPage();
+    },
+    next: function next() {
+      if (this.page < this.conversionfactors.meta.last_page) {
+        this.page++;
+      }
+
+      this.refreshPage();
+    },
+    last: function last() {
+      this.page = this.logentries.meta.last_page;
+      this.refreshPage();
+    },
+    refreshPage: function refreshPage() {
+      var url = route('conversionfactors.index');
+      this.$inertia.visit(url, {
+        data: {
+          'page': this.page
+        },
+        preserveState: true,
+        preserveScroll: true
+      });
+    }
   }
 });
 
@@ -18923,7 +18968,7 @@ __webpack_require__.r(__webpack_exports__);
       this.refreshPage();
     },
     next: function next() {
-      if (this.page < 4) {
+      if (this.page < this.logentries.meta.last_page) {
         this.page++;
       }
 
@@ -20680,6 +20725,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_conversionfactor_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("conversionfactor-card");
 
+  var _component_paginator = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("paginator");
+
   var _component_breeze_authenticated_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("breeze-authenticated-layout");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_breeze_authenticated_layout, null, {
@@ -20697,7 +20744,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         , ["conversionfactor"]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])])])])];
+      ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_paginator, {
+        onFirst: $options.first,
+        onPrevious: $options.previous,
+        onNext: $options.next,
+        onLast: $options.last,
+        paginatordata: $props.conversionfactors.meta
+      }, null, 8
+      /* PROPS */
+      , ["onFirst", "onPrevious", "onNext", "onLast", "paginatordata"])])])])];
     }),
     _: 1
     /* STABLE */

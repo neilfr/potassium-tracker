@@ -78,7 +78,7 @@
                 this.refreshPage();
             },
             next() {
-                if (this.page < 4) {
+                if (this.page < this.logentries.meta.last_page) {
                     this.page++;
                 }
                 this.refreshPage();
