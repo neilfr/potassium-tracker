@@ -15,6 +15,7 @@
                         :enddate="enddate"
                         @datechange="handleDatechange"
                     />
+                    <Button class="mt-2 ml-2" @click="addLogentry">Add Logentry</Button>
                     <div class="p-6 bg-white border-b border-gray-200">
                         <log-entry-card class="bg-gray-100 rounded-lg mb-2" v-for="logentry in logentries.data" :key="logentry.id" :logentry="logentry"/>
                     </div>
@@ -36,9 +37,11 @@
     import LogEntryCard from "@/Components/LogEntryCard";
     import LogEntryHeader from "@/Components/LogEntryHeader";
     import Paginator from "@/Components/Paginator";
+    import Button from "@/Components/Button";
 
     export default {
         components: {
+            Button,
             Paginator,
             LogEntryHeader,
             LogEntryCard,
@@ -62,6 +65,16 @@
             this.page = this.logentries.meta.current_page;
         },
         methods: {
+            addLogentry() {
+                let url = route('conversionfactors.index');
+                this.$inertia.visit(url, {
+                    data:{
+                        'page':this.page
+                    },
+                    preserveState: true,
+                    preserveScroll: true,
+                });
+            },
             handleDatechange(dates) {
                 this.startdate=dates.startdate;
                 this.enddate=dates.enddate;

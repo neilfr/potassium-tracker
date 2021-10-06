@@ -18354,6 +18354,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     paginatordata: Object
   },
+  emits: ['first', 'previous', 'next', 'last'],
   methods: {
     first: function first() {
       this.$emit('first');
@@ -18922,12 +18923,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_LogEntryCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/LogEntryCard */ "./resources/js/Components/LogEntryCard.vue");
 /* harmony import */ var _Components_LogEntryHeader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/LogEntryHeader */ "./resources/js/Components/LogEntryHeader.vue");
 /* harmony import */ var _Components_Paginator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/Paginator */ "./resources/js/Components/Paginator.vue");
+/* harmony import */ var _Components_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Components/Button */ "./resources/js/Components/Button.vue");
+
 
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
+    Button: _Components_Button__WEBPACK_IMPORTED_MODULE_4__.default,
     Paginator: _Components_Paginator__WEBPACK_IMPORTED_MODULE_3__.default,
     LogEntryHeader: _Components_LogEntryHeader__WEBPACK_IMPORTED_MODULE_2__.default,
     LogEntryCard: _Components_LogEntryCard__WEBPACK_IMPORTED_MODULE_1__.default,
@@ -18951,6 +18955,16 @@ __webpack_require__.r(__webpack_exports__);
     this.page = this.logentries.meta.current_page;
   },
   methods: {
+    addLogentry: function addLogentry() {
+      var url = route('conversionfactors.index');
+      this.$inertia.visit(url, {
+        data: {
+          'page': this.page
+        },
+        preserveState: true,
+        preserveScroll: true
+      });
+    },
     handleDatechange: function handleDatechange(dates) {
       this.startdate = dates.startdate;
       this.enddate = dates.enddate;
@@ -20841,11 +20855,16 @@ var _hoisted_3 = {
 var _hoisted_4 = {
   "class": "bg-white overflow-hidden shadow-sm sm:rounded-lg"
 };
-var _hoisted_5 = {
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Add Logentry");
+
+var _hoisted_6 = {
   "class": "p-6 bg-white border-b border-gray-200"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_log_entry_header = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("log-entry-header");
+
+  var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
 
   var _component_log_entry_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("log-entry-card");
 
@@ -20865,7 +20884,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onDatechange: $options.handleDatechange
       }, null, 8
       /* PROPS */
-      , ["nutrienttotals", "startdate", "enddate", "onDatechange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentries.data, function (logentry) {
+      , ["nutrienttotals", "startdate", "enddate", "onDatechange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+        "class": "mt-2 ml-2",
+        onClick: $options.addLogentry
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_hoisted_5];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentries.data, function (logentry) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_log_entry_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: logentry.id,

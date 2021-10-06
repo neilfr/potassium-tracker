@@ -14,6 +14,12 @@
         props:{
           paginatordata:Object,
         },
+        emits:[
+            'first',
+            'previous',
+            'next',
+            'last',
+        ],
         methods:{
             first() {
                 this.$emit('first');
