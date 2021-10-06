@@ -18,14 +18,9 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-//        $conversionfactors = Conversionfactor::all();
-//        $foo = Conversionfactor::first();
-//        dd($foo->foodname->nutrientnames->first()->pivot->NutrientValue);
-        $conversionfactors = ConversionfactorResource::collection(Conversionfactor::all());
-//        return $conversionfactors;
-
+        $conversionfactors = Conversionfactor::paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
         return Inertia::render('Conversionfactors/Index', [
-            'conversionfactors' => $conversionfactors,
+            'conversionfactors' => ConversionfactorResource::collection($conversionfactors),
         ]);
     }
 }
