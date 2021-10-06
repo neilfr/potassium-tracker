@@ -34,7 +34,7 @@ class StoreControllerTest extends TestCase
         ]);
 
         $this->actingAs($user)->post(route('logentries.store'),$conversionfactor->toArray())
-            ->assertSuccessful();
+            ->assertRedirect();
 
         $this->assertDatabaseHas('logentries', [
             'ConversionFactorID' => $conversionfactor->id,
