@@ -9,6 +9,8 @@ class Conversionfactor extends Pivot
 {
     use HasFactory;
 
+    protected $primaryKey = 'id';
+
     protected $table='conversionfactors';
 
     protected $with = ['foodname','measurename'];
