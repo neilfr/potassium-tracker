@@ -18868,7 +18868,7 @@ __webpack_require__.r(__webpack_exports__);
       this.refreshPage();
     },
     last: function last() {
-      this.page = this.logentries.meta.last_page;
+      this.page = this.conversionfactors.meta.last_page;
       this.refreshPage();
     },
     refreshPage: function refreshPage() {

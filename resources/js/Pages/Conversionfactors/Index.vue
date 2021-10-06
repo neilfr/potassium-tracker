@@ -70,7 +70,7 @@
                 this.refreshPage();
             },
             last() {
-                this.page = this.logentries.meta.last_page;
+                this.page = this.conversionfactors.meta.last_page;
                 this.refreshPage();
             },
             refreshPage() {
