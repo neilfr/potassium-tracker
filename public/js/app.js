@@ -18068,7 +18068,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     log: function log() {
-      console.log("log:", this.conversionfactor.id);
       var url = route('logentries.store');
       this.$inertia.visit(url, {
         method: 'post',

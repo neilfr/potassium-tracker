@@ -41,7 +41,6 @@
         },
         methods:{
             log(){
-                console.log("log:",this.conversionfactor.id);
                 let url = route('logentries.store');
                 this.$inertia.visit(url, {
                     method: 'post',
