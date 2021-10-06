@@ -19,6 +19,7 @@ class LogentryResource extends JsonResource
 //        $kcal = $nutrientNames->firstWhere('NutrientID', 208);
 
         return [
+            'id' => $this->id,
             'UserID' => $this->UserID,
             'ConversionFactorID' => $this->ConversionFactorID,
             'ConsumedAt' => $this->ConsumedAt,
