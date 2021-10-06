@@ -21,5 +21,7 @@ class StoreController extends Controller
             'ConversionFactorID' => $request->input('id'),
             'ConsumedAt' => now()->toDateString(),
         ]);
+
+        return redirect()->route('logentries.index');
     }
 }

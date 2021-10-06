@@ -16,6 +16,7 @@ class ConversionfactorResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'FoodID' => $this->foodname->FoodID,
             'MeasureID' => $this->measurename->MeasureID,
             'FoodGroupID' => $this->foodname->FoodGroupID,

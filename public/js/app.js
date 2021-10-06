@@ -18052,16 +18052,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Components_StringText__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Components/StringText */ "./resources/js/Components/StringText.vue");
 /* harmony import */ var _Components_NumberText__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/NumberText */ "./resources/js/Components/NumberText.vue");
+/* harmony import */ var _Components_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/Button */ "./resources/js/Components/Button.vue");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     StringText: _Components_StringText__WEBPACK_IMPORTED_MODULE_0__.default,
-    NumberText: _Components_NumberText__WEBPACK_IMPORTED_MODULE_1__.default
+    NumberText: _Components_NumberText__WEBPACK_IMPORTED_MODULE_1__.default,
+    Button: _Components_Button__WEBPACK_IMPORTED_MODULE_2__.default
   },
   name: "Conversionfactor",
   props: {
     conversionfactor: Object
+  },
+  methods: {
+    log: function log() {
+      console.log("log:", this.conversionfactor.id);
+      var url = route('logentries.store');
+      this.$inertia.visit(url, {
+        method: 'post',
+        data: {
+          'id': this.conversionfactor.id
+        }
+      });
+    }
   }
 });
 
@@ -19132,43 +19147,59 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-652030e0");
 
 var _hoisted_1 = {
-  "class": "grid grid-cols-7 grid-rows-2 p-2"
+  "class": "grid grid-cols-8 grid-rows-2 p-2"
 };
 
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "col-span-1 row-span-2"
+  "class": "border col-span-1 row-span-2"
 }, " favourite here ", -1
 /* HOISTED */
 );
 
 var _hoisted_3 = {
+  "class": "border col-span-6 row-span-2"
+};
+var _hoisted_4 = {
+  "class": "border"
+};
+var _hoisted_5 = {
+  "class": "border grid grid-cols-6"
+};
+var _hoisted_6 = {
   "class": "col-span-2"
 };
 
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Quantity: ", -1
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Quantity: ", -1
 /* HOISTED */
 );
 
-var _hoisted_5 = {
+var _hoisted_8 = {
   "class": "col-span-2"
 };
+var _hoisted_9 = {
+  "class": "border col-span-1 row-span-2"
+};
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Log");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   var _component_string_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("string-text");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
+  var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
     "class": "col-span-6",
     value: $props.conversionfactor.FoodDescription
   }, null, 8
   /* PROPS */
-  , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
+  , ["value"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
     value: $props.conversionfactor.MeasureDescription
   }, null, 8
   /* PROPS */
   , ["value"])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.conversionfactor.nutrients, function (nutrient) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ": ", 1
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ": ", 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
       value: Math.round(nutrient.NutrientAmount)
@@ -19179,7 +19210,18 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     )]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))]);
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+    onClick: $options.log
+  }, {
+    "default": _withId(function () {
+      return [_hoisted_10];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["onClick"])])]);
 });
 
 /***/ }),
