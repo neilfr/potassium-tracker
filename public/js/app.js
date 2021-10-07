@@ -18263,11 +18263,22 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     logentry: Object
   },
+  data: function data() {
+    return {
+      consumedAtDate: String
+    };
+  },
+  mounted: function mounted() {
+    var d = new Date();
+    this.consumedAtDate = d.toISOString().substring(0, 10);
+  },
   methods: {
     destroy: function destroy() {
-      console.log('delete this', this.logentry.id);
       var url = route('logentries.destroy', this.logentry.id);
       this.$inertia["delete"](url, {});
+    },
+    handleDateChange: function handleDateChange() {
+      console.log('update the date to', this.consumedAtDate);
     }
   }
 });
@@ -19459,53 +19470,60 @@ var _hoisted_1 = {
   "class": "grid grid-cols-8 grid-rows-2 p-2"
 };
 var _hoisted_2 = {
-  "class": "border col-span-6 row-span-2"
+  "class": "col-span-1 row-span-2"
 };
 var _hoisted_3 = {
-  "class": "border grid grid-cols-6"
+  "class": "border col-span-6 row-span-2"
 };
 var _hoisted_4 = {
+  "class": "border grid grid-cols-6"
+};
+var _hoisted_5 = {
   "class": "col-span-2"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Quantity: ", -1
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Quantity: ", -1
 /* HOISTED */
 );
 
-var _hoisted_6 = {
+var _hoisted_7 = {
   "class": "col-span-2"
 };
-var _hoisted_7 = {
+var _hoisted_8 = {
   "class": "border col-span-1 row-span-2"
 };
 
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Delete");
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Delete");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_date_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("date-text");
-
   var _component_string_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("string-text");
 
   var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_date_text, {
-    "class": "col-span-1 row-span-2",
-    datestring: $props.logentry.ConsumedAt
-  }, null, 8
-  /* PROPS */
-  , ["datestring"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    id: "consumedAt",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.consumedAtDate = $event;
+    }),
+    type: "date",
+    onChange: _cache[2] || (_cache[2] = function () {
+      return $options.handleDateChange && $options.handleDateChange.apply($options, arguments);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.consumedAtDate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
     "class": "col-span-6",
     value: $props.logentry.FoodDescription
   }, null, 8
   /* PROPS */
-  , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
+  , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
     value: $props.logentry.MeasureDescription
   }, null, 8
   /* PROPS */
   , ["value"])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentry.nutrients, function (nutrient) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ": ", 1
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ": ", 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
       value: Math.round(nutrient.NutrientAmount)
@@ -19516,11 +19534,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     )]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
     onClick: $options.destroy
   }, {
     "default": _withId(function () {
-      return [_hoisted_8];
+      return [_hoisted_9];
     }),
     _: 1
     /* STABLE */
