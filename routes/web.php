@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/conversionfactors', App\Http\Controllers\Conversionfactor\IndexController::class)->name('conversionfactors.index');
     Route::get('/logentries', App\Http\Controllers\Logentry\IndexController::class)->name('logentries.index');
     Route::post('/logentries/store', App\Http\Controllers\Logentry\StoreController::class)->name('logentries.store');
+    Route::patch('/logentries/update/{logentry}', App\Http\Controllers\Logentry\UpdateController::class)->name('logentries.update');
     Route::delete('/logentries/destroy/{logentry}', App\Http\Controllers\Logentry\DestroyController::class)->name('logentries.destroy');
 });
 
