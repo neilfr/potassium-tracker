@@ -87,14 +87,14 @@
             previous() {
                 if(this.page >1){
                     this.page--;
+                    this.refreshPage();
                 }
-                this.refreshPage();
             },
             next() {
                 if (this.page < this.logentries.meta.last_page) {
                     this.page++;
+                    this.refreshPage();
                 }
-                this.refreshPage();
             },
             last() {
                 this.page = this.logentries.meta.last_page;

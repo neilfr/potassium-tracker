@@ -19022,16 +19022,14 @@ __webpack_require__.r(__webpack_exports__);
     previous: function previous() {
       if (this.page > 1) {
         this.page--;
+        this.refreshPage();
       }
-
-      this.refreshPage();
     },
     next: function next() {
       if (this.page < this.logentries.meta.last_page) {
         this.page++;
+        this.refreshPage();
       }
-
-      this.refreshPage();
     },
     last: function last() {
       this.page = this.logentries.meta.last_page;
