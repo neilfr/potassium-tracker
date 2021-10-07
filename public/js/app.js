@@ -18269,8 +18269,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    var d = new Date();
-    this.consumedAtDate = d.toISOString().substring(0, 10);
+    console.log('dates', this.logentry.ConsumedAt.substring(0, 10)); // let d = new Date();
+
+    this.consumedAtDate = this.logentry.ConsumedAt.substring(0, 10);
   },
   methods: {
     destroy: function destroy() {
@@ -18279,6 +18280,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     handleDateChange: function handleDateChange() {
       console.log('update the date to', this.consumedAtDate);
+      var url = route('logentries.update', this.logentry.id);
+      this.$inertia.visit(url, {
+        method: 'patch',
+        data: {
+          'ConsumedAt': this.consumedAtDate
+        },
+        preserveState: true,
+        preserveScroll: true
+      });
     }
   }
 });
@@ -19467,10 +19477,10 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-3042a489");
 
 var _hoisted_1 = {
-  "class": "grid grid-cols-8 grid-rows-2 p-2"
+  "class": "grid grid-cols-9 grid-rows-2 gap-2 p-2"
 };
 var _hoisted_2 = {
-  "class": "col-span-1 row-span-2"
+  "class": "col-span-2 row-span-2"
 };
 var _hoisted_3 = {
   "class": "border col-span-6 row-span-2"
