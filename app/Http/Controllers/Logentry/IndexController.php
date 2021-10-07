@@ -24,6 +24,7 @@ class IndexController extends Controller
             Logentry::query()
                 ->where('UserID', Auth::user()->id)
                 ->inDateRange($request->query('from'), $request->query('to'))
+                ->orderBy('ConsumedAt', 'desc')
                 ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'))
         );
 

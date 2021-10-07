@@ -18269,25 +18269,18 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log('dates', this.logentry.ConsumedAt.substring(0, 10)); // let d = new Date();
-
     this.consumedAtDate = this.logentry.ConsumedAt.substring(0, 10);
   },
   methods: {
     destroy: function destroy() {
-      var url = route('logentries.destroy', this.logentry.id);
-      this.$inertia["delete"](url, {});
+      this.$emit('destroy', {
+        'id': this.logentry.id
+      });
     },
     handleDateChange: function handleDateChange() {
-      console.log('update the date to', this.consumedAtDate);
-      var url = route('logentries.update', this.logentry.id);
-      this.$inertia.visit(url, {
-        method: 'patch',
-        data: {
-          'ConsumedAt': this.consumedAtDate
-        },
-        preserveState: true,
-        preserveScroll: true
+      this.$emit('updateConsumedAt', {
+        'id': this.logentry.id,
+        'ConsumedAt': this.consumedAtDate
       });
     }
   }
@@ -18994,9 +18987,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    var d = new Date();
-    this.startdate = d.toISOString().substring(0, 10);
-    this.enddate = d.toISOString().substring(0, 10);
+    console.log('mounted');
+    this.resetDateRange();
     this.page = this.logentries.meta.current_page;
   },
   methods: {
@@ -19010,7 +19002,7 @@ __webpack_require__.r(__webpack_exports__);
         preserveScroll: true
       });
     },
-    handleDatechange: function handleDatechange(dates) {
+    handleDateRangeChange: function handleDateRangeChange(dates) {
       this.startdate = dates.startdate;
       this.enddate = dates.enddate;
       this.refreshPage();
@@ -19042,6 +19034,27 @@ __webpack_require__.r(__webpack_exports__);
       this.$inertia.visit(url, {
         data: {
           'page': this.page
+        },
+        preserveState: true,
+        preserveScroll: true
+      });
+    },
+    resetDateRange: function resetDateRange() {
+      var d = new Date();
+      this.startdate = d.toISOString().substring(0, 10);
+      this.enddate = d.toISOString().substring(0, 10);
+    },
+    destroy: function destroy(logentry) {
+      var url = route('logentries.destroy', logentry.id);
+      this.$inertia["delete"](url, {});
+      this.resetDateRange();
+    },
+    handleDateChange: function handleDateChange(logentry) {
+      var url = route('logentries.update', logentry.id);
+      this.$inertia.visit(url, {
+        method: 'patch',
+        data: {
+          'ConsumedAt': logentry.consumedAtDate
         },
         preserveState: true,
         preserveScroll: true
@@ -19511,6 +19524,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    "class": "rounded",
     id: "consumedAt",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.consumedAtDate = $event;
@@ -20982,7 +20996,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         nutrienttotals: $props.nutrienttotals.data,
         startdate: $data.startdate,
         enddate: $data.enddate,
-        onDatechange: $options.handleDatechange
+        onDatechange: $options.handleDateRangeChange
       }, null, 8
       /* PROPS */
       , ["nutrienttotals", "startdate", "enddate", "onDatechange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
@@ -21001,10 +21015,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_log_entry_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: logentry.id,
-          logentry: logentry
+          logentry: logentry,
+          onDestroy: $options.destroy,
+          onHandleDateChange: $options.handleDateChange
         }, null, 8
         /* PROPS */
-        , ["logentry"]);
+        , ["logentry", "onDestroy", "onHandleDateChange"]);
       }), 128
       /* KEYED_FRAGMENT */
       ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_paginator, {

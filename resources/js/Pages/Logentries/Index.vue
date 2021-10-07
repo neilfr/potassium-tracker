@@ -13,11 +13,18 @@
                         :nutrienttotals="nutrienttotals.data"
                         :startdate="startdate"
                         :enddate="enddate"
-                        @datechange="handleDatechange"
+                        @datechange="handleDateRangeChange"
                     />
                     <Button class="mt-2 ml-2" @click="addLogentry">Add Logentry</Button>
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <log-entry-card class="bg-gray-100 rounded-lg mb-2" v-for="logentry in logentries.data" :key="logentry.id" :logentry="logentry"/>
+                        <log-entry-card
+                            class="bg-gray-100 rounded-lg mb-2"
+                            v-for="logentry in logentries.data"
+                            :key="logentry.id"
+                            :logentry="logentry"
+                            @destroy="destroy"
+                            @handleDateChange="handleDateChange"
+                        />
                     </div>
                     <paginator
                         @first="first"
@@ -59,9 +66,8 @@
             }
         },
         mounted() {
-            let d = new Date();
-            this.startdate = d.toISOString().substring(0,10);
-            this.enddate = d.toISOString().substring(0,10);
+            console.log('mounted');
+            this.resetDateRange();
             this.page = this.logentries.meta.current_page;
         },
         methods: {
@@ -75,7 +81,7 @@
                     preserveScroll: true,
                 });
             },
-            handleDatechange(dates) {
+            handleDateRangeChange(dates) {
                 this.startdate=dates.startdate;
                 this.enddate=dates.enddate;
                 this.refreshPage();
@@ -107,6 +113,27 @@
                 this.$inertia.visit(url, {
                     data:{
                         'page':this.page
+                    },
+                    preserveState: true,
+                    preserveScroll: true,
+                });
+            },
+            resetDateRange(){
+                let d = new Date();
+                this.startdate = d.toISOString().substring(0,10);
+                this.enddate = d.toISOString().substring(0,10);
+            },
+            destroy(logentry) {
+                let url = route('logentries.destroy', logentry.id);
+                this.$inertia.delete(url, {});
+                this.resetDateRange();
+            },
+            handleDateChange(logentry){
+                let url = route('logentries.update', logentry.id);
+                this.$inertia.visit(url, {
+                    method: 'patch',
+                    data:{
+                        'ConsumedAt':logentry.consumedAtDate
                     },
                     preserveState: true,
                     preserveScroll: true,
