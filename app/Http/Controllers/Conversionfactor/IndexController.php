@@ -18,7 +18,13 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $conversionfactors = Conversionfactor::paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
+        $searchString = $request->query('searchText');
+        $conversionfactors = Conversionfactor::query()
+            ->with('foodname')
+            ->whereHas('foodname', function($query) use ($searchString) {
+                $query->where('FoodDescription', 'like', "%$searchString%" );
+            })
+            ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
         return Inertia::render('Conversionfactors/Index', [
             'conversionfactors' => ConversionfactorResource::collection($conversionfactors),
         ]);
