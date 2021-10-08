@@ -18263,6 +18263,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     logentry: Object
   },
+  emits: ['destroy', 'updateConsumedAt'],
   data: function data() {
     return {
       consumedAtDate: String
@@ -18306,6 +18307,7 @@ __webpack_require__.r(__webpack_exports__);
     startdate: String,
     enddate: String
   },
+  emits: ['datechange'],
   methods: {
     handleDateRangeChange: function handleDateRangeChange() {
       this.$emit('datechange', {
@@ -18313,9 +18315,6 @@ __webpack_require__.r(__webpack_exports__);
         enddate: this.enddate
       });
     }
-  },
-  mounted: function mounted() {
-    console.log('mounted nutrienttotals', this.nutrienttotals);
   }
 });
 
@@ -18987,7 +18986,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log('mounted');
     this.resetDateRange();
     this.page = this.logentries.meta.current_page;
   },
@@ -19284,9 +19282,12 @@ var _hoisted_1 = {
   "class": "p-6 bg-white border-b border-gray-200 flex justify-between"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "mb-4"
-}, "Add Search and filter..."), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, " ... stuff here ")], -1
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "for": "search"
+}, "Search:"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  type: "text",
+  id: "search"
+})], -1
 /* HOISTED */
 );
 

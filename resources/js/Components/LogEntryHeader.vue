@@ -28,8 +28,11 @@
         props: {
             nutrienttotals: Object,
             startdate: String,
-            enddate: String,
+            enddate: String
         },
+        emits:[
+            'datechange',
+        ],
         methods: {
             handleDateRangeChange() {
                 this.$emit('datechange', {
@@ -38,9 +41,6 @@
                 })
             },
         },
-        mounted() {
-            console.log('mounted nutrienttotals', this.nutrienttotals);
-        }
     }
 </script>
 

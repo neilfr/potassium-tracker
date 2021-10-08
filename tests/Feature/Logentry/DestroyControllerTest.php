@@ -45,7 +45,7 @@ class DestroyControllerTest extends TestCase
         ]);
 
         $this->actingAs($user)->delete(route('logentries.destroy',$logentry))
-            ->assertSuccessful();
+            ->assertRedirect();
 
         $this->assertDatabaseMissing('logentries', [
            'ConversionFactorID' => $conversionfactor->id,

@@ -40,6 +40,10 @@
         props:{
             logentry:Object,
         },
+        emits:[
+            'destroy',
+            'updateConsumedAt',
+        ],
         data() {
             return {
                 consumedAtDate: String,

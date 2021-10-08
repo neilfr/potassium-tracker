@@ -66,7 +66,6 @@
             }
         },
         mounted() {
-            console.log('mounted');
             this.resetDateRange();
             this.page = this.logentries.meta.current_page;
         },
