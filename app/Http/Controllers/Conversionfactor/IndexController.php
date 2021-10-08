@@ -22,7 +22,10 @@ class IndexController extends Controller
         $conversionfactors = Conversionfactor::query()
             ->with('foodname')
             ->whereHas('foodname', function($query) use ($searchString) {
-                $query->where('FoodDescription', 'like', "%$searchString%" );
+                $terms = collect(explode(',', $searchString));
+                $terms->each(function($term) use($query){
+                    $query->where('FoodDescription', 'like', "%$term%" );
+                });
             })
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
         return Inertia::render('Conversionfactors/Index', [
