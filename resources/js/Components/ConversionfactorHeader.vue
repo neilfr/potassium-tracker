@@ -2,7 +2,7 @@
     <div class="p-6 bg-white border-b border-gray-200 flex justify-between">
         <span>
             <label for="search">Search:</label>
-            <input type="text" id="search" @input="updateSearchText" v-model="searchText"/>
+            <input class="ml-2 rounded" type="text" id="search" @input="updateSearchText" v-model="searchText"/>
         </span>
     </div>
 </template>

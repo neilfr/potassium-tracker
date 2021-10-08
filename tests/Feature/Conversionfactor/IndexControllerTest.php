@@ -132,9 +132,69 @@ class IndexControllerTest extends TestCase
         });
     }
 
-    function arrayHasArrayWithValue($arrayOfArrays, $value){
+    /** @test */
+    public function it_returns_conversionfactors_with_favourites()
+    {
+        $user = User::factory()->create();
+
+        $conversionfactorDataset = $this->createConversionFactor(5);
+        // setup a conversionfactor as a favourite
+
+        $response = $this->actingAs($user)->get(route('conversionfactors.index'))
+            ->assertSuccessful();
+        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+        dd($responseData, $conversionfactorDataset);
+
+        // add assertions that we get favourites key/column in the response
+        // assert that only one row has favourites value/column set to true  in the response
+    }
+
+    public function arrayHasArrayWithValue($arrayOfArrays, $value){
         return array_reduce($arrayOfArrays, function($acc, $array) use($value){
             return $acc + in_array($value, $array);
         },0) > 0;
+    }
+
+    public function createConversionFactor($count = 1){
+        $nutrientsConfig = collect(explode(',',env('NUTRIENTS')));
+        $nutrients = $nutrientsConfig->map(function($nutrientId){
+            return Nutrientname::factory()->create([
+                'NutrientID' => $nutrientId,
+            ]);
+        });
+
+        $data = [];
+        for($i=0;$i<$count;$i++){
+            $foodgroup = Foodgroup::factory()->create();
+            $foodname = Foodname::factory()->create([
+                'FoodGroupID' => $foodgroup->FoodGroupID,
+            ]);
+            $measurename = Measurename::factory()->create();
+
+            $conversionFactorValue = rand(1,5);
+            $foodname->measurenames()->attach(
+                $measurename,
+                [
+                    'ConversionFactorValue' => $conversionFactorValue,
+                ]
+            );
+
+            $nutrientData = $nutrients->map(function($nutrient) use ($foodname) {
+                $nutrientValue = rand(100,200);
+                $foodname->nutrientnames()->attach($nutrient, [
+                    'NutrientValue' => $nutrientValue,
+                ]);
+                return array_merge($nutrient->toArray(), ['nutrient_value' => $nutrientValue]);
+            });
+            $data[$i] = [
+                'Foodgroup' => $foodgroup,
+                'Foodname' => $foodname,
+                'Measurename' => $measurename,
+                'ConversionFactorValue' => $conversionFactorValue,
+                'NutrientData' => $nutrientData,
+            ];
+        }
+
+        return $data;
     }
 }
