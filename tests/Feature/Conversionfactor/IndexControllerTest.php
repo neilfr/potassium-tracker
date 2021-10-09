@@ -133,17 +133,17 @@ class IndexControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_conversionfactors_with_favourites()
+    public function it_returns_conversionfactor_with_favourite()
     {
         $user = User::factory()->create();
 
-        $conversionfactorDataset = $this->createConversionFactor(5);
-        // setup a conversionfactor as a favourite
+        $this->createConversionFactor();
 
         $response = $this->actingAs($user)->get(route('conversionfactors.index'))
             ->assertSuccessful();
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
-        dd($responseData, $conversionfactorDataset);
+
+        $this->assertArrayHasKey('Favourite', $responseData['conversionfactors']['data'][0]);
 
         // add assertions that we get favourites key/column in the response
         // assert that only one row has favourites value/column set to true  in the response
