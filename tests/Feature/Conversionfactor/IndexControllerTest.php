@@ -141,7 +141,7 @@ class IndexControllerTest extends TestCase
 
         $conversionFactorData = $this->createConversionFactor(2);
 
-        $user->favourites()->attach(Foodname::find($conversionFactorData[0]['Foodname']['FoodID']));
+        $user->favourites()->attach(Conversionfactor::find($conversionFactorData[0]['ConversionFactorID']));
 
         $response = $this->actingAs($user)->get(route('conversionfactors.index'))
             ->assertSuccessful();
@@ -152,26 +152,6 @@ class IndexControllerTest extends TestCase
         $this->assertArrayHasKey('Favourite', $responseData['conversionfactors']['data'][1]);
         $this->assertEquals(false, $responseData['conversionfactors']['data'][1]['Favourite']);
 
-    }
-
-    /** @test */
-    public function foo()
-    {
-        $this->withoutExceptionHandling();
-        $user = User::factory()->create();
-
-        $conversionFactorData = $this->createConversionFactor();
-
-        $user->favourites()->attach(Foodname::find($conversionFactorData[0]['Foodname']['FoodID']));
-
-        $response = $this->actingAs($user)->get(route('conversionfactors.index'))
-            ->assertSuccessful();
-        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
-
-        $this->assertArrayHasKey('Favourite', $responseData['conversionfactors']['data'][0]);
-
-        // add assertions that we get favourites key/column in the response
-        // assert that only one row has favourites value/column set to true  in the response
     }
 
     public function arrayHasArrayWithValue($arrayOfArrays, $value){
@@ -212,10 +192,11 @@ class IndexControllerTest extends TestCase
                 return array_merge($nutrient->toArray(), ['nutrient_value' => $nutrientValue]);
             });
             $data[$i] = [
+                'ConversionFactorID' => $foodname->measurenames()->first()->pivot->id,
+                'ConversionFactorValue' => $conversionFactorValue,
                 'Foodgroup' => $foodgroup,
                 'Foodname' => $foodname,
                 'Measurename' => $measurename,
-                'ConversionFactorValue' => $conversionFactorValue,
                 'NutrientData' => $nutrientData,
             ];
         }

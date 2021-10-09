@@ -24,6 +24,6 @@ class Foodname extends Model
 
     public function measurenames(){
         return $this->belongsToMany(Measurename::class, 'conversionfactors', 'FoodID', 'MeasureID')
-            ->withPivot('ConversionFactorValue');
+            ->withPivot(['ConversionFactorValue','id']);
     }
 }

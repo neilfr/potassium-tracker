@@ -28,7 +28,7 @@ class ConversionfactorResource extends JsonResource
             'nutrients' => $this->nutrients,
             'Favourite' => User::find(auth()->user()->id)
                 ->favourites()
-                ->where('FoodID', $this->foodname->FoodID)
+                ->where('ConversionFactorID', $this->id)
                 ->exists(),
         ];
     }
