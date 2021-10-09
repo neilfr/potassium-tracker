@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Nutrientname;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ConversionfactorResource extends JsonResource
@@ -25,6 +26,10 @@ class ConversionfactorResource extends JsonResource
             'MeasureDescription' => $this->measurename->MeasureDescription,
             'ConversionFactorValue' => $this->ConversionFactorValue,
             'nutrients' => $this->nutrients,
+            'Favourite' => User::find(auth()->user()->id)
+                ->favourites()
+                ->where('FoodID', $this->foodname->FoodID)
+                ->exists(),
         ];
     }
 }

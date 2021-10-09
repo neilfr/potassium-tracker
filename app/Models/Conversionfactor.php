@@ -47,5 +47,4 @@ class Conversionfactor extends Pivot
             });
         });
     }
-
 }

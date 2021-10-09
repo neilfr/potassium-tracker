@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Conversionfactor;
 
+use App\Models\Conversionfactor;
 use App\Models\Foodgroup;
 use App\Models\Foodname;
 use App\Models\Measurename;
@@ -135,9 +136,33 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function it_returns_conversionfactor_with_favourite()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
-        $this->createConversionFactor();
+        $conversionFactorData = $this->createConversionFactor(2);
+
+        $user->favourites()->attach(Foodname::find($conversionFactorData[0]['Foodname']['FoodID']));
+
+        $response = $this->actingAs($user)->get(route('conversionfactors.index'))
+            ->assertSuccessful();
+        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+
+        $this->assertArrayHasKey('Favourite', $responseData['conversionfactors']['data'][0]);
+        $this->assertEquals(true, $responseData['conversionfactors']['data'][0]['Favourite']);
+        $this->assertArrayHasKey('Favourite', $responseData['conversionfactors']['data'][1]);
+        $this->assertEquals(false, $responseData['conversionfactors']['data'][1]['Favourite']);
+
+    }
+
+    /** @test */
+    public function foo()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create();
+
+        $conversionFactorData = $this->createConversionFactor();
+
+        $user->favourites()->attach(Foodname::find($conversionFactorData[0]['Foodname']['FoodID']));
 
         $response = $this->actingAs($user)->get(route('conversionfactors.index'))
             ->assertSuccessful();
