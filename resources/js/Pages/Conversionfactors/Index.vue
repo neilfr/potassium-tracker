@@ -13,7 +13,13 @@
                         @search="handleSearch"
                     />
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <conversionfactor-card class="bg-gray-100 rounded-lg mb-2" v-for="conversionfactor in conversionfactors.data" :key="conversionfactor.id" :conversionfactor="conversionfactor"/>
+                        <conversionfactor-card
+                            class="bg-gray-100 rounded-lg mb-2"
+                            v-for="conversionfactor in conversionfactors.data"
+                            :key="conversionfactor.id"
+                            :conversionfactor="conversionfactor"
+                            @favourite="handleFavourite"
+                        />
                     </div>
                     <paginator
                         @first="first"
@@ -88,6 +94,9 @@
             handleSearch(searchText) {
                 this.searchText=searchText;
                 this.first();
+            },
+            handleFavourite(isFavourite){
+                console.log('favourite!', isFavourite);
             }
         }
     }

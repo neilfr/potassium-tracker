@@ -136,7 +136,6 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function it_returns_conversionfactor_with_favourite()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $conversionFactorData = $this->createConversionFactor(2);

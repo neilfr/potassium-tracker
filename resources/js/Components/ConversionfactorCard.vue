@@ -2,6 +2,7 @@
     <div class="grid grid-cols-8 grid-rows-2 p-2">
         <div class="border col-span-1 row-span-2">
             favourite here
+            <input type="checkbox" :checked="favourite" @change="emitFavourite">
         </div>
         <div class="border col-span-6 row-span-2">
             <div class="border">
@@ -39,7 +40,21 @@
         props:{
             conversionfactor:Object,
         },
+        data(){
+            return{
+              favourite: Boolean
+            }
+        },
+        mounted() {
+          this.favourite = this.conversionfactor.Favourite;
+        },
         methods:{
+            emitFavourite(){
+                this.favourite = !this.favourite;
+                this.$emit('favourite', {
+                    'favourite': this.favourite
+                })
+            },
             log(){
                 let url = route('logentries.store');
                 this.$inertia.visit(url, {
