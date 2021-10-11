@@ -4,6 +4,10 @@
             <label for="search">Search:</label>
             <input class="ml-2 rounded" type="text" id="search" @input="updateSearchText" v-model="searchText"/>
         </span>
+        <span>
+            <label for="favourite">Favourite:</label>
+            <input type="checkbox" id="favourite" @change="updateFavourite" v-model="favourite"/>
+        </span>
     </div>
 </template>
 
@@ -12,17 +16,23 @@
         name: "ConversionfactorHeader",
         props: {},
         emits: [
-            'search'
+            'search',
+            'favourite',
         ],
         data(){
             return {
-                searchText: ''
+                searchText: '',
+                favourite: false,
             }
         },
         methods:{
             updateSearchText(){
                 console.log('search text is:', this.searchText);
                 this.$emit('search', this.searchText);
+            },
+            updateFavourite(){
+                console.log('favourite!');
+                this.$emit('favourite', this.favourite)
             }
         }
     }

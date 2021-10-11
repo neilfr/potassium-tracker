@@ -11,6 +11,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <conversionfactor-header
                         @search="handleSearch"
+                        @favourite="handleFavourite"
                     />
                     <div class="p-6 bg-white border-b border-gray-200">
                         <conversionfactor-card
@@ -94,6 +95,10 @@
             handleSearch(searchText) {
                 this.searchText=searchText;
                 this.first();
+            },
+            handleFavourite(favourite){
+              console.log('handling favourite in index:', favourite);
+              this.first();
             },
             handleToggleFavourite(conversionfactor){
                 console.log('toggle for:', conversionfactor);

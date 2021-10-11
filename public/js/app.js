@@ -18110,16 +18110,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ConversionfactorHeader",
   props: {},
-  emits: ['search'],
+  emits: ['search', 'favourite'],
   data: function data() {
     return {
-      searchText: ''
+      searchText: '',
+      favourite: false
     };
   },
   methods: {
     updateSearchText: function updateSearchText() {
       console.log('search text is:', this.searchText);
       this.$emit('search', this.searchText);
+    },
+    updateFavourite: function updateFavourite() {
+      console.log('favourite!');
+      this.$emit('favourite', this.favourite);
     }
   }
 });
@@ -18952,6 +18957,10 @@ __webpack_require__.r(__webpack_exports__);
       this.searchText = searchText;
       this.first();
     },
+    handleFavourite: function handleFavourite(favourite) {
+      console.log('handling favourite in index:', favourite);
+      this.first();
+    },
     handleToggleFavourite: function handleToggleFavourite(conversionfactor) {
       console.log('toggle for:', conversionfactor);
       var url = route('conversionfactors.toggle-favourite', conversionfactor);
@@ -19335,6 +19344,12 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 /* HOISTED */
 );
 
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "for": "favourite"
+}, "Favourite:", -1
+/* HOISTED */
+);
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     "class": "ml-2 rounded",
@@ -19348,7 +19363,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchText]])])]);
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchText]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    type: "checkbox",
+    id: "favourite",
+    onChange: _cache[3] || (_cache[3] = function () {
+      return $options.updateFavourite && $options.updateFavourite.apply($options, arguments);
+    }),
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.favourite = $event;
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.favourite]])])]);
 }
 
 /***/ }),
@@ -20921,10 +20947,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_conversionfactor_header, {
-        onSearch: $options.handleSearch
+        onSearch: $options.handleSearch,
+        onFavourite: $options.handleFavourite
       }, null, 8
       /* PROPS */
-      , ["onSearch"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.conversionfactors.data, function (conversionfactor) {
+      , ["onSearch", "onFavourite"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.conversionfactors.data, function (conversionfactor) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_conversionfactor_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: conversionfactor.id,
