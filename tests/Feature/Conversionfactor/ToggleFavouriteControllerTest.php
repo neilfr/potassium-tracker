@@ -19,7 +19,6 @@ class ToggleFavouriteControllerTest extends TestCase
     /** @test */
     public function it_toggles_conversionfactor_favourite()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $conversionFactorData = $this->createConversionFactor();
@@ -29,26 +28,24 @@ class ToggleFavouriteControllerTest extends TestCase
            'ConversionFactorID' => $conversionFactorData[0]['ConversionFactorID'],
         ]);
 
-//        $user->favourites()->attach(Conversionfactor::find($conversionFactorData[0]['ConversionFactorID']));
-
-        $response = $this->actingAs($user)->post(
+        $this->actingAs($user)->post(
             route(
                 'conversionfactors.toggle-favourite',
                 $conversionFactorData[0]['ConversionFactorID']
             ))
-            ->assertSuccessful();
+            ->assertRedirect();
 
         $this->assertDatabaseHas('favourites', [
             'user_id' => $user->id,
             'ConversionFactorID' => $conversionFactorData[0]['ConversionFactorID'],
         ]);
 
-        $response = $this->actingAs($user)->post(
+        $this->actingAs($user)->post(
             route(
                 'conversionfactors.toggle-favourite',
                 $conversionFactorData[0]['ConversionFactorID']
             ))
-            ->assertSuccessful();
+            ->assertRedirect();
 
         $this->assertDatabaseMissing('favourites', [
             'user_id' => $user->id,

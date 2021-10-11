@@ -18066,6 +18066,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     conversionfactor: Object
   },
+  emits: ['toggle-favourite'],
   data: function data() {
     return {
       favourite: Boolean
@@ -18075,10 +18076,10 @@ __webpack_require__.r(__webpack_exports__);
     this.favourite = this.conversionfactor.Favourite;
   },
   methods: {
-    emitFavourite: function emitFavourite() {
+    emitToggleFavourite: function emitToggleFavourite() {
       this.favourite = !this.favourite;
-      this.$emit('favourite', {
-        'favourite': this.favourite
+      this.$emit('toggle-favourite', {
+        'conversionfactor': this.conversionfactor
       });
     },
     log: function log() {
@@ -18951,8 +18952,12 @@ __webpack_require__.r(__webpack_exports__);
       this.searchText = searchText;
       this.first();
     },
-    handleFavourite: function handleFavourite(isFavourite) {
-      console.log('favourite!', isFavourite);
+    handleToggleFavourite: function handleToggleFavourite(conversionfactor) {
+      console.log('toggle for:', conversionfactor);
+      var url = route('conversionfactors.toggle-favourite', conversionfactor);
+      this.$inertia.post(url, {}, {
+        preserveScroll: true
+      });
     }
   }
 });
@@ -19266,7 +19271,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     type: "checkbox",
     checked: $data.favourite,
     onChange: _cache[1] || (_cache[1] = function () {
-      return $options.emitFavourite && $options.emitFavourite.apply($options, arguments);
+      return $options.emitToggleFavourite && $options.emitToggleFavourite.apply($options, arguments);
     })
   }, null, 40
   /* PROPS, HYDRATE_EVENTS */
@@ -20924,10 +20929,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: conversionfactor.id,
           conversionfactor: conversionfactor,
-          onFavourite: $options.handleFavourite
+          onToggleFavourite: $options.handleToggleFavourite
         }, null, 8
         /* PROPS */
-        , ["conversionfactor", "onFavourite"]);
+        , ["conversionfactor", "onToggleFavourite"]);
       }), 128
       /* KEYED_FRAGMENT */
       ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_paginator, {

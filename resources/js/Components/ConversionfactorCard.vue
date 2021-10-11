@@ -2,7 +2,7 @@
     <div class="grid grid-cols-8 grid-rows-2 p-2">
         <div class="border col-span-1 row-span-2">
             favourite here
-            <input type="checkbox" :checked="favourite" @change="emitFavourite">
+            <input type="checkbox" :checked="favourite" @change="emitToggleFavourite">
         </div>
         <div class="border col-span-6 row-span-2">
             <div class="border">
@@ -40,6 +40,9 @@
         props:{
             conversionfactor:Object,
         },
+        emits:[
+            'toggle-favourite'
+        ],
         data(){
             return{
               favourite: Boolean
@@ -49,10 +52,10 @@
           this.favourite = this.conversionfactor.Favourite;
         },
         methods:{
-            emitFavourite(){
+            emitToggleFavourite(){
                 this.favourite = !this.favourite;
-                this.$emit('favourite', {
-                    'favourite': this.favourite
+                this.$emit('toggle-favourite', {
+                    'conversionfactor': this.conversionfactor
                 })
             },
             log(){

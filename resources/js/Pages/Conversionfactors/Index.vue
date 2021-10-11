@@ -18,7 +18,7 @@
                             v-for="conversionfactor in conversionfactors.data"
                             :key="conversionfactor.id"
                             :conversionfactor="conversionfactor"
-                            @favourite="handleFavourite"
+                            @toggle-favourite="handleToggleFavourite"
                         />
                     </div>
                     <paginator
@@ -95,8 +95,10 @@
                 this.searchText=searchText;
                 this.first();
             },
-            handleFavourite(isFavourite){
-                console.log('favourite!', isFavourite);
+            handleToggleFavourite(conversionfactor){
+                console.log('toggle for:', conversionfactor);
+                let url =route('conversionfactors.toggle-favourite', conversionfactor);
+                this.$inertia.post(url,{},{preserveScroll: true});
             }
         }
     }
