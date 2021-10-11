@@ -12,41 +12,48 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class StoreControllerTest extends TestCase
+class ToggleFavouriteControllerTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function it_updates_conversionfactor_favourite_to_false()
+    public function it_toggles_conversionfactor_favourite()
     {
         $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $conversionFactorData = $this->createConversionFactor();
 
-        $user->favourites()->attach(Conversionfactor::find($conversionFactorData[0]['ConversionFactorID']));
+        $this->assertDatabaseMissing('favourites', [
+           'user_id' => $user->id,
+           'ConversionFactorID' => $conversionFactorData[0]['ConversionFactorID'],
+        ]);
+
+//        $user->favourites()->attach(Conversionfactor::find($conversionFactorData[0]['ConversionFactorID']));
+
+        $response = $this->actingAs($user)->post(
+            route(
+                'conversionfactors.toggle-favourite',
+                $conversionFactorData[0]['ConversionFactorID']
+            ))
+            ->assertSuccessful();
 
         $this->assertDatabaseHas('favourites', [
             'user_id' => $user->id,
             'ConversionFactorID' => $conversionFactorData[0]['ConversionFactorID'],
         ]);
 
-        $payload = ['favourite' => false];
-
-        $response = $this->actingAs($user)
-            ->post(
-                route(
-                    'conversionfactors.store',
-                    $conversionFactorData[0]['ConversionFactorID']
-                ),
-                $payload
-            )
+        $response = $this->actingAs($user)->post(
+            route(
+                'conversionfactors.toggle-favourite',
+                $conversionFactorData[0]['ConversionFactorID']
+            ))
             ->assertSuccessful();
 
-//        $this->assertDatabaseMissing('favourites', [
-//            'user_id' => $user->id,
-//            'ConversionFactorID' => $conversionFactorData[0]['ConversionFactorID'],
-//        ]);
+        $this->assertDatabaseMissing('favourites', [
+            'user_id' => $user->id,
+            'ConversionFactorID' => $conversionFactorData[0]['ConversionFactorID'],
+        ]);
     }
 
     public function createConversionFactor($count = 1){

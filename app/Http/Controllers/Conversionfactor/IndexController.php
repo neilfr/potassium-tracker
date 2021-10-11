@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Conversionfactor;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ConversionfactorResource;
 use App\Models\Conversionfactor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
