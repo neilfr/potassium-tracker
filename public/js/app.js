@@ -18119,11 +18119,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateSearchText: function updateSearchText() {
-      console.log('search text is:', this.searchText);
       this.$emit('search', this.searchText);
     },
     updateFavourite: function updateFavourite() {
-      console.log('favourite!');
       this.$emit('favourite', this.favourite);
     }
   }
@@ -18913,11 +18911,14 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       page: Number,
-      searchText: String
+      searchText: String,
+      favourite: Boolean
     };
   },
   mounted: function mounted() {
     this.page = this.conversionfactors.meta.current_page;
+    this.searchText = '';
+    this.favourite = false;
   },
   methods: {
     first: function first() {
@@ -18944,10 +18945,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     refreshPage: function refreshPage() {
       var url = route('conversionfactors.index');
+      url += "?searchText=".concat(this.searchText);
+      url += "&favourite=".concat(this.favourite);
       this.$inertia.visit(url, {
         data: {
-          'page': this.page,
-          'searchText': this.searchText
+          'page': this.page
         },
         preserveState: true,
         preserveScroll: true
@@ -18958,15 +18960,8 @@ __webpack_require__.r(__webpack_exports__);
       this.first();
     },
     handleFavourite: function handleFavourite(favourite) {
-      console.log('handling favourite in index:', favourite);
+      this.favourite = favourite;
       this.first();
-    },
-    handleToggleFavourite: function handleToggleFavourite(conversionfactor) {
-      console.log('toggle for:', conversionfactor);
-      var url = route('conversionfactors.toggle-favourite', conversionfactor);
-      this.$inertia.post(url, {}, {
-        preserveScroll: true
-      });
     }
   }
 });
@@ -20956,7 +20951,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: conversionfactor.id,
           conversionfactor: conversionfactor,
-          onToggleFavourite: $options.handleToggleFavourite
+          onToggleFavourite: _ctx.handleToggleFavourite
         }, null, 8
         /* PROPS */
         , ["conversionfactor", "onToggleFavourite"]);

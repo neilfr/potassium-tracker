@@ -20,9 +20,11 @@ class IndexController extends Controller
     public function __invoke(Request $request)
     {
         $searchText = $request->query('searchText');
+        $favourite = $request->query('favourite');
         $conversionfactors = Conversionfactor::query()
             ->with('foodname')
             ->foodnameSearch($searchText)
+            ->favourite($favourite)
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
         return Inertia::render('Conversionfactors/Index', [
             'conversionfactors' => ConversionfactorResource::collection($conversionfactors),

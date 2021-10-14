@@ -27,11 +27,9 @@
         },
         methods:{
             updateSearchText(){
-                console.log('search text is:', this.searchText);
                 this.$emit('search', this.searchText);
             },
             updateFavourite(){
-                console.log('favourite!');
                 this.$emit('favourite', this.favourite)
             }
         }

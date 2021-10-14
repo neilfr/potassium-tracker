@@ -55,10 +55,13 @@
             return {
                 page: Number,
                 searchText: String,
+                favourite: Boolean,
             }
         },
         mounted() {
             this.page = this.conversionfactors.meta.current_page;
+            this.searchText = '';
+            this.favourite = false;
         },
         methods: {
             first() {
@@ -83,10 +86,11 @@
             },
             refreshPage() {
                 let url = route('conversionfactors.index');
+                url += `?searchText=${this.searchText}`;
+                url += `&favourite=${this.favourite}`;
                 this.$inertia.visit(url, {
                     data:{
                         'page':this.page,
-                        'searchText':this.searchText,
                     },
                     preserveState: true,
                     preserveScroll: true,
@@ -97,14 +101,9 @@
                 this.first();
             },
             handleFavourite(favourite){
-              console.log('handling favourite in index:', favourite);
-              this.first();
+                this.favourite=favourite;
+                this.first();
             },
-            handleToggleFavourite(conversionfactor){
-                console.log('toggle for:', conversionfactor);
-                let url =route('conversionfactors.toggle-favourite', conversionfactor);
-                this.$inertia.post(url,{},{preserveScroll: true});
-            }
         }
     }
 </script>
