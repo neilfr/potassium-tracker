@@ -22,7 +22,7 @@
         data(){
             return {
                 searchText: '',
-                favourite: false,
+                favourite: true,
             }
         },
         methods:{

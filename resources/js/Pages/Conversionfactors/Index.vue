@@ -13,6 +13,7 @@
                         @search="handleSearch"
                         @favourite="handleFavourite"
                     />
+                    <Button class="mt-2 ml-2" @click="addConversionFactor">Add Food</Button>
                     <div class="p-6 bg-white border-b border-gray-200">
                         <conversionfactor-card
                             class="bg-gray-100 rounded-lg mb-2"
@@ -40,6 +41,7 @@
     import ConversionfactorHeader from "@/Components/ConversionfactorHeader";
     import ConversionfactorCard from "@/Components/ConversionfactorCard";
     import Paginator from "@/Components/Paginator";
+    import Button from "@/Components/Button";
 
     export default {
         components: {
@@ -47,6 +49,7 @@
             BreezeAuthenticatedLayout,
             ConversionfactorCard,
             ConversionfactorHeader,
+            Button,
         },
         props: {
             conversionfactors: Object,
@@ -104,6 +107,9 @@
                 this.favourite=favourite;
                 this.first();
             },
+            addConversionFactor(){
+                console.log('add conversion factor');
+            }
         }
     }
 </script>
