@@ -42,7 +42,7 @@
         },
         emits:[
             'destroy',
-            'updateConsumedAt',
+            'dateChanged',
         ],
         data() {
             return {
@@ -59,7 +59,7 @@
                 });
             },
             handleDateChange(){
-                this.$emit('updateConsumedAt',{
+                this.$emit('dateChanged',{
                     'id': this.logentry.id,
                     'ConsumedAt': this.consumedAtDate
                 });

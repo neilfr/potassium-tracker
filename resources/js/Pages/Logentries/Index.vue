@@ -23,7 +23,7 @@
                             :key="logentry.id"
                             :logentry="logentry"
                             @destroy="destroy"
-                            @handleDateChange="handleDateChange"
+                            @dateChanged="handleDateChange"
                         />
                     </div>
                     <paginator
@@ -132,7 +132,7 @@
                 this.$inertia.visit(url, {
                     method: 'patch',
                     data:{
-                        'ConsumedAt':logentry.consumedAtDate
+                        'ConsumedAt':logentry.ConsumedAt
                     },
                     preserveState: true,
                     preserveScroll: true,

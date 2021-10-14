@@ -18293,7 +18293,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     logentry: Object
   },
-  emits: ['destroy', 'updateConsumedAt'],
+  emits: ['destroy', 'dateChanged'],
   data: function data() {
     return {
       consumedAtDate: String
@@ -18309,7 +18309,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     handleDateChange: function handleDateChange() {
-      this.$emit('updateConsumedAt', {
+      this.$emit('dateChanged', {
         'id': this.logentry.id,
         'ConsumedAt': this.consumedAtDate
       });
@@ -19093,10 +19093,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     handleDateChange: function handleDateChange(logentry) {
       var url = route('logentries.update', logentry.id);
+      console.log('handling date change', url);
+      console.log('logentry is', logentry);
       this.$inertia.visit(url, {
         method: 'patch',
         data: {
-          'ConsumedAt': logentry.consumedAtDate
+          'ConsumedAt': logentry.ConsumedAt
         },
         preserveState: true,
         preserveScroll: true
@@ -21101,10 +21103,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           key: logentry.id,
           logentry: logentry,
           onDestroy: $options.destroy,
-          onHandleDateChange: $options.handleDateChange
+          onDateChanged: $options.handleDateChange
         }, null, 8
         /* PROPS */
-        , ["logentry", "onDestroy", "onHandleDateChange"]);
+        , ["logentry", "onDestroy", "onDateChanged"]);
       }), 128
       /* KEYED_FRAGMENT */
       ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_paginator, {
