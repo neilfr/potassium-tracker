@@ -5,6 +5,7 @@ namespace Tests\Feature\Conversionfactor;
 use App\Models\Foodgroup;
 use App\Models\Foodname;
 use App\Models\Measurename;
+use App\Models\Nutrientname;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,6 +23,18 @@ class StoreControllerTest extends TestCase
 
         $foodgroup = Foodgroup::factory()->create();
 
+        $potassium = Nutrientname::factory()->create([
+            'NutrientID' => 306,
+            'NutrientName' => 'POTASSIUM',
+            'NutrientSymbol' => 'K'
+        ]);
+
+        $kcal = Nutrientname::factory()->create([
+            'NutrientID' => 208,
+            'NutrientName' => 'ENERGY (KILOCALORIES)',
+            'NutrientSymbol' => 'KCAL'
+        ]);
+
         $payload = [
             'foodGroupId' => $foodgroup->FoodGroupID,
             'foodDescription' => 'my new food',
@@ -36,7 +49,7 @@ class StoreControllerTest extends TestCase
         $measurename = Measurename::first();
 
         $this->assertDatabaseHas('foodgroups', [
-            'FoodGroupName' => $payload['foodGroupName'],
+            'FoodGroupID' => $payload['foodGroupId'],
         ]);
 
         $this->assertDatabaseHas('foodnames', [
@@ -49,19 +62,19 @@ class StoreControllerTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('conversionfactors', [
-            'FoodID' => $foodname->id,
-            'MeasureID' => $measurename->id,
+            'FoodID' => $foodname->FoodID,
+            'MeasureID' => $measurename->MeasureID,
             'ConversionFactorValue' => 1
         ]);
 
         $this->assertDatabaseHas('nutrientamounts', [
-            'FoodID' => $foodname->id,
+            'FoodID' => $foodname->FoodID,
             'NutrientID' => 306,
             'NutrientValue' => $payload['k'],
         ]);
 
         $this->assertDatabaseHas('nutrientamounts', [
-            'FoodID' => $foodname->id,
+            'FoodID' => $foodname->FoodID,
             'NutrientID' => 208,
             'NutrientValue' => $payload['kcal'],
         ]);

@@ -18114,7 +18114,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       searchText: '',
-      favourite: false
+      favourite: true
     };
   },
   methods: {
@@ -18894,6 +18894,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_ConversionfactorHeader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/ConversionfactorHeader */ "./resources/js/Components/ConversionfactorHeader.vue");
 /* harmony import */ var _Components_ConversionfactorCard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/ConversionfactorCard */ "./resources/js/Components/ConversionfactorCard.vue");
 /* harmony import */ var _Components_Paginator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/Paginator */ "./resources/js/Components/Paginator.vue");
+/* harmony import */ var _Components_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Components/Button */ "./resources/js/Components/Button.vue");
+
 
 
 
@@ -18903,7 +18905,8 @@ __webpack_require__.r(__webpack_exports__);
     Paginator: _Components_Paginator__WEBPACK_IMPORTED_MODULE_3__.default,
     BreezeAuthenticatedLayout: _Layouts_Authenticated__WEBPACK_IMPORTED_MODULE_0__.default,
     ConversionfactorCard: _Components_ConversionfactorCard__WEBPACK_IMPORTED_MODULE_2__.default,
-    ConversionfactorHeader: _Components_ConversionfactorHeader__WEBPACK_IMPORTED_MODULE_1__.default
+    ConversionfactorHeader: _Components_ConversionfactorHeader__WEBPACK_IMPORTED_MODULE_1__.default,
+    Button: _Components_Button__WEBPACK_IMPORTED_MODULE_4__.default
   },
   props: {
     conversionfactors: Object
@@ -18962,6 +18965,9 @@ __webpack_require__.r(__webpack_exports__);
     handleFavourite: function handleFavourite(favourite) {
       this.favourite = favourite;
       this.first();
+    },
+    addConversionFactor: function addConversionFactor() {
+      console.log('add conversion factor');
     }
   }
 });
@@ -19093,8 +19099,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     handleDateChange: function handleDateChange(logentry) {
       var url = route('logentries.update', logentry.id);
-      console.log('handling date change', url);
-      console.log('logentry is', logentry);
       this.$inertia.visit(url, {
         method: 'patch',
         data: {
@@ -20926,11 +20930,16 @@ var _hoisted_3 = {
 var _hoisted_4 = {
   "class": "bg-white overflow-hidden shadow-sm sm:rounded-lg"
 };
-var _hoisted_5 = {
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Add Food");
+
+var _hoisted_6 = {
   "class": "p-6 bg-white border-b border-gray-200"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_conversionfactor_header = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("conversionfactor-header");
+
+  var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
 
   var _component_conversionfactor_card = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("conversionfactor-card");
 
@@ -20948,7 +20957,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onFavourite: $options.handleFavourite
       }, null, 8
       /* PROPS */
-      , ["onSearch", "onFavourite"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.conversionfactors.data, function (conversionfactor) {
+      , ["onSearch", "onFavourite"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+        "class": "mt-2 ml-2",
+        onClick: $options.addConversionFactor
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_hoisted_5];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.conversionfactors.data, function (conversionfactor) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_conversionfactor_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: conversionfactor.id,

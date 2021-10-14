@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Conversionfactor;
 use App\Models\Foodname;
 use App\Models\Measurename;
+use App\Models\Nutrientname;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
@@ -29,10 +30,15 @@ class StoreController extends Controller
 
         $conversionfactor = new Conversionfactor;
         $conversionfactor->FoodID = $foodname->FoodID;
-        $conversionfactor->MeasureID = $foodname->MeasureID;
+        $conversionfactor->MeasureID = $measurename->MeasureID;
         $conversionfactor->ConversionFactorValue = 1;
+        $conversionfactor->save();
 
-        dd($request->foodDescription);
-
+        $conversionfactor->foodname->nutrientnames()->attach(306,[
+            'NutrientValue' => $request->k,
+        ]);
+        $conversionfactor->foodname->nutrientnames()->attach(208,[
+            'NutrientValue' => $request->kcal,
+        ]);
     }
 }
