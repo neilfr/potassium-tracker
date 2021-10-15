@@ -19,6 +19,7 @@ class StoreController extends Controller
      */
     public function __invoke(Request $request)
     {
+        dd('hello', $request->foodDescription);
         $foodname = new Foodname;
         $foodname->FoodDescription = $request->foodDescription;
         $foodname->FoodGroupID = $request->foodGroupId;
@@ -40,5 +41,7 @@ class StoreController extends Controller
         $conversionfactor->foodname->nutrientnames()->attach(208,[
             'NutrientValue' => $request->kcal,
         ]);
+
+        return route('conversionfactors.index');
     }
 }

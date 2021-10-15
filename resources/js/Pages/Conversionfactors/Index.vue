@@ -11,7 +11,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <conversionfactor-header
                         @search="handleSearch"
-                        @favourite="handleFavourite"
+                        @favourite="handleFavouriteFilter"
                     />
                     <Button class="mt-2 ml-2" @click="addConversionFactor">Add Food</Button>
                     <div class="p-6 bg-white border-b border-gray-200">
@@ -103,12 +103,26 @@
                 this.searchText=searchText;
                 this.first();
             },
-            handleFavourite(favourite){
+            handleFavouriteFilter(favourite){
                 this.favourite=favourite;
                 this.first();
             },
             addConversionFactor(){
                 console.log('add conversion factor');
+                let url = route('conversionfactors.create');
+                this.$inertia.visit(url, {
+                    data:{},
+                });
+            },
+            handleToggleFavourite($conversionfactor){
+                let url = route('conversionfactors.toggle-favourite', $conversionfactor);
+                this.$inertia.visit(url,
+                    {
+                        method: 'post',
+                        data:{},
+                        preserveState: true,
+                        preserveScroll: true,
+                    });
             }
         }
     }

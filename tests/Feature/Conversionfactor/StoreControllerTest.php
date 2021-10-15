@@ -18,7 +18,6 @@ class StoreControllerTest extends TestCase
     /** @test */
     public function it_can_store_a_new_conversionfactor()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $foodgroup = Foodgroup::factory()->create();
