@@ -41,6 +41,6 @@ class StoreController extends Controller
             'NutrientValue' => $request->kcal,
         ]);
 
-        return route('conversionfactors.index');
+        return redirect()->route('conversionfactors.index');
     }
 }

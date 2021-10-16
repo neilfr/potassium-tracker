@@ -42,7 +42,8 @@ class StoreControllerTest extends TestCase
             'k' => 85,
         ];
 
-        $this->actingAs($user)->post(route('conversionfactors.store'), $payload);
+        $this->actingAs($user)->post(route('conversionfactors.store'), $payload)
+            ->assertRedirect();
 
         $foodname = Foodname::first();
         $measurename = Measurename::first();
