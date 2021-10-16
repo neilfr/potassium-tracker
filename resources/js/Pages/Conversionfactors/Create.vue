@@ -24,7 +24,15 @@
                             <label for="fooddescription">Description:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="text" id="fooddescription">
+                            <input type="text" id="fooddescription" v-model="foodDescription">
+                        </div>
+                    </div>
+                    <div class="flex items-center mt-2 ml-2">
+                        <div class="w-1/6">
+                            <label for="measuredescription">Quantity:</label>
+                        </div>
+                        <div class="w-5/6">
+                            <input type="text" id="measuredescription" v-model="measureDescription">
                         </div>
                     </div>
                     <div class="flex items-center mt-2 ml-2">
@@ -32,7 +40,7 @@
                             <label for="kcal">KCal:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="text" id="kcal">
+                            <input type="text" id="kcal" v-model="kcal">
                         </div>
                     </div>
                     <div class="flex items-center mt-2 ml-2">
@@ -40,7 +48,7 @@
                             <label for="k">K:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="text" id="k">
+                            <input type="text" id="k" v-model="k">
                         </div>
                     </div>
 
@@ -77,6 +85,9 @@
             }
         },
         mounted() {
+            this.foodDescription='';
+            this.foodGroupId=1;
+            this.measureDescription='';
             this.kcal=0;
             this.k=0;
         },
@@ -87,16 +98,22 @@
             },
             handleSave(){
                 console.log('save');
-                // let url = route('conversionfactors.store');
-                // this.$inertia.visit(url, {
-                //     data: {
-                //         'foodDescription': this.foodDescription,
-                //         'foodGroupId': this.foodGroupId,
-                //         'measureDescription': this.measureDescription,
-                //         'k': this.k,
-                //         'kcal': this.kcal,
-                //     }
-                // });
+                console.log('foodDescription', this.foodDescription);
+                console.log('foodGroupId', this.foodGroupId);
+                console.log('measureDescription', this.measureDescription);
+                console.log('k', this.k);
+                console.log('kcal', this.kcal);
+                let url = route('conversionfactors.store');
+                this.$inertia.visit(url, {
+                    method: 'post',
+                    data: {
+                        'foodDescription': this.foodDescription,
+                        'foodGroupId': this.foodGroupId,
+                        'measureDescription': this.measureDescription,
+                        'k': this.k,
+                        'kcal': this.kcal,
+                    }
+                });
             }
         }
     }

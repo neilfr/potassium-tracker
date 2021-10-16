@@ -19,7 +19,6 @@ class StoreController extends Controller
      */
     public function __invoke(Request $request)
     {
-        dd('hello', $request->foodDescription);
         $foodname = new Foodname;
         $foodname->FoodDescription = $request->foodDescription;
         $foodname->FoodGroupID = $request->foodGroupId;
