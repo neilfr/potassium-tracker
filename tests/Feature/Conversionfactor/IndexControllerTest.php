@@ -138,7 +138,8 @@ class IndexControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $conversionFactorData = $this->createConversionFactor(2);
+        $nutrients = $this->createNutrients();
+        $conversionFactorData = $this->createConversionFactor($nutrients, $user->id, 2);
 
         $user->favourites()->attach(Conversionfactor::find($conversionFactorData[0]['ConversionFactorID']));
 
@@ -153,20 +154,35 @@ class IndexControllerTest extends TestCase
 
     }
 
-    public function arrayHasArrayWithValue($arrayOfArrays, $value){
+    /** @test */
+    public function it_returns_shared_and_owners_conversionfactors_only()
+    {
+        $user = User::factory()->create();
+        $anotherUser = User::factory()->create();
+
+        $nutrients = $this->createNutrients();
+
+        $sharedConversionFactor = $this->createConversionFactor($nutrients,null, 1);
+        $usersConversionFactor = $this->createConversionFactor($nutrients, $user->id, 1);
+        $anotherUsersConversionFactor = $this->createConversionFactor($nutrients, $anotherUser->id, 1);
+
+        $response = $this->actingAs($user)->get(route('conversionfactors.index'))
+            ->assertSuccessful();
+
+        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+
+        $this->assertCount(2, $responseData['conversionfactors']);
+    }
+
+    public function arrayHasArrayWithValue($arrayOfArrays, $value)
+    {
         return array_reduce($arrayOfArrays, function($acc, $array) use($value){
             return $acc + in_array($value, $array);
         },0) > 0;
     }
 
-    public function createConversionFactor($count = 1){
-        $nutrientsConfig = collect(explode(',',env('NUTRIENTS')));
-        $nutrients = $nutrientsConfig->map(function($nutrientId){
-            return Nutrientname::factory()->create([
-                'NutrientID' => $nutrientId,
-            ]);
-        });
-
+    public function createConversionFactor($nutrients, $owner_id, $count = 1)
+    {
         $data = [];
         for($i=0;$i<$count;$i++){
             $foodgroup = Foodgroup::factory()->create();
@@ -180,6 +196,7 @@ class IndexControllerTest extends TestCase
                 $measurename,
                 [
                     'ConversionFactorValue' => $conversionFactorValue,
+                    'user_id' => $owner_id,
                 ]
             );
 
@@ -201,5 +218,16 @@ class IndexControllerTest extends TestCase
         }
 
         return $data;
+    }
+
+    protected function createNutrients(): \Illuminate\Support\Collection
+    {
+        $nutrientsConfig = collect(explode(',', env('NUTRIENTS')));
+        $nutrients = $nutrientsConfig->map(function ($nutrientId) {
+            return Nutrientname::factory()->create([
+                'NutrientID' => $nutrientId,
+            ]);
+        });
+        return $nutrients;
     }
 }
