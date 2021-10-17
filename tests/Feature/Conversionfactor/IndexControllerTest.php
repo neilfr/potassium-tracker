@@ -157,6 +157,7 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function it_returns_shared_and_owners_conversionfactors_only()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $anotherUser = User::factory()->create();
 
@@ -170,8 +171,7 @@ class IndexControllerTest extends TestCase
             ->assertSuccessful();
 
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
-
-        $this->assertCount(2, $responseData['conversionfactors']);
+        $this->assertCount(2, $responseData['conversionfactors']['data']);
     }
 
     public function arrayHasArrayWithValue($arrayOfArrays, $value)

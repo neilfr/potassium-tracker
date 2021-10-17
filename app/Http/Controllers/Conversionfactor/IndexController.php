@@ -22,6 +22,7 @@ class IndexController extends Controller
         $searchText = $request->query('searchText');
         $favourite = $request->query('favourite');
         $conversionfactors = Conversionfactor::query()
+            ->forAuthUser()
             ->with('foodname')
             ->foodnameSearch($searchText)
             ->favourite($favourite)

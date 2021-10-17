@@ -18,6 +18,7 @@ class ConversionfactorResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'FoodID' => $this->foodname->FoodID,
             'MeasureID' => $this->measurename->MeasureID,
             'FoodGroupID' => $this->foodname->FoodGroupID,

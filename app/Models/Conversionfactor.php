@@ -74,4 +74,10 @@ class Conversionfactor extends Pivot
             $query->whereIn('id', $favouriteIds);
         }
     }
+
+    public function scopeForAuthUser(Builder $query)
+    {
+        $query->where('user_id', null)
+            ->orWhere('user_id', auth()->user()->id);
+    }
 }
