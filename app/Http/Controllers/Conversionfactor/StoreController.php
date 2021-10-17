@@ -32,6 +32,7 @@ class StoreController extends Controller
         $conversionfactor->FoodID = $foodname->FoodID;
         $conversionfactor->MeasureID = $measurename->MeasureID;
         $conversionfactor->ConversionFactorValue = 1;
+        $conversionfactor->user_id = auth()->user()->id;
         $conversionfactor->save();
 
         $conversionfactor->foodname->nutrientnames()->attach(306,[

@@ -64,7 +64,8 @@ class StoreControllerTest extends TestCase
         $this->assertDatabaseHas('conversionfactors', [
             'FoodID' => $foodname->FoodID,
             'MeasureID' => $measurename->MeasureID,
-            'ConversionFactorValue' => 1
+            'ConversionFactorValue' => 1,
+            'user_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('nutrientamounts', [
