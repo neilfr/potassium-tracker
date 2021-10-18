@@ -60,22 +60,18 @@
         },
         data(){
             return {
-                page: Number,
                 startdate: String,
                 enddate: String,
             }
         },
         mounted() {
             this.resetDateRange();
-            this.page = this.logentries.meta.current_page;
         },
         methods: {
             addLogentry() {
                 let url = route('conversionfactors.index');
                 this.$inertia.visit(url, {
-                    data:{
-                        'page':this.page
-                    },
+                    data:{},
                     preserveState: true,
                     preserveScroll: true,
                 });
@@ -83,35 +79,33 @@
             handleDateRangeChange(dates) {
                 this.startdate=dates.startdate;
                 this.enddate=dates.enddate;
-                this.refreshPage();
+                this.goToPage(1);
             },
             first() {
-                this.page = 1;
-                this.refreshPage();
+                this.goToPage(1);
             },
             previous() {
-                if(this.page >1){
-                    this.page--;
-                    this.refreshPage();
+                if(this.logentries.meta.current_page >1){
+                    this.goToPage(this.logentries.meta.current_page-1);
                 }
             },
             next() {
-                if (this.page < this.logentries.meta.last_page) {
-                    this.page++;
-                    this.refreshPage();
+                console.log('next');
+                if (this.logentries.meta.current_page < this.logentries.meta.last_page) {
+                    this.goToPage(this.logentries.meta.current_page+1);
                 }
             },
             last() {
-                this.page = this.logentries.meta.last_page;
-                this.refreshPage();
+                this.goToPage(this.logentries.meta.last_page);
             },
-            refreshPage() {
+            goToPage(page) {
                 let url = route('logentries.index');
                 url += `?from=${this.startdate}`;
                 url += `&to=${this.enddate}`;
                 this.$inertia.visit(url, {
+                    method: 'get',
                     data:{
-                        'page':this.page
+                        'page':page
                     },
                     preserveState: true,
                     preserveScroll: true,
@@ -124,7 +118,8 @@
             },
             destroy(logentry) {
                 let url = route('logentries.destroy', logentry.id);
-                this.$inertia.delete(url, {});
+                this.$inertia.delete(url, {
+                });
                 this.resetDateRange();
             },
             handleDateChange(logentry){

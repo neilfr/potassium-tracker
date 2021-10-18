@@ -62,6 +62,7 @@ class IndexController extends Controller
         });
 
         return Inertia::render('Logentries/Index', [
+            'page' => $paginatedLogentries->currentPage(),
             'logentries' => $paginatedLogentries,
             'nutrienttotals'=> [
                 'data' => $nutrientTotals,

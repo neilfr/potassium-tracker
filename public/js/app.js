@@ -18981,46 +18981,38 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      page: Number,
       searchText: String,
       favourite: Boolean
     };
   },
   mounted: function mounted() {
-    this.page = this.conversionfactors.meta.current_page;
     this.searchText = '';
     this.favourite = false;
   },
   methods: {
     first: function first() {
-      this.page = 1;
-      this.refreshPage();
+      this.goToPage(1);
     },
     previous: function previous() {
-      if (this.page > 1) {
-        this.page--;
+      if (this.conversionfactors.meta.current_page > 1) {
+        this.goToPage(this.conversionfactors.meta.current_page - 1);
       }
-
-      this.refreshPage();
     },
     next: function next() {
-      if (this.page < this.conversionfactors.meta.last_page) {
-        this.page++;
+      if (this.conversionfactors.meta.current_page < this.conversionfactors.meta.last_page) {
+        this.goToPage(this.conversionfactors.meta.current_page + 1);
       }
-
-      this.refreshPage();
     },
     last: function last() {
-      this.page = this.conversionfactors.meta.last_page;
-      this.refreshPage();
+      this.goToPage(this.conversionfactors.meta.last_page);
     },
-    refreshPage: function refreshPage() {
+    goToPage: function goToPage(page) {
       var url = route('conversionfactors.index');
       url += "?searchText=".concat(this.searchText);
       url += "&favourite=".concat(this.favourite);
       this.$inertia.visit(url, {
         data: {
-          'page': this.page
+          'page': page
         },
         preserveState: true,
         preserveScroll: true
@@ -19111,22 +19103,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      page: Number,
       startdate: String,
       enddate: String
     };
   },
   mounted: function mounted() {
     this.resetDateRange();
-    this.page = this.logentries.meta.current_page;
   },
   methods: {
     addLogentry: function addLogentry() {
       var url = route('conversionfactors.index');
       this.$inertia.visit(url, {
-        data: {
-          'page': this.page
-        },
+        data: {},
         preserveState: true,
         preserveScroll: true
       });
@@ -19134,35 +19122,34 @@ __webpack_require__.r(__webpack_exports__);
     handleDateRangeChange: function handleDateRangeChange(dates) {
       this.startdate = dates.startdate;
       this.enddate = dates.enddate;
-      this.refreshPage();
+      this.goToPage(1);
     },
     first: function first() {
-      this.page = 1;
-      this.refreshPage();
+      this.goToPage(1);
     },
     previous: function previous() {
-      if (this.page > 1) {
-        this.page--;
-        this.refreshPage();
+      if (this.logentries.meta.current_page > 1) {
+        this.goToPage(this.logentries.meta.current_page - 1);
       }
     },
     next: function next() {
-      if (this.page < this.logentries.meta.last_page) {
-        this.page++;
-        this.refreshPage();
+      console.log('next');
+
+      if (this.logentries.meta.current_page < this.logentries.meta.last_page) {
+        this.goToPage(this.logentries.meta.current_page + 1);
       }
     },
     last: function last() {
-      this.page = this.logentries.meta.last_page;
-      this.refreshPage();
+      this.goToPage(this.logentries.meta.last_page);
     },
-    refreshPage: function refreshPage() {
+    goToPage: function goToPage(page) {
       var url = route('logentries.index');
       url += "?from=".concat(this.startdate);
       url += "&to=".concat(this.enddate);
       this.$inertia.visit(url, {
+        method: 'get',
         data: {
-          'page': this.page
+          'page': page
         },
         preserveState: true,
         preserveScroll: true
@@ -19317,39 +19304,36 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-652030e0");
 
 var _hoisted_1 = {
-  "class": "grid grid-cols-8 grid-rows-2 p-2"
+  "class": "grid grid-cols-12 grid-rows-2 p-2"
 };
 var _hoisted_2 = {
   "class": "border col-span-1 row-span-2"
 };
-
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" favourite here ");
-
+var _hoisted_3 = {
+  "class": "border col-span-10 row-span-2"
+};
 var _hoisted_4 = {
-  "class": "border col-span-6 row-span-2"
+  "class": "border flex justify-between"
 };
 var _hoisted_5 = {
-  "class": "border"
-};
-var _hoisted_6 = {
-  "class": "border grid grid-cols-6"
-};
-var _hoisted_7 = {
   "class": "col-span-2"
 };
 
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Quantity: ", -1
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Quantity: ", -1
 /* HOISTED */
 );
 
-var _hoisted_9 = {
-  "class": "col-span-2"
+var _hoisted_7 = {
+  "class": "border grid grid-cols-6"
 };
-var _hoisted_10 = {
-  "class": "border col-span-1 row-span-2"
+var _hoisted_8 = {
+  "class": "col-span-3"
+};
+var _hoisted_9 = {
+  "class": "border col-span-1 row-span-2 flex"
 };
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Log");
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Log");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -19358,7 +19342,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "checkbox",
     checked: $data.favourite,
     onChange: _cache[1] || (_cache[1] = function () {
@@ -19366,17 +19350,16 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     })
   }, null, 40
   /* PROPS, HYDRATE_EVENTS */
-  , ["checked"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
-    "class": "col-span-6",
+  , ["checked"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
     value: $props.conversionfactor.FoodDescription
   }, null, 8
   /* PROPS */
-  , ["value"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
+  , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
     value: $props.conversionfactor.MeasureDescription
   }, null, 8
   /* PROPS */
-  , ["value"])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.conversionfactor.nutrients, function (nutrient) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ": ", 1
+  , ["value"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.conversionfactor.nutrients, function (nutrient) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ": ", 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
       value: Math.round(nutrient.NutrientAmount)
@@ -19387,11 +19370,12 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     )]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+    "class": "ml-2 self-center",
     onClick: $options.log
   }, {
     "default": _withId(function () {
-      return [_hoisted_11];
+      return [_hoisted_10];
     }),
     _: 1
     /* STABLE */

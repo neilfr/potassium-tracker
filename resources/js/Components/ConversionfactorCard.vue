@@ -1,27 +1,26 @@
 <template>
-    <div class="grid grid-cols-8 grid-rows-2 p-2">
+    <div class="grid grid-cols-12 grid-rows-2 p-2">
         <div class="border col-span-1 row-span-2">
-            favourite here
             <input type="checkbox" :checked="favourite" @change="emitToggleFavourite">
         </div>
-        <div class="border col-span-6 row-span-2">
-            <div class="border">
-                <string-text class="col-span-6" :value="conversionfactor.FoodDescription"/>
-            </div>
-            <div class="border grid grid-cols-6">
+        <div class="border col-span-10 row-span-2">
+            <div class="border flex justify-between">
+                <string-text :value="conversionfactor.FoodDescription"/>
                 <span class="col-span-2">
                     <span>Quantity: </span>
                     <string-text :value="conversionfactor.MeasureDescription"/>
                 </span>
-                <span class="col-span-2" v-for="nutrient in conversionfactor.nutrients">
+            </div>
+            <div class="border grid grid-cols-6">
+                <span class="col-span-3" v-for="nutrient in conversionfactor.nutrients">
                     <span>{{nutrient.NutrientSymbol}}: </span>
                     <string-text :value="Math.round(nutrient.NutrientAmount)"/>
                     <span>{{nutrient.NutrientUnit}}</span>
                 </span>
             </div>
         </div>
-        <div class="border col-span-1 row-span-2">
-            <Button @click="log">Log</Button>
+        <div class="border col-span-1 row-span-2 flex">
+            <Button class="ml-2 self-center" @click="log">Log</Button>
         </div>
     </div>
 </template>

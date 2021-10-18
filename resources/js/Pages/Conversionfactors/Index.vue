@@ -56,44 +56,38 @@
         },
         data(){
             return {
-                page: Number,
                 searchText: String,
                 favourite: Boolean,
             }
         },
         mounted() {
-            this.page = this.conversionfactors.meta.current_page;
             this.searchText = '';
             this.favourite = false;
         },
         methods: {
             first() {
-                this.page = 1;
-                this.refreshPage();
+                this.goToPage(1);
             },
             previous() {
-                if(this.page >1){
-                    this.page--;
+                if(this.conversionfactors.meta.current_page >1){
+                    this.goToPage(this.conversionfactors.meta.current_page - 1);
                 }
-                this.refreshPage();
             },
             next() {
-                if (this.page < this.conversionfactors.meta.last_page) {
-                    this.page++;
+                if (this.conversionfactors.meta.current_page < this.conversionfactors.meta.last_page) {
+                    this.goToPage(this.conversionfactors.meta.current_page + 1);
                 }
-                this.refreshPage();
             },
             last() {
-                this.page = this.conversionfactors.meta.last_page;
-                this.refreshPage();
+                this.goToPage(this.conversionfactors.meta.last_page);
             },
-            refreshPage() {
+            goToPage(page) {
                 let url = route('conversionfactors.index');
                 url += `?searchText=${this.searchText}`;
                 url += `&favourite=${this.favourite}`;
                 this.$inertia.visit(url, {
                     data:{
-                        'page':this.page,
+                        'page':page,
                     },
                     preserveState: true,
                     preserveScroll: true,
