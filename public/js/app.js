@@ -18109,20 +18109,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ConversionfactorHeader",
-  props: {},
-  emits: ['search', 'favourite'],
+  props: {
+    favouriteFilter: Boolean
+  },
+  emits: ['search', 'toggledFavourite'],
   data: function data() {
     return {
-      searchText: '',
-      favourite: true
+      searchText: ''
     };
   },
   methods: {
     updateSearchText: function updateSearchText() {
       this.$emit('search', this.searchText);
     },
-    updateFavourite: function updateFavourite() {
-      this.$emit('favourite', this.favourite);
+    toggleFavourite: function toggleFavourite() {
+      console.log('togglefavourite', this.favouriteState);
+      this.$emit('toggledFavourite', this.favouriteState);
     }
   }
 });
@@ -18982,12 +18984,15 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       searchText: String,
-      favourite: Boolean
+      favouriteFilter: {
+        type: Boolean,
+        "default": true
+      }
     };
   },
   mounted: function mounted() {
     this.searchText = '';
-    this.favourite = false;
+    console.log('mounted', this.favouriteFilter);
   },
   methods: {
     first: function first() {
@@ -19009,7 +19014,7 @@ __webpack_require__.r(__webpack_exports__);
     goToPage: function goToPage(page) {
       var url = route('conversionfactors.index');
       url += "?searchText=".concat(this.searchText);
-      url += "&favourite=".concat(this.favourite);
+      url += "&favourite=".concat(this.favouriteFilter);
       this.$inertia.visit(url, {
         data: {
           'page': page
@@ -19022,8 +19027,8 @@ __webpack_require__.r(__webpack_exports__);
       this.searchText = searchText;
       this.first();
     },
-    handleFavouriteFilter: function handleFavouriteFilter(favourite) {
-      this.favourite = favourite;
+    handleFavouriteFilter: function handleFavouriteFilter() {
+      this.favouriteFilter = !this.favouriteFilter;
       this.first();
     },
     addConversionFactor: function addConversionFactor() {
@@ -19113,7 +19118,10 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     addLogentry: function addLogentry() {
       var url = route('conversionfactors.index');
+      url += "?searchText=";
+      url += "&favourite=true";
       this.$inertia.visit(url, {
+        method: 'get',
         data: {},
         preserveState: true,
         preserveScroll: true
@@ -19429,18 +19437,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchText]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchText]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "checkbox",
     id: "favourite",
     onChange: _cache[3] || (_cache[3] = function () {
-      return $options.updateFavourite && $options.updateFavourite.apply($options, arguments);
+      return $options.toggleFavourite && $options.toggleFavourite.apply($options, arguments);
     }),
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-      return $data.favourite = $event;
-    })
-  }, null, 544
-  /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.favourite]])])]);
+    checked: $props.favouriteFilter
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , ["checked"])])]);
 }
 
 /***/ }),
@@ -21219,10 +21225,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_conversionfactor_header, {
         onSearch: $options.handleSearch,
-        onFavourite: $options.handleFavouriteFilter
+        onToggledFavourite: $options.handleFavouriteFilter,
+        favouriteFilter: $data.favouriteFilter
       }, null, 8
       /* PROPS */
-      , ["onSearch", "onFavourite"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+      , ["onSearch", "onToggledFavourite", "favouriteFilter"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
         "class": "mt-2 ml-2",
         onClick: $options.addConversionFactor
       }, {

@@ -11,7 +11,8 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <conversionfactor-header
                         @search="handleSearch"
-                        @favourite="handleFavouriteFilter"
+                        @toggledFavourite="handleFavouriteFilter"
+                        :favouriteFilter="favouriteFilter"
                     />
                     <Button class="mt-2 ml-2" @click="addConversionFactor">Add Food</Button>
                     <div class="p-6 bg-white border-b border-gray-200">
@@ -57,12 +58,15 @@
         data(){
             return {
                 searchText: String,
-                favourite: Boolean,
+                favouriteFilter: {
+                    type: Boolean,
+                    default: true,
+                },
             }
         },
         mounted() {
             this.searchText = '';
-            this.favourite = false;
+            console.log('mounted', this.favouriteFilter);
         },
         methods: {
             first() {
@@ -84,7 +88,7 @@
             goToPage(page) {
                 let url = route('conversionfactors.index');
                 url += `?searchText=${this.searchText}`;
-                url += `&favourite=${this.favourite}`;
+                url += `&favourite=${this.favouriteFilter}`;
                 this.$inertia.visit(url, {
                     data:{
                         'page':page,
@@ -97,8 +101,8 @@
                 this.searchText=searchText;
                 this.first();
             },
-            handleFavouriteFilter(favourite){
-                this.favourite=favourite;
+            handleFavouriteFilter(){
+                this.favouriteFilter=!this.favouriteFilter;
                 this.first();
             },
             addConversionFactor(){

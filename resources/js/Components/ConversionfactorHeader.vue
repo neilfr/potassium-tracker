@@ -6,7 +6,7 @@
         </span>
         <span>
             <label for="favourite">Favourite:</label>
-            <input type="checkbox" id="favourite" @change="updateFavourite" v-model="favourite"/>
+            <input type="checkbox" id="favourite" @change="toggleFavourite" :checked="favouriteFilter"/>
         </span>
     </div>
 </template>
@@ -14,23 +14,25 @@
 <script>
     export default {
         name: "ConversionfactorHeader",
-        props: {},
+        props: {
+            favouriteFilter: Boolean,
+        },
         emits: [
             'search',
-            'favourite',
+            'toggledFavourite',
         ],
         data(){
             return {
                 searchText: '',
-                favourite: true,
             }
         },
         methods:{
             updateSearchText(){
                 this.$emit('search', this.searchText);
             },
-            updateFavourite(){
-                this.$emit('favourite', this.favourite)
+            toggleFavourite(){
+                console.log('togglefavourite', this.favouriteState);
+                this.$emit('toggledFavourite', this.favouriteState);
             }
         }
     }

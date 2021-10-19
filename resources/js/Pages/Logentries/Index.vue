@@ -70,7 +70,10 @@
         methods: {
             addLogentry() {
                 let url = route('conversionfactors.index');
+                url += `?searchText=`;
+                url += `&favourite=true`;
                 this.$inertia.visit(url, {
+                    method:'get',
                     data:{},
                     preserveState: true,
                     preserveScroll: true,

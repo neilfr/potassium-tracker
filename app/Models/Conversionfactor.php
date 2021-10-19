@@ -51,7 +51,7 @@ class Conversionfactor extends Pivot
 
     public function scopeFavourite(Builder $query, $favourite)
     {
-        if ($favourite!='true') {
+        if ($favourite==='false') {
             return $query;
         }
 
@@ -60,19 +60,6 @@ class Conversionfactor extends Pivot
             ->favourites()->pluck('ConversionFactorID');
         $query->whereIn('id', $favouriteIds);
         return $query;
-    }
-
-    public function scopeFavouritesFilter(Builder $query, $favouritesFilter)
-    {
-        if (is_null($favouritesFilter) || $favouritesFilter==="no") {
-            return $query;
-        }
-        if ($favouritesFilter==="yes") {
-            $favouriteIds = User::find(auth()
-                ->user()->id)
-                ->favourites()->pluck('food_id');
-            $query->whereIn('id', $favouriteIds);
-        }
     }
 
     public function scopeForAuthUser(Builder $query)
