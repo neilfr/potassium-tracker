@@ -37,6 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/conversionfactors/create', App\Http\Controllers\Conversionfactor\CreateController::class)->name('conversionfactors.create');
     Route::post('/conversionfactors', App\Http\Controllers\Conversionfactor\StoreController::class)->name('conversionfactors.store');
     Route::post('/conversionfactors/{conversionfactor}/toggle-favourite', App\Http\Controllers\Conversionfactor\ToggleFavouriteController::class)->name('conversionfactors.toggle-favourite');
+    Route::delete('/conversionfactors/destroy/{conversionfactor}', App\Http\Controllers\Conversionfactor\DestroyController::class)->name('conversionfactors.destroy');
     Route::get('/logentries', App\Http\Controllers\Logentry\IndexController::class)->name('logentries.index');
     Route::post('/logentries/store', App\Http\Controllers\Logentry\StoreController::class)->name('logentries.store');
     Route::patch('/logentries/update/{logentry}', App\Http\Controllers\Logentry\UpdateController::class)->name('logentries.update');

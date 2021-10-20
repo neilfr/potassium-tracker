@@ -24,7 +24,6 @@ class ToggleFavouriteController extends Controller
         } else {
             $user->favourites()->attach($conversionfactor);
         };
-//        return redirect()->back();
         return redirect()->route('conversionfactors.index');
 
     }
