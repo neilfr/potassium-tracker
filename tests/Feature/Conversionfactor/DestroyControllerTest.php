@@ -5,6 +5,7 @@ namespace Tests\Feature\Conversionfactor;
 use App\Models\Conversionfactor;
 use App\Models\Foodgroup;
 use App\Models\Foodname;
+use App\Models\Logentry;
 use App\Models\Measurename;
 use App\Models\Nutrientname;
 use App\Models\User;
@@ -101,6 +102,33 @@ class DestroyControllerTest extends TestCase
                 'NutrientID' => $nutrient->NutrientID,
             ]);
         });
+    }
+
+    /** @test */
+    public function it_only_deletes_conversionfactors_if_they_do_not_have_corresponding_logentries()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::factory()->create();
+
+        $nutrients = $this->createNutrients();
+        $conversionfactorData = $this->createConversionFactor($nutrients, $user->id);
+
+        $conversionfactor = Conversionfactor::find($conversionfactorData[0]['ConversionFactorID']);
+
+        $logentry = Logentry::factory()->create([
+            'UserID' => $user->id,
+            'ConversionFactorID' => $conversionfactor->id,
+            'ConsumedAt' => now()->toDateString(),
+        ]);
+
+        $response = $this->actingAs($user)->delete(route('conversionfactors.destroy', $conversionfactor))
+            ->assertSuccessful();
+
+        $this->assertDatabaseHas('conversionfactors', [
+            'id' => $conversionfactor->id,
+        ]);
+
     }
 
     public function createConversionFactor($nutrients, $owner_id, $count = 1)
