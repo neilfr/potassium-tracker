@@ -5,7 +5,6 @@ namespace Tests\Feature\Conversionfactor;
 use App\Models\Conversionfactor;
 use App\Models\Foodgroup;
 use App\Models\Foodname;
-use App\Models\Logentry;
 use App\Models\Measurename;
 use App\Models\Nutrientname;
 use App\Models\User;
@@ -13,12 +12,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class DestroyControllerTest extends TestCase
+class UpdateControllerTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_delete_a_conversionfactor()
+    public function it_can_update_a_conversionfactor_foodname_description()
     {
         $user = User::factory()->create();
 
@@ -27,45 +26,32 @@ class DestroyControllerTest extends TestCase
 
         $conversionfactor = Conversionfactor::find($conversionfactorData[0]['ConversionFactorID']);
 
-        $this->assertDatabaseHas('conversionfactors', [
-            'id' => $conversionfactor->id,
+        $this->assertDatabaseHas('foodnames', [
+            'FoodDescription' => $conversionfactor->foodname->FoodDescription,
         ]);
 
-        $response = $this->actingAs($user)->delete(route('conversionfactors.destroy', $conversionfactor))
+        $payload = [
+          'FoodDescription' => 'New Description'
+        ];
+
+        $this->assertDatabaseMissing('foodnames', [
+            'FoodDescription' => $payload['FoodDescription'],
+        ]);
+
+        $response = $this->actingAs($user)->patch(route('conversionfactors.update', $conversionfactor), $payload)
             ->assertSuccessful();
 
-        $this->assertDatabaseMissing('conversionfactors', [
-            'id' => $conversionfactor->id,
+        $this->assertDatabaseHas('foodnames', [
+            'FoodDescription' => $payload['FoodDescription'],
         ]);
 
+        $this->assertDatabaseMissing('foodnames', [
+            'FoodDescription' => $conversionfactor->foodname->FoodDescription,
+        ]);
     }
 
     /** @test */
-    public function it_cannot_delete_a_conversionfactor_the_user_does_not_own()
-    {
-        $user = User::factory()->create();
-        $anotherUser = User::factory()->create();
-
-        $nutrients = $this->createNutrients();
-        $conversionfactorData = $this->createConversionFactor($nutrients, $anotherUser->id);
-
-        $conversionfactor = Conversionfactor::find($conversionfactorData[0]['ConversionFactorID']);
-
-        $this->assertDatabaseHas('conversionfactors', [
-            'id' => $conversionfactor->id,
-        ]);
-
-        $response = $this->actingAs($user)->delete(route('conversionfactors.destroy', $conversionfactor))
-            ->assertSuccessful();
-
-        $this->assertDatabaseHas('conversionfactors', [
-            'id' => $conversionfactor->id,
-        ]);
-
-    }
-
-    /** @test */
-    public function it_deletes_related_foodname_measurename_and_nutrientamounts()
+    public function it_can_update_a_conversionfactor_measurename_description()
     {
         $user = User::factory()->create();
 
@@ -75,58 +61,72 @@ class DestroyControllerTest extends TestCase
         $conversionfactor = Conversionfactor::find($conversionfactorData[0]['ConversionFactorID']);
 
         $this->assertDatabaseHas('measurenames', [
-            'MeasureID' => $conversionfactor->measurename->MeasureID
+            'MeasureDescription' => $conversionfactor->measurename->MeasureDescription,
         ]);
-        $this->assertDatabaseHas('foodnames', [
-           'FoodID' => $conversionfactor->foodname->FoodID
-        ]);
-        $conversionfactor->foodname->nutrientnames->each(function ($nutrient) use($conversionfactor) {
-            $this->assertDatabaseHas('nutrientamounts', [
-                'FoodID' =>  $conversionfactor->foodname->FoodID,
-                'NutrientID' => $nutrient->NutrientID,
-            ]);
-        });
 
-        $response = $this->actingAs($user)->delete(route('conversionfactors.destroy', $conversionfactor))
-            ->assertSuccessful();
+        $payload = [
+            'MeasureDescription' => 'New Description'
+        ];
 
         $this->assertDatabaseMissing('measurenames', [
-            'MeasureID' => $conversionfactor->measurename->MeasureID
+            'MeasureDescription' => $payload['MeasureDescription'],
         ]);
-        $this->assertDatabaseMissing('foodnames', [
-            'FoodID' => $conversionfactor->foodname->FoodID
+
+        $response = $this->actingAs($user)->patch(route('conversionfactors.update', $conversionfactor), $payload)
+            ->assertSuccessful();
+
+        $this->assertDatabaseHas('measurenames', [
+            'MeasureDescription' => $payload['MeasureDescription'],
         ]);
-        $conversionfactor->foodname->nutrientnames->each(function ($nutrient) use($conversionfactor) {
-            $this->assertDatabaseMissing('nutrientamounts', [
-                'FoodID' =>  $conversionfactor->foodname->FoodID,
-                'NutrientID' => $nutrient->NutrientID,
-            ]);
-        });
+
+        $this->assertDatabaseMissing('measurenames', [
+            'MeasureDescription' => $conversionfactor->measurename->MeasureDescription,
+        ]);
     }
 
+
     /** @test */
-    public function it_only_deletes_conversionfactors_if_they_do_not_have_corresponding_logentries()
+    public function it_can_update_conversionfactor_nutrient_amounts()
     {
         $user = User::factory()->create();
 
         $nutrients = $this->createNutrients();
         $conversionfactorData = $this->createConversionFactor($nutrients, $user->id);
-
         $conversionfactor = Conversionfactor::find($conversionfactorData[0]['ConversionFactorID']);
 
-        $logentry = Logentry::factory()->create([
-            'UserID' => $user->id,
-            'ConversionFactorID' => $conversionfactor->id,
-            'ConsumedAt' => now()->toDateString(),
+        $this->assertDatabaseHas('nutrientamounts', [
+            'FoodID' => $conversionfactorData[0]['Foodname']->FoodID,
+            'NutrientID' => $conversionfactorData[0]['NutrientData'][0]['NutrientID'],
+            'NutrientValue' => $conversionfactorData[0]['NutrientData'][0]['nutrient_value'],
         ]);
 
-        $response = $this->actingAs($user)->delete(route('conversionfactors.destroy', $conversionfactor))
+        $payload = [
+            'nutrients' => [
+                [
+                    'NutrientID' => $conversionfactorData[0]['NutrientData'][0]['NutrientID'],
+                    'NutrientValue' => '99',
+                ],
+                [
+                    'NutrientID' => $conversionfactorData[0]['NutrientData'][1]['NutrientID'],
+                    'NutrientValue' => '11',
+                ]
+            ]
+        ];
+
+        $response = $this->actingAs($user)->patch(route('conversionfactors.update', $conversionfactor), $payload)
             ->assertSuccessful();
 
-        $this->assertDatabaseHas('conversionfactors', [
-            'id' => $conversionfactor->id,
+        $this->assertDatabaseHas('nutrientamounts', [
+            'FoodID' => $conversionfactorData[0]['Foodname']->FoodID,
+            'NutrientID' => $conversionfactorData[0]['NutrientData'][0]['NutrientID'],
+            'NutrientValue' => 99,
         ]);
 
+        $this->assertDatabaseHas('nutrientamounts', [
+            'FoodID' => $conversionfactorData[0]['Foodname']->FoodID,
+            'NutrientID' => $conversionfactorData[0]['NutrientData'][1]['NutrientID'],
+            'NutrientValue' => 11,
+        ]);
     }
 
     public function createConversionFactor($nutrients, $owner_id, $count = 1)

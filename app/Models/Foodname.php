@@ -11,6 +11,10 @@ class Foodname extends Model
 
     protected $primaryKey = 'FoodID';
 
+    protected $fillable = [
+        'FoodDescription',
+    ];
+
     protected $with = ['nutrientnames'];
 
     public function foodgroup(){

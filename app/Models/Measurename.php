@@ -11,6 +11,10 @@ class Measurename extends Model
 
     protected $primaryKey = 'MeasureID';
 
+    protected $fillable = [
+        'MeasureDescription',
+    ];
+
     public function foodnames(){
         return $this->belongsToMany(Foodname::class, 'conversionfactors', 'MeasureID', 'FoodID')
             ->withPivot('ConversionFactorValue');

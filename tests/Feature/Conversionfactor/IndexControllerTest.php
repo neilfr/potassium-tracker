@@ -3,6 +3,7 @@
 namespace Tests\Feature\Conversionfactor;
 
 use App\Models\Conversionfactor;
+use App\Models\Favourite;
 use App\Models\Foodgroup;
 use App\Models\Foodname;
 use App\Models\Measurename;
@@ -18,63 +19,33 @@ class IndexControllerTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_return_conversionfactor_table_rows_with_foodname_and_measurename_for_each_foodnames_measurename()
+    public function it_returns_favourite_conversionfactors_by_default_with_foodname_and_measurename_for_each_foodnames_measurename()
     {
         $user = User::factory()->create();
-        $foodgroup = Foodgroup::factory()->create([
-            'FoodGroupID' => 5
-        ]);
-        $foodname = Foodname::factory()->create([
-            'FoodID' => 7,
-            'FoodGroupID' => $foodgroup->FoodGroupID,
-        ]);
-        $measurenames = Measurename::factory()->count(2)->create();
-        $conversionFactorValues = [1.5, 2.5];
-        $measurenames->each(function ($measurename, $index) use ($foodname, $conversionFactorValues) {
-            $foodname->measurenames()->attach(
-                $measurename,
-                [
-                    'ConversionFactorValue' => $conversionFactorValues[$index],
-                ]
-            );
+        $nutrients = $this->createNutrients();
+        $conversionfactorData = $this->createConversionFactor($nutrients, $user->id, 2);
+
+        collect($conversionfactorData)->each(function($conversionfactordataitem) use($user) {
+            Favourite::factory()->create([
+                'ConversionFactorID' => $conversionfactordataitem['ConversionFactorID'],
+                'user_id' => $user->id,
+            ]);
         });
-
-        $potassium = Nutrientname::factory()->create([
-            'NutrientID' => 306,
-            'NutrientName' => 'POTASSIUM',
-            'NutrientSymbol' => 'K',
-            'NutrientUnit' => 'mg',
-        ]);
-        $kcal = Nutrientname::factory()->create([
-            'NutrientID' => 208,
-            'NutrientName' => 'ENERGY (KILOCALORIES)',
-            'NutrientSymbol' => 'KCAL',
-            'NutrientUnit' => 'kCal',
-        ]);
-
-        $potassiumValue = 100;
-        $foodname->nutrientnames()->attach($potassium, [
-            'NutrientValue' => $potassiumValue
-        ]);
-        $kcalValue = 150;
-        $foodname->nutrientnames()->attach($kcal, [
-            'NutrientValue' => $kcalValue
-        ]);
 
         $response = $this->actingAs($user)->get(route('conversionfactors.index'))
             ->assertSuccessful();
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
-        $conversionfactorsResponseData = collect($responseData['conversionfactors']['data']);
 
-        $this->assertCount(count($foodname->nutrientnames()->get()), $conversionfactorsResponseData);
-        $conversionfactorsResponseData->each(function ($conversionfactor, $index) use ($foodname, $measurenames, $conversionFactorValues, $potassium, $potassiumValue) {
-            $this->assertEquals($foodname->FoodID, $conversionfactor['FoodID']);
-            $this->assertEquals($foodname->FoodGroupID, $conversionfactor['FoodGroupID']);
-            $this->assertEquals($foodname->FoodCode, $conversionfactor['FoodCode']);
-            $this->assertEquals($foodname->FoodDescription, $conversionfactor['FoodDescription']);
-            $this->assertEquals($measurenames[$index]->MeasureDescription, $conversionfactor['MeasureDescription']);
-            $this->assertEquals($conversionFactorValues[$index], $conversionfactor['ConversionFactorValue']);
-            $this->assertArrayHasKey('nutrients', $conversionfactor);
+        $this->assertCount(count($conversionfactorData), $responseData['conversionfactors']['data']);
+
+        collect($responseData['conversionfactors']['data'])->each(function ($conversionfactorresponse, $index) use ($conversionfactorData) {
+            $this->assertEquals($conversionfactorresponse['FoodID'], $conversionfactorData[$index]['Foodname']->FoodID);
+            $this->assertEquals($conversionfactorresponse['FoodGroupID'], $conversionfactorData[$index]['Foodgroup']->FoodGroupID);
+            $this->assertEquals($conversionfactorresponse['FoodCode'], $conversionfactorData[$index]['Foodname']->FoodCode);
+            $this->assertEquals($conversionfactorresponse['FoodDescription'], $conversionfactorData[$index]['Foodname']->FoodDescription);
+            $this->assertEquals($conversionfactorresponse['MeasureDescription'], $conversionfactorData[$index]['Measurename']->MeasureDescription);
+            $this->assertEquals($conversionfactorresponse['ConversionFactorValue'], $conversionfactorData[$index]['ConversionFactorValue']);
+            $this->assertArrayHasKey('nutrients', $conversionfactorresponse);
         });
     }
 
@@ -97,6 +68,11 @@ class IndexControllerTest extends TestCase
                 'ConversionFactorValue' => $conversionFactorValue,
             ]
         );
+
+        Favourite::factory()->create([
+            'ConversionFactorID' => Conversionfactor::first()->id,
+            'user_id' => $user->id,
+        ]);
 
         $nutrientsConfig = collect(explode(',',env('NUTRIENTS')));
 
@@ -143,10 +119,9 @@ class IndexControllerTest extends TestCase
 
         $user->favourites()->attach(Conversionfactor::find($conversionFactorData[0]['ConversionFactorID']));
 
-        $response = $this->actingAs($user)->get(route('conversionfactors.index'))
+        $response = $this->actingAs($user)->get(route('conversionfactors.index', ['favourite' => 'false']))
             ->assertSuccessful();
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
-
         $this->assertArrayHasKey('Favourite', $responseData['conversionfactors']['data'][0]);
         $this->assertEquals(true, $responseData['conversionfactors']['data'][0]['Favourite']);
         $this->assertArrayHasKey('Favourite', $responseData['conversionfactors']['data'][1]);
@@ -157,7 +132,6 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function it_returns_shared_and_owners_conversionfactors_only()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $anotherUser = User::factory()->create();
 
@@ -167,7 +141,7 @@ class IndexControllerTest extends TestCase
         $usersConversionFactor = $this->createConversionFactor($nutrients, $user->id, 1);
         $anotherUsersConversionFactor = $this->createConversionFactor($nutrients, $anotherUser->id, 1);
 
-        $response = $this->actingAs($user)->get(route('conversionfactors.index'))
+        $response = $this->actingAs($user)->get(route('conversionfactors.index',  ['favourite' => 'false']))
             ->assertSuccessful();
 
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
