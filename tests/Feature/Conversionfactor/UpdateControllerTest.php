@@ -88,12 +88,10 @@ class UpdateControllerTest extends TestCase
     /** @test */
     public function it_can_update_conversionfactor_nutrient_amounts()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $nutrients = $this->createNutrients();
         $conversionfactorData = $this->createConversionFactor($nutrients, $user->id);
-//        dd($conversionfactorData);
         $conversionfactor = Conversionfactor::find($conversionfactorData[0]['ConversionFactorID']);
 
         $this->assertDatabaseHas('nutrientamounts', [
@@ -116,7 +114,7 @@ class UpdateControllerTest extends TestCase
         ];
 
         $response = $this->actingAs($user)->patch(route('conversionfactors.update', $conversionfactor), $payload)
-            ->assertSuccessful();
+            ->assertRedirect();
 
         $this->assertDatabaseHas('nutrientamounts', [
             'FoodID' => $conversionfactorData[0]['Foodname']->FoodID,

@@ -37,5 +37,7 @@ class UpdateController extends Controller
                 ]);
             });
         }
+
+        return redirect()->route('conversionfactors.index');
     }
 }
