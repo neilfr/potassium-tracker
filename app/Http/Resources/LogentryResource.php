@@ -14,10 +14,6 @@ class LogentryResource extends JsonResource
      */
     public function toArray($request)
     {
-//        $nutrientNames = $this->conversionfactor->foodname->nutrientnames;
-//        $potassium = $nutrientNames->firstWhere('NutrientID', 306);
-//        $kcal = $nutrientNames->firstWhere('NutrientID', 208);
-
         return [
             'id' => $this->id,
             'UserID' => $this->UserID,

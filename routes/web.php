@@ -39,6 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/conversionfactors/{conversionfactor}/toggle-favourite', App\Http\Controllers\Conversionfactor\ToggleFavouriteController::class)->name('conversionfactors.toggle-favourite');
     Route::delete('/conversionfactors/destroy/{conversionfactor}', App\Http\Controllers\Conversionfactor\DestroyController::class)->name('conversionfactors.destroy');
     Route::patch('/conversionfactors/update/{conversionfactor}', App\Http\Controllers\Conversionfactor\UpdateController::class)->name('conversionfactors.update');
+    Route::get('/conversionfactors/edit/{conversionfactor}', App\Http\Controllers\Conversionfactor\EditController::class)->name('conversionfactors.edit');
     Route::get('/logentries', App\Http\Controllers\Logentry\IndexController::class)->name('logentries.index');
     Route::post('/logentries/store', App\Http\Controllers\Logentry\StoreController::class)->name('logentries.store');
     Route::patch('/logentries/update/{logentry}', App\Http\Controllers\Logentry\UpdateController::class)->name('logentries.update');

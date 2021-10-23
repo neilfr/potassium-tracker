@@ -3,7 +3,7 @@
         <div class="border col-span-1 row-span-2">
             <input type="checkbox" :checked="favourite" @change="emitToggleFavourite">
         </div>
-        <div class="border col-span-10 row-span-2">
+        <div class="border col-span-9 row-span-2">
             <div class="border flex justify-between">
                 <string-text :value="conversionfactor.FoodDescription"/>
                 <span class="col-span-2">
@@ -19,8 +19,9 @@
                 </span>
             </div>
         </div>
-        <div class="border col-span-1 row-span-2 flex">
+        <div class="border col-span-2 row-span-2 flex">
             <Button class="ml-2 self-center" @click="log">Log</Button>
+            <Button class="ml-2 self-center" @click="edit">Edit</Button>
         </div>
     </div>
 </template>
@@ -55,7 +56,7 @@
                 this.favourite = !this.favourite;
                 this.$emit('toggle-favourite', {
                     'conversionfactor': this.conversionfactor
-                })
+                });
             },
             log(){
                 let url = route('logentries.store');
@@ -65,7 +66,13 @@
                         'id':this.conversionfactor.id
                     },
                 });
+            },
+            edit(){
+                this.$emit('edit', {
+                    'conversionfactor': this.conversionfactor
+                });
             }
+
         }
     }
 </script>

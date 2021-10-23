@@ -22,6 +22,7 @@
                             :key="conversionfactor.id"
                             :conversionfactor="conversionfactor"
                             @toggle-favourite="handleToggleFavourite"
+                            @edit="handleEditConversionfactor"
                         />
                     </div>
                     <paginator
@@ -112,11 +113,22 @@
                     data:{},
                 });
             },
-            handleToggleFavourite($conversionfactor){
-                let url = route('conversionfactors.toggle-favourite', $conversionfactor);
+            handleToggleFavourite(conversionfactor){
+                let url = route('conversionfactors.toggle-favourite', conversionfactor);
                 this.$inertia.visit(url,
                     {
                         method: 'post',
+                        data:{},
+                        preserveState: true,
+                        preserveScroll: true,
+                    });
+            },
+            handleEditConversionfactor(conversionfactor){
+                console.log('edit!', conversionfactor);
+                let url = route('conversionfactors.edit', conversionfactor);
+                this.$inertia.visit(url,
+                    {
+                        method: 'get',
                         data:{},
                         preserveState: true,
                         preserveScroll: true,
