@@ -18983,17 +18983,15 @@ __webpack_require__.r(__webpack_exports__);
       foodDescription: String,
       foodGroupId: Number,
       measureDescription: String,
-      kcal: Number,
-      k: Number
+      nutrients: Array
     };
   },
   mounted: function mounted() {
     this.foodDescription = this.conversionfactor.data.FoodDescription;
     this.foodGroupId = this.conversionfactor.data.FoodGroupID;
     this.measureDescription = this.conversionfactor.data.MeasureDescription;
-    console.log(this.conversionfactor.data.nutrients);
-    this.kcal = 0;
-    this.k = 0;
+    this.nutrients = this.conversionfactor.data.nutrients;
+    console.log(this.nutrients);
   },
   methods: {
     handleCancel: function handleCancel() {
@@ -19005,17 +19003,16 @@ __webpack_require__.r(__webpack_exports__);
       console.log('foodDescription', this.foodDescription);
       console.log('foodGroupId', this.foodGroupId);
       console.log('measureDescription', this.measureDescription);
-      console.log('k', this.k);
-      console.log('kcal', this.kcal);
-      var url = route('conversionfactors.store');
+      console.log('nutrients', this.nutrients);
+      console.log('conversionfactor', this.conversionfactor);
+      var url = route('conversionfactors.update', this.conversionfactor.data.id);
       this.$inertia.visit(url, {
-        method: 'post',
+        method: 'patch',
         data: {
           'foodDescription': this.foodDescription,
           'foodGroupId': this.foodGroupId,
           'measureDescription': this.measureDescription,
-          'k': this.k,
-          'kcal': this.kcal
+          'nutrients': this.nutrients
         }
       });
     }
@@ -21351,43 +21348,27 @@ var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 var _hoisted_15 = {
   "class": "w-5/6"
 };
-var _hoisted_16 = {
-  "class": "flex items-center mt-2 ml-2"
-};
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "w-1/6"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "kcal"
-}, "KCal:")], -1
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", null, "Nutrients", -1
 /* HOISTED */
 );
 
+var _hoisted_17 = {
+  "class": "flex items-center mt-2 ml-2"
+};
 var _hoisted_18 = {
-  "class": "w-5/6"
+  "class": "w-1/6"
 };
 var _hoisted_19 = {
-  "class": "flex items-center mt-2 ml-2"
-};
-
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "w-1/6"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "for": "k"
-}, "K:")], -1
-/* HOISTED */
-);
-
-var _hoisted_21 = {
   "class": "w-5/6"
 };
-var _hoisted_22 = {
+var _hoisted_20 = {
   "class": "m-2"
 };
 
-var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Save");
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Save");
 
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cancel");
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cancel");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
@@ -21421,28 +21402,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         })
       }, null, 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.measureDescription]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-        type: "text",
-        id: "kcal",
-        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-          return $data.kcal = $event;
-        })
-      }, null, 512
-      /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.kcal]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-        type: "text",
-        id: "k",
-        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-          return $data.k = $event;
-        })
-      }, null, 512
-      /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.k]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.measureDescription]])])]), _hoisted_16, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.nutrients, function (nutrient) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ":", 1
+        /* TEXT */
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+          type: "number",
+          id: "kcal",
+          "onUpdate:modelValue": function onUpdateModelValue($event) {
+            return nutrient.NutrientAmount = $event;
+          }
+        }, null, 8
+        /* PROPS */
+        , ["onUpdate:modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, nutrient.NutrientAmount]])])]);
+      }), 256
+      /* UNKEYED_FRAGMENT */
+      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
         "class": "m-2",
         onClick: $options.handleSave
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_23];
+          return [_hoisted_21];
         }),
         _: 1
         /* STABLE */
@@ -21454,7 +21433,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $options.handleCancel
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_24];
+          return [_hoisted_22];
         }),
         _: 1
         /* STABLE */

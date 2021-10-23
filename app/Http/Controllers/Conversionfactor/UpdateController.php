@@ -27,11 +27,13 @@ class UpdateController extends Controller
         if(isset($request->nutrients))
         {
             collect($request->nutrients)->each(function ($nutrient) use($conversionfactor) {
+                $newValue = $nutrient['NutrientAmount'];
+                $nutrientValue = round($newValue / $conversionfactor->ConversionFactorValue);
                DB::table('nutrientamounts')
                 ->where('FoodID', $conversionfactor->foodname->FoodID)
                 ->where('NutrientID', $nutrient['NutrientID'])
                 ->update([
-                    'NutrientValue' => $nutrient['NutrientValue']
+                    'NutrientValue' => $nutrientValue,
                 ]);
             });
         }

@@ -88,10 +88,12 @@ class UpdateControllerTest extends TestCase
     /** @test */
     public function it_can_update_conversionfactor_nutrient_amounts()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $nutrients = $this->createNutrients();
         $conversionfactorData = $this->createConversionFactor($nutrients, $user->id);
+//        dd($conversionfactorData);
         $conversionfactor = Conversionfactor::find($conversionfactorData[0]['ConversionFactorID']);
 
         $this->assertDatabaseHas('nutrientamounts', [
@@ -104,11 +106,11 @@ class UpdateControllerTest extends TestCase
             'nutrients' => [
                 [
                     'NutrientID' => $conversionfactorData[0]['NutrientData'][0]['NutrientID'],
-                    'NutrientValue' => '99',
+                    'NutrientAmount' => '99',
                 ],
                 [
                     'NutrientID' => $conversionfactorData[0]['NutrientData'][1]['NutrientID'],
-                    'NutrientValue' => '11',
+                    'NutrientAmount' => '11',
                 ]
             ]
         ];
@@ -119,13 +121,13 @@ class UpdateControllerTest extends TestCase
         $this->assertDatabaseHas('nutrientamounts', [
             'FoodID' => $conversionfactorData[0]['Foodname']->FoodID,
             'NutrientID' => $conversionfactorData[0]['NutrientData'][0]['NutrientID'],
-            'NutrientValue' => 99,
+            'NutrientValue' => round($payload['nutrients'][0]['NutrientAmount']/$conversionfactorData[0]['ConversionFactorValue']),
         ]);
 
         $this->assertDatabaseHas('nutrientamounts', [
             'FoodID' => $conversionfactorData[0]['Foodname']->FoodID,
             'NutrientID' => $conversionfactorData[0]['NutrientData'][1]['NutrientID'],
-            'NutrientValue' => 11,
+            'NutrientValue' => round($payload['nutrients'][1]['NutrientAmount']/$conversionfactorData[0]['ConversionFactorValue']),
         ]);
     }
 
