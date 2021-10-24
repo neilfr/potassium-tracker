@@ -15,8 +15,11 @@
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <breeze-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Potassium Tracker
+                                <breeze-nav-link :href="route('logentries.index')" :active="route().current('logentries.index')">
+                                    Log Entries
+                                </breeze-nav-link>
+                                <breeze-nav-link :href="route('conversionfactors.index')" :active="route().current('conversionfactors.index')">
+                                    Foods
                                 </breeze-nav-link>
                             </div>
                         </div>
