@@ -18993,12 +18993,6 @@ __webpack_require__.r(__webpack_exports__);
       this.$inertia.visit(url, {});
     },
     handleSave: function handleSave() {
-      console.log('save');
-      console.log('foodDescription', this.foodDescription);
-      console.log('foodGroupId', this.foodGroupId);
-      console.log('measureDescription', this.measureDescription);
-      console.log('nutrients', this.nutrients);
-      console.log('conversionfactor', this.conversionfactor);
       var url = route('conversionfactors.update', this.conversionfactor.data.id);
       this.$inertia.visit(url, {
         method: 'patch',
@@ -19008,6 +19002,13 @@ __webpack_require__.r(__webpack_exports__);
           'measureDescription': this.measureDescription,
           'nutrients': this.nutrients
         }
+      });
+    },
+    handleDelete: function handleDelete() {
+      var url = route('conversionfactors.destroy', this.conversionfactor.data.id);
+      this.$inertia.visit(url, {
+        method: 'delete',
+        data: {}
       });
     }
   }
@@ -21379,6 +21380,8 @@ var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNo
 
 var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cancel");
 
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Delete");
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
 
@@ -21443,6 +21446,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [_hoisted_22];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+        "class": "m-2",
+        onClick: $options.handleDelete
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_hoisted_23];
         }),
         _: 1
         /* STABLE */

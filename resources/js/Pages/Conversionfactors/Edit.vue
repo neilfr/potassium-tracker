@@ -47,6 +47,7 @@
                     <div class="m-2">
                         <Button class="m-2" @click="handleSave">Save</Button>
                         <Button class="m-2" @click="handleCancel">Cancel</Button>
+                        <Button class="m-2" @click="handleDelete">Delete</Button>
                     </div>
                 </div>
             </div>
@@ -88,12 +89,6 @@
                 this.$inertia.visit(url, {});
             },
             handleSave(){
-                console.log('save');
-                console.log('foodDescription', this.foodDescription);
-                console.log('foodGroupId', this.foodGroupId);
-                console.log('measureDescription', this.measureDescription);
-                console.log('nutrients', this.nutrients);
-console.log('conversionfactor', this.conversionfactor);
                 let url = route('conversionfactors.update', this.conversionfactor.data.id);
                 this.$inertia.visit(url, {
                     method: 'patch',
@@ -103,6 +98,13 @@ console.log('conversionfactor', this.conversionfactor);
                         'measureDescription': this.measureDescription,
                         'nutrients': this.nutrients,
                     }
+                });
+            },
+            handleDelete(){
+                let url = route('conversionfactors.destroy', this.conversionfactor.data.id);
+                this.$inertia.visit(url, {
+                    method: 'delete',
+                    data: {}
                 });
             }
         }

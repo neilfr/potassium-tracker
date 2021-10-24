@@ -3,6 +3,7 @@
 namespace Tests\Feature\Conversionfactor;
 
 use App\Models\Conversionfactor;
+use App\Models\Favourite;
 use App\Models\Foodgroup;
 use App\Models\Foodname;
 use App\Models\Logentry;
@@ -65,7 +66,7 @@ class DestroyControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_deletes_related_foodname_measurename_and_nutrientamounts()
+    public function it_deletes_related_favourite_foodname_measurename_and_nutrientamounts()
     {
         $user = User::factory()->create();
 
@@ -73,6 +74,11 @@ class DestroyControllerTest extends TestCase
         $conversionfactorData = $this->createConversionFactor($nutrients, $user->id);
 
         $conversionfactor = Conversionfactor::find($conversionfactorData[0]['ConversionFactorID']);
+
+        Favourite::factory()->create([
+            'ConversionFactorID' => $conversionfactor->id,
+            'user_id' => $user->id,
+        ]);
 
         $this->assertDatabaseHas('measurenames', [
             'MeasureID' => $conversionfactor->measurename->MeasureID
@@ -86,6 +92,9 @@ class DestroyControllerTest extends TestCase
                 'NutrientID' => $nutrient->NutrientID,
             ]);
         });
+        $this->assertDatabaseHas('favourites', [
+           'ConversionFactorID' => $conversionfactor->id,
+        ]);
 
         $response = $this->actingAs($user)->delete(route('conversionfactors.destroy', $conversionfactor))
             ->assertSuccessful();
@@ -102,6 +111,9 @@ class DestroyControllerTest extends TestCase
                 'NutrientID' => $nutrient->NutrientID,
             ]);
         });
+        $this->assertDatabaseMissing('favourites', [
+            'ConversionFactorID' => $conversionfactor->id,
+        ]);
     }
 
     /** @test */
