@@ -68,6 +68,7 @@ class DestroyControllerTest extends TestCase
     /** @test */
     public function it_deletes_related_favourite_foodname_measurename_and_nutrientamounts()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $nutrients = $this->createNutrients();
@@ -97,7 +98,7 @@ class DestroyControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->delete(route('conversionfactors.destroy', $conversionfactor))
-            ->assertSuccessful();
+            ->assertRedirect();
 
         $this->assertDatabaseMissing('measurenames', [
             'MeasureID' => $conversionfactor->measurename->MeasureID

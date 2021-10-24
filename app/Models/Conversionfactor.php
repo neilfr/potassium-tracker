@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use phpDocumentor\Reflection\Types\Boolean;
 
@@ -24,6 +25,12 @@ class Conversionfactor extends Pivot
     public function measurename(){
         return $this->belongsTo(Measurename::class,'MeasureID');
     }
+
+    // TODO: get this working
+//    public function favourites()
+//    {
+//        return $this->hasMany(Favourite::class,'id','ConversionFactorID');
+//    }
 
     public function getNutrientsAttribute(){
         $nutrients = $this->foodname->nutrientnames

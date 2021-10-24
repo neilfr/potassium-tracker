@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Conversionfactor;
 use App\Models\Logentry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DestroyController extends Controller
 {
@@ -26,8 +27,11 @@ class DestroyController extends Controller
         $foodname->nutrientnames->each(function($nutrientname) use($foodname){
             $foodname->nutrientnames()->detach($nutrientname);
         });
+        DB::table('favourites')->where('ConversionFactorID', $conversionfactor->id)->delete();
         $conversionfactor->delete();
         $measurename->delete();
         $foodname->delete();
+
+        return redirect()->route('conversionfactors.index');
     }
 }
