@@ -21,7 +21,13 @@
         </div>
         <div class="border col-span-2 row-span-2 flex">
             <Button class="ml-2 self-center" @click="log">Log</Button>
-            <Button class="ml-2 self-center" @click="edit">Edit</Button>
+            <Button
+                v-if="conversionfactor.editable"
+                class="ml-2 self-center"
+                @click="edit"
+            >
+                Edit
+            </Button>
         </div>
     </div>
 </template>

@@ -31,6 +31,7 @@ class ConversionfactorResource extends JsonResource
                 ->favourites()
                 ->where('ConversionFactorID', $this->id)
                 ->exists(),
+            'editable' => $this->user_id === auth()->user()->id,
         ];
     }
 }

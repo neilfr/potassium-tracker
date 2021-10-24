@@ -51,8 +51,6 @@
                             <input type="text" id="k" v-model="k">
                         </div>
                     </div>
-
-
                     <div class="m-2">
                         <Button class="m-2" @click="handleSave">Save</Button>
                         <Button class="m-2" @click="handleCancel">Cancel</Button>
@@ -97,12 +95,6 @@
                 this.$inertia.visit(url, {});
             },
             handleSave(){
-                console.log('save');
-                console.log('foodDescription', this.foodDescription);
-                console.log('foodGroupId', this.foodGroupId);
-                console.log('measureDescription', this.measureDescription);
-                console.log('k', this.k);
-                console.log('kcal', this.kcal);
                 let url = route('conversionfactors.store');
                 this.$inertia.visit(url, {
                     method: 'post',

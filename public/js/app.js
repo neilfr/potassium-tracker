@@ -18931,12 +18931,6 @@ __webpack_require__.r(__webpack_exports__);
       this.$inertia.visit(url, {});
     },
     handleSave: function handleSave() {
-      console.log('save');
-      console.log('foodDescription', this.foodDescription);
-      console.log('foodGroupId', this.foodGroupId);
-      console.log('measureDescription', this.measureDescription);
-      console.log('k', this.k);
-      console.log('kcal', this.kcal);
       var url = route('conversionfactors.store');
       this.$inertia.visit(url, {
         method: 'post',
@@ -19425,7 +19419,7 @@ var _hoisted_9 = {
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Log");
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Edit");
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit ");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -19474,7 +19468,8 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   }, 8
   /* PROPS */
-  , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+  , ["onClick"]), $props.conversionfactor.editable ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Button, {
+    key: 0,
     "class": "ml-2 self-center",
     onClick: $options.edit
   }, {
@@ -19486,7 +19481,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   }, 8
   /* PROPS */
-  , ["onClick"])])]);
+  , ["onClick"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
 });
 
 /***/ }),
