@@ -16,6 +16,15 @@ use Inertia\Inertia;
 */
 
 
+//Route::get('/', function () {
+//    return Inertia::render('Welcome', [
+//        'canLogin' => Route::has('login'),
+//        'canRegister' => Route::has('register'),
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion' => PHP_VERSION,
+//    ]);
+//});
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -24,7 +33,7 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
+//
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -40,6 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/conversionfactors/destroy/{conversionfactor}', App\Http\Controllers\Conversionfactor\DestroyController::class)->name('conversionfactors.destroy');
     Route::patch('/conversionfactors/update/{conversionfactor}', App\Http\Controllers\Conversionfactor\UpdateController::class)->name('conversionfactors.update');
     Route::get('/conversionfactors/edit/{conversionfactor}', App\Http\Controllers\Conversionfactor\EditController::class)->name('conversionfactors.edit');
+    Route::get('/', App\Http\Controllers\Logentry\IndexController::class)->name('logentries.index');
     Route::get('/logentries', App\Http\Controllers\Logentry\IndexController::class)->name('logentries.index');
     Route::post('/logentries/store', App\Http\Controllers\Logentry\StoreController::class)->name('logentries.store');
     Route::patch('/logentries/update/{logentry}', App\Http\Controllers\Logentry\UpdateController::class)->name('logentries.update');
