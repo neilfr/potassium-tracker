@@ -1,8 +1,13 @@
 <template>
-    <div class="p-6 bg-white border-b border-gray-200 flex justify-between">
+    <div class="p-6 bg-white border-b border-gray-200">
         <span v-if="nutrienttotals.length === 0">No Nutrient Totals</span>
-        <span>
-            <div class="mb-4">Nutrient Totals for Date Range</div>
+        <span class="flex justify-between" v-if="nutrienttotals.length > 0">
+            <span>
+                <label for="from">From:</label>
+                <input class="ml-2" id="from" v-model="startdate" type="date" @change="handleDateRangeChange"/>
+                <label class="ml-2" for="to">To:</label>
+                <input class="ml-2" id="to" v-model="enddate" type="date" @change="handleDateRangeChange"/>
+            </span>
             <div>
                 <span class="mr-6" v-for="nutrienttotal in nutrienttotals">
                     <span>
@@ -12,19 +17,19 @@
                     </span>
                 </span>
             </div>
-        </span>
-        <span>
-            <label for="from">From:</label>
-            <input id="from" v-model="startdate" type="date" @change="handleDateRangeChange"/>
-            <label for="to">To:</label>
-            <input id="to" v-model="enddate" type="date" @change="handleDateRangeChange"/>
+            <Button class="mt-2 ml-2" @click="addLogentry">Add Logentry</Button>
         </span>
     </div>
 </template>
 
 <script>
+    import Button from "@/Components/Button";
+
     export default {
         name: "LogEntryHeader",
+        components: {
+          Button,
+        },
         props: {
             nutrienttotals: Object,
             startdate: String,
@@ -40,6 +45,9 @@
                     enddate: this.enddate,
                 })
             },
+            addLogentry() {
+                this.$emit('addLogentry');
+            }
         },
     }
 </script>

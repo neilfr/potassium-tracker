@@ -14,8 +14,9 @@
                         :startdate="startdate"
                         :enddate="enddate"
                         @datechange="handleDateRangeChange"
+                        @addLogentry="addLogentry"
                     />
-                    <Button class="mt-2 ml-2" @click="addLogentry">Add Logentry</Button>
+<!--                    <Button class="mt-2 ml-2" @click="addLogentry">Add Logentry</Button>-->
                     <div class="p-6 bg-white border-b border-gray-200">
                         <log-entry-card
                             class="bg-gray-100 rounded-lg mb-2"
