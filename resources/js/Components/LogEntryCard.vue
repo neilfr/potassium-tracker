@@ -1,6 +1,6 @@
 <template>
     <div class="grid grid-cols-9 grid-rows-2 gap-2 p-2">
-        <div class="col-span-2 row-span-2">
+        <div class="col-span-2 row-span-2 flex items-center justify-self-center">
             <input class="rounded" id="consumedAt" v-model="consumedAtDate" type="date" @change="handleDateChange"/>
         </div>
         <div class="border col-span-6 row-span-2">
@@ -17,7 +17,7 @@
                 </span>
             </div>
         </div>
-        <div class="border col-span-1 row-span-2">
+        <div class="flex items-center justify-self-center col-span-1 row-span-2">
             <Button @click="destroy">Delete</Button>
         </div>
     </div>

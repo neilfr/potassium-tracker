@@ -15,10 +15,10 @@
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <breeze-nav-link :href="route('logentries.index')" :active="route().current('logentries.index')">
+                                <breeze-nav-link class="text-2xl" :href="route('logentries.index')" :active="route().current('logentries.index')">
                                     Log Entries
                                 </breeze-nav-link>
-                                <breeze-nav-link :href="route('conversionfactors.index')" :active="route().current('conversionfactors.index')">
+                                <breeze-nav-link class="text-2xl" :href="route('conversionfactors.index')" :active="route().current('conversionfactors.index')">
                                     Foods
                                 </breeze-nav-link>
                             </div>
@@ -63,12 +63,6 @@
 
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-<!--                    <div class="pt-2 pb-3 space-y-1">-->
-<!--                        <breeze-responsive-nav-link :href="route('dashboard')" :active="route().current('dashboard')">-->
-<!--                            Dashboard-->
-<!--                        </breeze-responsive-nav-link>-->
-<!--                    </div>-->
-
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
                         <div class="px-4">

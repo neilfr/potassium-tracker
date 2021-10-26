@@ -19,7 +19,7 @@
                 </span>
             </div>
         </div>
-        <div class="border col-span-2 row-span-2 flex">
+        <div class="col-span-2 row-span-2 flex items-center justify-self-center">
             <Button class="ml-2 self-center" @click="log">Log</Button>
             <Button
                 v-if="conversionfactor.editable"
