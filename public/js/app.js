@@ -19368,7 +19368,7 @@ var _hoisted_2 = {
   "class": "flex-none col-span-1 row-span-2 flex"
 };
 var _hoisted_3 = {
-  "class": "flex-grow col-span-9 row-span-2 px-6"
+  "class": "flex-grow px-6"
 };
 var _hoisted_4 = {
   "class": "flex justify-between"
@@ -19722,33 +19722,25 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-3042a489");
 
 var _hoisted_1 = {
-  "class": "grid grid-cols-9 grid-rows-2 gap-2 p-2"
+  "class": "flex"
 };
 var _hoisted_2 = {
-  "class": "col-span-2 row-span-2 flex items-center justify-self-center"
+  "class": "flex-none col-span-2 row-span-2 flex items-center justify-self-center"
 };
 var _hoisted_3 = {
-  "class": "border col-span-6 row-span-2"
+  "class": "flex-grow px-6"
 };
 var _hoisted_4 = {
-  "class": "border grid grid-cols-6"
+  "class": "flex justify-between"
 };
 var _hoisted_5 = {
-  "class": "col-span-2"
+  "class": "flex justify-between"
+};
+var _hoisted_6 = {
+  "class": "flex-none flex items-center justify-self-center col-span-1 row-span-2"
 };
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Quantity: ", -1
-/* HOISTED */
-);
-
-var _hoisted_7 = {
-  "class": "col-span-2"
-};
-var _hoisted_8 = {
-  "class": "flex items-center justify-self-center col-span-1 row-span-2"
-};
-
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Delete");
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Delete");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -19769,17 +19761,10 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.consumedAtDate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
-    "class": "col-span-6",
-    value: $props.logentry.FoodDescription
-  }, null, 8
-  /* PROPS */
-  , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
-    value: $props.logentry.MeasureDescription
-  }, null, 8
-  /* PROPS */
-  , ["value"])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentry.nutrients, function (nutrient) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ": ", 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.consumedAtDate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.FoodDescription) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.MeasureDescription), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentry.nutrients, function (nutrient) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ": ", 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
       value: Math.round(nutrient.NutrientAmount)
@@ -19790,11 +19775,13 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     )]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.FoodGroupName), 1
+  /* TEXT */
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
     onClick: $options.destroy
   }, {
     "default": _withId(function () {
-      return [_hoisted_9];
+      return [_hoisted_7];
     }),
     _: 1
     /* STABLE */

@@ -1,23 +1,22 @@
 <template>
-    <div class="grid grid-cols-9 grid-rows-2 gap-2 p-2">
-        <div class="col-span-2 row-span-2 flex items-center justify-self-center">
+    <div class="flex">
+        <div class="flex-none col-span-2 row-span-2 flex items-center justify-self-center">
             <input class="rounded" id="consumedAt" v-model="consumedAtDate" type="date" @change="handleDateChange"/>
         </div>
-        <div class="border col-span-6 row-span-2">
-            <string-text class="col-span-6" :value="logentry.FoodDescription"/>
-            <div class="border grid grid-cols-6">
-                <span class="col-span-2">
-                    <span>Quantity: </span>
-                    <string-text :value="logentry.MeasureDescription"/>
-                </span>
-                <span class="col-span-2" v-for="nutrient in logentry.nutrients">
+        <div class="flex-grow px-6">
+            <div class="flex justify-between">
+                <span>{{logentry.FoodDescription}} - {{logentry.MeasureDescription}}</span>
+            </div>
+            <div class="flex justify-between">
+                <span v-for="nutrient in logentry.nutrients">
                     <span>{{nutrient.NutrientSymbol}}: </span>
                     <string-text :value="Math.round(nutrient.NutrientAmount)"/>
                     <span>{{nutrient.NutrientUnit}}</span>
                 </span>
+                <span>{{logentry.FoodGroupName}}</span>
             </div>
         </div>
-        <div class="flex items-center justify-self-center col-span-1 row-span-2">
+        <div class="flex-none flex items-center justify-self-center col-span-1 row-span-2">
             <Button @click="destroy">Delete</Button>
         </div>
     </div>

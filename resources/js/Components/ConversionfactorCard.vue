@@ -3,7 +3,7 @@
         <div class="flex-none col-span-1 row-span-2 flex">
             <input class="self-center" type="checkbox" :checked="favourite" @change="emitToggleFavourite">
         </div>
-        <div class="flex-grow col-span-9 row-span-2 px-6">
+        <div class="flex-grow px-6">
             <div class="flex justify-between">
                 <span>
                     {{conversionfactor.FoodDescription}} - {{conversionfactor.MeasureDescription}}
