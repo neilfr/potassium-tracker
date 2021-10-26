@@ -1,25 +1,24 @@
 <template>
-    <div class="grid grid-cols-12 grid-rows-2 p-2">
-        <div class="border col-span-1 row-span-2">
-            <input type="checkbox" :checked="favourite" @change="emitToggleFavourite">
+    <div class="flex p-2">
+        <div class="flex-none col-span-1 row-span-2 flex">
+            <input class="self-center" type="checkbox" :checked="favourite" @change="emitToggleFavourite">
         </div>
-        <div class="border col-span-9 row-span-2">
-            <div class="border flex justify-between">
-                <string-text :value="conversionfactor.FoodDescription"/>
-                <span class="col-span-2">
-                    <span>Quantity: </span>
-                    <string-text :value="conversionfactor.MeasureDescription"/>
+        <div class="flex-grow col-span-9 row-span-2 px-6">
+            <div class="flex justify-between">
+                <span>
+                    {{conversionfactor.FoodDescription}} - {{conversionfactor.MeasureDescription}}
                 </span>
             </div>
-            <div class="border grid grid-cols-6">
-                <span class="col-span-3" v-for="nutrient in conversionfactor.nutrients">
+            <div class="flex justify-between">
+                <span v-for="nutrient in conversionfactor.nutrients">
                     <span>{{nutrient.NutrientSymbol}}: </span>
                     <string-text :value="Math.round(nutrient.NutrientAmount)"/>
                     <span>{{nutrient.NutrientUnit}}</span>
                 </span>
+                <span>{{conversionfactor.FoodGroupName}}</span>
             </div>
         </div>
-        <div class="col-span-2 row-span-2 flex items-center justify-self-center">
+        <div class="flex-none col-span-2 row-span-2 flex items-center justify-self-center">
             <Button class="ml-2 self-center" @click="log">Log</Button>
             <Button
                 v-if="conversionfactor.editable"
