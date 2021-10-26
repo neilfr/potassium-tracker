@@ -4,9 +4,9 @@
             <label for="favourite">Favourites Filter:</label>
             <input class="ml-2" type="checkbox" id="favourite" @change="toggleFavourite" :checked="favouriteFilter"/>
         </span>
-        <span class="flex-grow mx-16">
-            <label for="search">Search:</label>
-            <input class="ml-2 rounded w-11/12" type="text" id="search" @input="updateSearchText" v-model="searchText"/>
+        <span class="flex-grow flex items-center justify-self-center justify-between px-8">
+            <label class="flex-none" for="search">Search:</label>
+            <input class="flex-grow ml-2 rounded" type="text" id="search" @input="updateSearchText" v-model="searchText"/>
         </span>
         <div class="flex-none flex items-center justify-self-center">
             <Button class="mt-2 ml-2" @click="addConversionFactor">Add Food</Button>

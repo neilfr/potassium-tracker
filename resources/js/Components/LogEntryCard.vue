@@ -1,5 +1,5 @@
 <template>
-    <div class="flex">
+    <div class="flex px-4 py-2">
         <div class="flex-none col-span-2 row-span-2 flex items-center justify-self-center">
             <input class="rounded" id="consumedAt" v-model="consumedAtDate" type="date" @change="handleDateChange"/>
         </div>

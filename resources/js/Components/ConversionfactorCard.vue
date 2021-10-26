@@ -1,5 +1,5 @@
 <template>
-    <div class="flex p-2">
+    <div class="flex px-4 py-2">
         <div class="flex-none col-span-1 row-span-2 flex">
             <input class="self-center" type="checkbox" :checked="favourite" @change="emitToggleFavourite">
         </div>

@@ -19362,7 +19362,7 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-652030e0");
 
 var _hoisted_1 = {
-  "class": "flex p-2"
+  "class": "flex px-4 py-2"
 };
 var _hoisted_2 = {
   "class": "flex-none col-span-1 row-span-2 flex"
@@ -19473,10 +19473,11 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 );
 
 var _hoisted_4 = {
-  "class": "flex-grow mx-16"
+  "class": "flex-grow flex items-center justify-self-center justify-between px-8"
 };
 
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "class": "flex-none",
   "for": "search"
 }, "Search:", -1
 /* HOISTED */
@@ -19502,7 +19503,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 40
   /* PROPS, HYDRATE_EVENTS */
   , ["checked"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    "class": "ml-2 rounded w-11/12",
+    "class": "flex-grow ml-2 rounded",
     type: "text",
     id: "search",
     onInput: _cache[2] || (_cache[2] = function () {
@@ -19722,7 +19723,7 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-3042a489");
 
 var _hoisted_1 = {
-  "class": "flex"
+  "class": "flex px-4 py-2"
 };
 var _hoisted_2 = {
   "class": "flex-none col-span-2 row-span-2 flex items-center justify-self-center"
