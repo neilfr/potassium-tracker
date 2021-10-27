@@ -10,7 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class DestroyController extends Controller
 {
-
+    /**
+     * Handle the incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function __invoke(Request $request, Conversionfactor $conversionfactor)
     {
         if ($conversionfactor->user_id !== auth()->user()->id){
