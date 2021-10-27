@@ -7,7 +7,9 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "heroku-prebuild": "npm install -f",
+        "heroku-postbuild": "npm run production"
     },
     "devDependencies": {
         "@inertiajs/inertia": "^0.9.0",
@@ -24,5 +26,9 @@
         "tailwindcss": "^2.1.2",
         "vue": "^3.0.5",
         "vue-loader": "^16.1.2"
+    },
+    "engines": {
+        "node": "13.x",
+        "npm": "6.x"
     }
 }
