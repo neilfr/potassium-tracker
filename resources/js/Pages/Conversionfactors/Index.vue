@@ -5,8 +5,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <conversionfactor-header
                         @search="handleSearch"
-                        @toggledFavourite="handleFavouriteFilter"
-                        :favouriteFilter="favouriteFilter"
+                        @toggleFavouriteFilter="handleFavouriteFilter"
                         @addConversionFactor="addConversionFactor"
                     />
                     <div class="p-6 bg-white border-b border-gray-200">
@@ -53,15 +52,11 @@
         data(){
             return {
                 searchText: String,
-                favouriteFilter: {
-                    type: Boolean,
-                    default: true,
-                },
+                favouriteFilter: 'no',
             }
         },
         mounted() {
             this.searchText = '';
-            console.log('mounted', this.favouriteFilter);
         },
         methods: {
             first() {
@@ -81,9 +76,10 @@
                 this.goToPage(this.conversionfactors.meta.last_page);
             },
             goToPage(page) {
+                console.log('favouriteFilter', this.favouriteFilter);
                 let url = route('conversionfactors.index');
                 url += `?searchText=${this.searchText}`;
-                url += `&favourite=${this.favouriteFilter}`;
+                url += `&favouriteFilter=${this.favouriteFilter}`;
                 this.$inertia.visit(url, {
                     data:{
                         'page':page,
@@ -96,12 +92,15 @@
                 this.searchText=searchText;
                 this.first();
             },
-            handleFavouriteFilter(){
-                this.favouriteFilter=!this.favouriteFilter;
+            handleFavouriteFilter(state){
+                if(state){
+                    this.favouriteFilter = 'yes';
+                } else {
+                    this.favouriteFilter = 'no';
+                }
                 this.first();
             },
             addConversionFactor(){
-                console.log('add conversion factor');
                 let url = route('conversionfactors.create');
                 this.$inertia.visit(url, {
                     data:{},
@@ -113,12 +112,10 @@
                     {
                         method: 'post',
                         data:{},
-                        preserveState: true,
                         preserveScroll: true,
                     });
             },
             handleEditConversionfactor(conversionfactor){
-                console.log('edit!', conversionfactor);
                 let url = route('conversionfactors.edit', conversionfactor);
                 this.$inertia.visit(url,
                     {

@@ -56,9 +56,9 @@ class Conversionfactor extends Pivot
         });
     }
 
-    public function scopeFavourite(Builder $query, $favourite)
+    public function scopeFavouriteFilter(Builder $query, $favouriteFilter)
     {
-        if ($favourite==='false') {
+        if ($favouriteFilter==='no') {
             return $query;
         }
 
