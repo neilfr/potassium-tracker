@@ -112,6 +112,7 @@
                     {
                         method: 'post',
                         data:{},
+                        preserveState: true,
                         preserveScroll: true,
                     });
             },

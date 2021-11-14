@@ -19124,6 +19124,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$inertia.visit(url, {
         method: 'post',
         data: {},
+        preserveState: true,
         preserveScroll: true
       });
     },

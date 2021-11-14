@@ -39,7 +39,7 @@ class UpdateControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->patch(route('conversionfactors.update', $conversionfactor), $payload)
-            ->assertSuccessful();
+            ->assertRedirect();
 
         $this->assertDatabaseHas('foodnames', [
             'FoodDescription' => $payload['FoodDescription'],
@@ -73,7 +73,7 @@ class UpdateControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->patch(route('conversionfactors.update', $conversionfactor), $payload)
-            ->assertSuccessful();
+            ->assertRedirect();
 
         $this->assertDatabaseHas('measurenames', [
             'MeasureDescription' => $payload['MeasureDescription'],
