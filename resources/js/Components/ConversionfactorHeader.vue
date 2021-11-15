@@ -22,6 +22,13 @@
         components: {
             Button
         },
+        props:{
+            initialFavouriteFilter: Boolean,
+        },
+        mounted() {
+            this.favouriteFilter = this.initialFavouriteFilter;
+            console.log('in header, favouriteFilter:', this.favouriteFilter);
+        },
         emits: [
             'search',
             'toggledFavourite',
@@ -29,7 +36,7 @@
         data(){
             return {
                 searchText: '',
-                favouriteFilter: true,
+                favouriteFilter: Boolean,
             }
         },
         methods:{
@@ -37,6 +44,7 @@
                 this.$emit('search', this.searchText);
             },
             toggleFavouriteFilter(){
+                console.log('in conversionfactorheader, favouriteFilter:', this.favouriteFilter);
                 this.$emit('toggleFavouriteFilter', this.favouriteFilter);
             },
             addConversionFactor(){

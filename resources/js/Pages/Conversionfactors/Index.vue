@@ -7,6 +7,7 @@
                         @search="handleSearch"
                         @toggleFavouriteFilter="handleFavouriteFilter"
                         @addConversionFactor="addConversionFactor"
+                        :initialFavouriteFilter="favouriteFilter"
                     />
                     <div class="p-6 bg-white border-b border-gray-200">
                         <conversionfactor-card
@@ -48,15 +49,18 @@
         },
         props: {
             conversionfactors: Object,
+            initialFavouriteFilter: Boolean,
         },
         data(){
             return {
                 searchText: String,
-                favouriteFilter: 'no',
+                favouriteFilter: Boolean,
             }
         },
         mounted() {
+            console.log('in index, initialFavouriteFilter', this.initialFavouriteFilter);
             this.searchText = '';
+            this.favouriteFilter = this.initialFavouriteFilter;
         },
         methods: {
             first() {
@@ -76,7 +80,7 @@
                 this.goToPage(this.conversionfactors.meta.last_page);
             },
             goToPage(page) {
-                console.log('favouriteFilter', this.favouriteFilter);
+                console.log('in index, gotopage, favouriteFilter', this.favouriteFilter);
                 let url = route('conversionfactors.index');
                 url += `?searchText=${this.searchText}`;
                 url += `&favouriteFilter=${this.favouriteFilter}`;
@@ -92,12 +96,8 @@
                 this.searchText=searchText;
                 this.first();
             },
-            handleFavouriteFilter(state){
-                if(state){
-                    this.favouriteFilter = 'yes';
-                } else {
-                    this.favouriteFilter = 'no';
-                }
+            handleFavouriteFilter(newState){
+                this.favouriteFilter = newState;
                 this.first();
             },
             addConversionFactor(){

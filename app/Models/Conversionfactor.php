@@ -58,15 +58,12 @@ class Conversionfactor extends Pivot
 
     public function scopeFavouriteFilter(Builder $query, $favouriteFilter)
     {
-        if ($favouriteFilter==='no') {
-            return $query;
+        if ($favouriteFilter==='true') {
+            $favouriteIds = User::find(auth()
+                ->user()->id)
+                ->favourites()->pluck('ConversionFactorID');
+            $query->whereIn('id', $favouriteIds);;
         }
-
-        $favouriteIds = User::find(auth()
-            ->user()->id)
-            ->favourites()->pluck('ConversionFactorID');
-        $query->whereIn('id', $favouriteIds);
-        return $query;
     }
 
     public function scopeForAuthUser(Builder $query)

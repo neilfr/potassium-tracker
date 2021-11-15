@@ -18119,11 +18119,18 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     Button: _Components_Button__WEBPACK_IMPORTED_MODULE_0__.default
   },
+  props: {
+    initialFavouriteFilter: Boolean
+  },
+  mounted: function mounted() {
+    this.favouriteFilter = this.initialFavouriteFilter;
+    console.log('in header, favouriteFilter:', this.favouriteFilter);
+  },
   emits: ['search', 'toggledFavourite'],
   data: function data() {
     return {
       searchText: '',
-      favouriteFilter: true
+      favouriteFilter: Boolean
     };
   },
   methods: {
@@ -18131,6 +18138,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('search', this.searchText);
     },
     toggleFavouriteFilter: function toggleFavouriteFilter() {
+      console.log('in conversionfactorheader, favouriteFilter:', this.favouriteFilter);
       this.$emit('toggleFavouriteFilter', this.favouriteFilter);
     },
     addConversionFactor: function addConversionFactor() {
@@ -19060,16 +19068,19 @@ __webpack_require__.r(__webpack_exports__);
     Button: _Components_Button__WEBPACK_IMPORTED_MODULE_4__.default
   },
   props: {
-    conversionfactors: Object
+    conversionfactors: Object,
+    initialFavouriteFilter: Boolean
   },
   data: function data() {
     return {
       searchText: String,
-      favouriteFilter: 'no'
+      favouriteFilter: Boolean
     };
   },
   mounted: function mounted() {
+    console.log('in index, initialFavouriteFilter', this.initialFavouriteFilter);
     this.searchText = '';
+    this.favouriteFilter = this.initialFavouriteFilter;
   },
   methods: {
     first: function first() {
@@ -19089,7 +19100,7 @@ __webpack_require__.r(__webpack_exports__);
       this.goToPage(this.conversionfactors.meta.last_page);
     },
     goToPage: function goToPage(page) {
-      console.log('favouriteFilter', this.favouriteFilter);
+      console.log('in index, gotopage, favouriteFilter', this.favouriteFilter);
       var url = route('conversionfactors.index');
       url += "?searchText=".concat(this.searchText);
       url += "&favouriteFilter=".concat(this.favouriteFilter);
@@ -19105,13 +19116,8 @@ __webpack_require__.r(__webpack_exports__);
       this.searchText = searchText;
       this.first();
     },
-    handleFavouriteFilter: function handleFavouriteFilter(state) {
-      if (state) {
-        this.favouriteFilter = 'yes';
-      } else {
-        this.favouriteFilter = 'no';
-      }
-
+    handleFavouriteFilter: function handleFavouriteFilter(newState) {
+      this.favouriteFilter = newState;
       this.first();
     },
     addConversionFactor: function addConversionFactor() {
@@ -21473,10 +21479,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_conversionfactor_header, {
         onSearch: $options.handleSearch,
         onToggleFavouriteFilter: $options.handleFavouriteFilter,
-        onAddConversionFactor: $options.addConversionFactor
+        onAddConversionFactor: $options.addConversionFactor,
+        initialFavouriteFilter: $data.favouriteFilter
       }, null, 8
       /* PROPS */
-      , ["onSearch", "onToggleFavouriteFilter", "onAddConversionFactor"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.conversionfactors.data, function (conversionfactor) {
+      , ["onSearch", "onToggleFavouriteFilter", "onAddConversionFactor", "initialFavouriteFilter"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.conversionfactors.data, function (conversionfactor) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_conversionfactor_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: conversionfactor.id,
