@@ -49,7 +49,7 @@ class Conversionfactor extends Pivot
         }
 
         $query->whereHas('foodname', function($query) use ($searchText) {
-            $terms = collect(explode(',', $searchText));
+            $terms = collect(array_map('trim',explode(',', $searchText)));
             $terms->each(function($term) use($query){
                 $query->where('FoodDescription', 'like', "%$term%" );
             });
