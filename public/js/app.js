@@ -18357,6 +18357,7 @@ __webpack_require__.r(__webpack_exports__);
   emits: ['datechange'],
   methods: {
     handleDateRangeChange: function handleDateRangeChange() {
+      console.log('logentry header startdate', this.startdate);
       this.$emit('datechange', {
         startdate: this.startdate,
         enddate: this.enddate
@@ -19182,6 +19183,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
+    console.log('mounted');
     this.resetDateRange();
   },
   methods: {
@@ -19238,9 +19240,12 @@ __webpack_require__.r(__webpack_exports__);
       this.enddate = d.toISOString().substring(0, 10);
     },
     destroy: function destroy(logentry) {
+      console.log('destroy');
       var url = route('logentries.destroy', logentry.id);
-      this.$inertia["delete"](url, {});
-      this.resetDateRange();
+      this.$inertia["delete"](url, {
+        preserveState: true,
+        preserveScroll: true
+      });
     },
     handleDateChange: function handleDateChange(logentry) {
       var url = route('logentries.update', logentry.id);

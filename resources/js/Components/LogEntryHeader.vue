@@ -42,6 +42,7 @@
         ],
         methods: {
             handleDateRangeChange() {
+                console.log('logentry header startdate', this.startdate);
                 this.$emit('datechange', {
                     startdate: this.startdate,
                     enddate: this.enddate,

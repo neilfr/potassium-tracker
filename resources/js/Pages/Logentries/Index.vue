@@ -60,6 +60,7 @@
             }
         },
         mounted() {
+            console.log('mounted');
             this.resetDateRange();
         },
         methods: {
@@ -115,10 +116,12 @@
                 this.enddate = d.toISOString().substring(0,10);
             },
             destroy(logentry) {
+                console.log('destroy');
                 let url = route('logentries.destroy', logentry.id);
                 this.$inertia.delete(url, {
+                    preserveState: true,
+                    preserveScroll: true
                 });
-                this.resetDateRange();
             },
             handleDateChange(logentry){
                 let url = route('logentries.update', logentry.id);

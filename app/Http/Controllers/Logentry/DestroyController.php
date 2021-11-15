@@ -18,6 +18,6 @@ class DestroyController extends Controller
     {
         $logentry->delete();
 
-        return redirect()->route('logentries.index');
+        return redirect()->back();
     }
 }
