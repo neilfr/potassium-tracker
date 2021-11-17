@@ -49,7 +49,7 @@
         },
         props: {
             conversionfactors: Object,
-            favouritefilter:String,
+            favouritefilter: String,
         },
         emits: [
             'toggleFavouriteFilter',
@@ -57,12 +57,12 @@
         data(){
             return {
                 searchText: String,
-                foo2: '',
+                updatedFavouriteFilter: '',
             }
         },
         mounted() {
             this.searchText = '';
-            this.foo2 = this.favouritefilter;
+            this.updatedFavouriteFilter = this.favouritefilter;
         },
         methods: {
             first() {
@@ -84,7 +84,7 @@
             goToPage(page) {
                 let url = route('conversionfactors.index');
                 url += `?searchText=${this.searchText}`;
-                url += `&favouritefilter=${this.foo2}`;
+                url += `&favouritefilter=${this.updatedFavouriteFilter}`;
                 this.$inertia.visit(url, {
                     data:{
                         'page':page,
@@ -96,7 +96,7 @@
             refresh() {
                 let url = route('conversionfactors.index');
                 url += `?searchText=${this.searchText}`;
-                url += `&favouritefilter=${this.foo2}`;
+                url += `&favouritefilter=${this.updatedFavouriteFilter}`;
                 this.$inertia.visit(url, {
                     data:{
                         'page':1,
@@ -109,9 +109,9 @@
             },
             handleFavouriteFilter(newstate){
                 if(newstate){
-                    this.foo2 = 'yes';
+                    this.updatedFavouriteFilter = 'yes';
                 }else{
-                    this.foo2 = 'no';
+                    this.updatedFavouriteFilter = 'no';
                 }
                 this.first();
             },

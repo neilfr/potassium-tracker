@@ -18125,17 +18125,15 @@ __webpack_require__.r(__webpack_exports__);
   emits: ['search', 'toggledFavourite'],
   mounted: function mounted() {
     if (this.favouritefilter === 'yes') {
-      console.log('its yes!');
-      this.foo = true;
+      this.updatedFavouriteFilter = true;
     } else {
-      console.log('its no!');
-      this.foo = false;
+      this.updatedFavouriteFilter = false;
     }
   },
   data: function data() {
     return {
       searchText: '',
-      foo: Boolean
+      updatedFavouriteFilter: Boolean
     };
   },
   methods: {
@@ -19079,12 +19077,12 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       searchText: String,
-      foo2: ''
+      updatedFavouriteFilter: ''
     };
   },
   mounted: function mounted() {
     this.searchText = '';
-    this.foo2 = this.favouritefilter;
+    this.updatedFavouriteFilter = this.favouritefilter;
   },
   methods: {
     first: function first() {
@@ -19106,7 +19104,7 @@ __webpack_require__.r(__webpack_exports__);
     goToPage: function goToPage(page) {
       var url = route('conversionfactors.index');
       url += "?searchText=".concat(this.searchText);
-      url += "&favouritefilter=".concat(this.foo2);
+      url += "&favouritefilter=".concat(this.updatedFavouriteFilter);
       this.$inertia.visit(url, {
         data: {
           'page': page
@@ -19118,7 +19116,7 @@ __webpack_require__.r(__webpack_exports__);
     refresh: function refresh() {
       var url = route('conversionfactors.index');
       url += "?searchText=".concat(this.searchText);
-      url += "&favouritefilter=".concat(this.foo2);
+      url += "&favouritefilter=".concat(this.updatedFavouriteFilter);
       this.$inertia.visit(url, {
         data: {
           'page': 1
@@ -19131,9 +19129,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     handleFavouriteFilter: function handleFavouriteFilter(newstate) {
       if (newstate) {
-        this.foo2 = 'yes';
+        this.updatedFavouriteFilter = 'yes';
       } else {
-        this.foo2 = 'no';
+        this.updatedFavouriteFilter = 'no';
       }
 
       this.first();
@@ -19525,7 +19523,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[1] || (_cache[1] = function () {
       return $options.toggleFavouriteFilter && $options.toggleFavouriteFilter.apply($options, arguments);
     }),
-    checked: $data.foo
+    checked: $data.updatedFavouriteFilter
   }, null, 40
   /* PROPS, HYDRATE_EVENTS */
   , ["checked"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
