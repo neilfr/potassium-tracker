@@ -13,6 +13,7 @@
                             </select>
                         </span>
                     </div>
+                    <div class="text-red-500" v-if="errors.foodDescription">{{errors.foodDescription}}</div>
                     <div class="flex items-center mt-2 ml-2">
                         <div class="w-1/6">
                             <label for="fooddescription">Description:</label>
@@ -21,6 +22,7 @@
                             <input type="text" id="fooddescription" v-model="foodDescription">
                         </div>
                     </div>
+                    <div class="text-red-500" v-if="errors.measureDescription">The quantity is a required field</div>
                     <div class="flex items-center mt-2 ml-2">
                         <div class="w-1/6">
                             <label for="measuredescription">Quantity:</label>
@@ -29,6 +31,7 @@
                             <input type="text" id="measuredescription" v-model="measureDescription">
                         </div>
                     </div>
+                    <div class="text-red-500" v-if="errors.kcal">{{errors.kcal}}</div>
                     <div class="flex items-center mt-2 ml-2">
                         <div class="w-1/6">
                             <label for="kcal">KCal:</label>
@@ -37,6 +40,7 @@
                             <input type="text" id="kcal" v-model="kcal">
                         </div>
                     </div>
+                    <div class="text-red-500" v-if="errors.k">{{errors.k}}</div>
                     <div class="flex items-center mt-2 ml-2">
                         <div class="w-1/6">
                             <label for="k">K:</label>
@@ -65,6 +69,7 @@
             Button,
         },
         props: {
+            errors:Object,
             foodgroups:Object,
         },
         data(){
@@ -82,6 +87,7 @@
             this.measureDescription='';
             this.kcal=0;
             this.k=0;
+            console.log('errors', this.errors.foodDescription);
         },
         methods: {
             handleCancel(){

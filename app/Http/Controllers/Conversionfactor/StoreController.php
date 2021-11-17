@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Conversionfactor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreConversionfactorRequest;
 use App\Models\Conversionfactor;
 use App\Models\Foodname;
 use App\Models\Measurename;
@@ -18,7 +19,7 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function __invoke(Request $request)
+    public function __invoke(StoreConversionfactorRequest $request)
     {
         $foodname = new Foodname;
         $foodname->FoodDescription = $request->foodDescription;
