@@ -18120,26 +18120,30 @@ __webpack_require__.r(__webpack_exports__);
     Button: _Components_Button__WEBPACK_IMPORTED_MODULE_0__.default
   },
   props: {
-    initialFavouriteFilter: Boolean
-  },
-  mounted: function mounted() {
-    this.favouriteFilter = this.initialFavouriteFilter;
-    console.log('in header, favouriteFilter:', this.favouriteFilter);
+    favouritefilter: String
   },
   emits: ['search', 'toggledFavourite'],
+  mounted: function mounted() {
+    if (this.favouritefilter === 'yes') {
+      console.log('its yes!');
+      this.foo = true;
+    } else {
+      console.log('its no!');
+      this.foo = false;
+    }
+  },
   data: function data() {
     return {
       searchText: '',
-      favouriteFilter: Boolean
+      foo: Boolean
     };
   },
   methods: {
     updateSearchText: function updateSearchText() {
       this.$emit('search', this.searchText);
     },
-    toggleFavouriteFilter: function toggleFavouriteFilter() {
-      console.log('in conversionfactorheader, favouriteFilter:', this.favouriteFilter);
-      this.$emit('toggleFavouriteFilter', this.favouriteFilter);
+    toggleFavouriteFilter: function toggleFavouriteFilter(e) {
+      this.$emit('toggleFavouriteFilter', e.target.checked);
     },
     addConversionFactor: function addConversionFactor() {
       this.$emit('addConversionFactor');
@@ -19069,18 +19073,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     conversionfactors: Object,
-    initialFavouriteFilter: Boolean
+    favouritefilter: String
   },
+  emits: ['toggleFavouriteFilter'],
   data: function data() {
     return {
       searchText: String,
-      favouriteFilter: Boolean
+      foo2: ''
     };
   },
   mounted: function mounted() {
-    console.log('in index, initialFavouriteFilter', this.initialFavouriteFilter);
     this.searchText = '';
-    this.favouriteFilter = this.initialFavouriteFilter;
+    this.foo2 = this.favouritefilter;
   },
   methods: {
     first: function first() {
@@ -19100,10 +19104,9 @@ __webpack_require__.r(__webpack_exports__);
       this.goToPage(this.conversionfactors.meta.last_page);
     },
     goToPage: function goToPage(page) {
-      console.log('in index, gotopage, favouriteFilter', this.favouriteFilter);
       var url = route('conversionfactors.index');
       url += "?searchText=".concat(this.searchText);
-      url += "&favouriteFilter=".concat(this.favouriteFilter);
+      url += "&favouritefilter=".concat(this.foo2);
       this.$inertia.visit(url, {
         data: {
           'page': page
@@ -19112,12 +19115,27 @@ __webpack_require__.r(__webpack_exports__);
         preserveScroll: true
       });
     },
+    refresh: function refresh() {
+      var url = route('conversionfactors.index');
+      url += "?searchText=".concat(this.searchText);
+      url += "&favouritefilter=".concat(this.foo2);
+      this.$inertia.visit(url, {
+        data: {
+          'page': 1
+        }
+      });
+    },
     handleSearch: function handleSearch(searchText) {
       this.searchText = searchText;
       this.first();
     },
-    handleFavouriteFilter: function handleFavouriteFilter(newState) {
-      this.favouriteFilter = newState;
+    handleFavouriteFilter: function handleFavouriteFilter(newstate) {
+      if (newstate) {
+        this.foo2 = 'yes';
+      } else {
+        this.foo2 = 'no';
+      }
+
       this.first();
     },
     addConversionFactor: function addConversionFactor() {
@@ -19500,26 +19518,24 @@ var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     "class": "ml-2",
     type: "checkbox",
     id: "favourite",
     onChange: _cache[1] || (_cache[1] = function () {
       return $options.toggleFavouriteFilter && $options.toggleFavouriteFilter.apply($options, arguments);
     }),
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return $data.favouriteFilter = $event;
-    })
-  }, null, 544
-  /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.favouriteFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    checked: $data.foo
+  }, null, 40
+  /* PROPS, HYDRATE_EVENTS */
+  , ["checked"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     "class": "flex-grow ml-2 rounded",
     type: "text",
     id: "search",
-    onInput: _cache[3] || (_cache[3] = function () {
+    onInput: _cache[2] || (_cache[2] = function () {
       return $options.updateSearchText && $options.updateSearchText.apply($options, arguments);
     }),
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.searchText = $event;
     })
   }, null, 544
@@ -21480,10 +21496,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onSearch: $options.handleSearch,
         onToggleFavouriteFilter: $options.handleFavouriteFilter,
         onAddConversionFactor: $options.addConversionFactor,
-        initialFavouriteFilter: $data.favouriteFilter
+        favouritefilter: $props.favouritefilter
       }, null, 8
       /* PROPS */
-      , ["onSearch", "onToggleFavouriteFilter", "onAddConversionFactor", "initialFavouriteFilter"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.conversionfactors.data, function (conversionfactor) {
+      , ["onSearch", "onToggleFavouriteFilter", "onAddConversionFactor", "favouritefilter"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.conversionfactors.data, function (conversionfactor) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_conversionfactor_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: conversionfactor.id,

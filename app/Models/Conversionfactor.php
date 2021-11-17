@@ -26,12 +26,6 @@ class Conversionfactor extends Pivot
         return $this->belongsTo(Measurename::class,'MeasureID');
     }
 
-    // TODO: get this working
-//    public function favourites()
-//    {
-//        return $this->hasMany(Favourite::class,'id','ConversionFactorID');
-//    }
-
     public function getNutrientsAttribute(){
         $nutrients = $this->foodname->nutrientnames
             ->whereIn('NutrientID', collect(explode(',', env('NUTRIENTS'))));
@@ -56,9 +50,9 @@ class Conversionfactor extends Pivot
         });
     }
 
-    public function scopeFavouriteFilter(Builder $query, $favouriteFilter)
+    public function scopeFavouriteFilter(Builder $query, $favouritefilter)
     {
-        if ($favouriteFilter==='true') {
+        if ($favouritefilter==='yes') {
             $favouriteIds = User::find(auth()
                 ->user()->id)
                 ->favourites()->pluck('ConversionFactorID');

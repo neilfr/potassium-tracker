@@ -20,17 +20,16 @@ class IndexController extends Controller
     public function __invoke(Request $request)
     {
         $searchText = $request->query('searchText');
-        $favouriteFilter = $request->query('favouriteFilter') ?: true;
-//        dd('favouriteFilter', $favouriteFilter);
+        $favouritefilter = $request->query('favouritefilter') ?: 'yes';
         $conversionfactors = Conversionfactor::query()
             ->forAuthUser()
             ->with('foodname')
             ->foodnameSearch($searchText)
-            ->favouriteFilter($favouriteFilter)
+            ->favouriteFilter($favouritefilter)
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
         return Inertia::render('Conversionfactors/Index', [
             'conversionfactors' => ConversionfactorResource::collection($conversionfactors),
-            'initialFavouriteFilter' => $favouriteFilter,
+            'favouritefilter' => $favouritefilter,
         ]);
     }
 }

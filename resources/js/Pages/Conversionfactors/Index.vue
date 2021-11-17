@@ -7,7 +7,7 @@
                         @search="handleSearch"
                         @toggleFavouriteFilter="handleFavouriteFilter"
                         @addConversionFactor="addConversionFactor"
-                        :initialFavouriteFilter="favouriteFilter"
+                        :favouritefilter="favouritefilter"
                     />
                     <div class="p-6 bg-white border-b border-gray-200">
                         <conversionfactor-card
@@ -49,18 +49,20 @@
         },
         props: {
             conversionfactors: Object,
-            initialFavouriteFilter: Boolean,
+            favouritefilter:String,
         },
+        emits: [
+            'toggleFavouriteFilter',
+        ],
         data(){
             return {
                 searchText: String,
-                favouriteFilter: Boolean,
+                foo2: '',
             }
         },
         mounted() {
-            console.log('in index, initialFavouriteFilter', this.initialFavouriteFilter);
             this.searchText = '';
-            this.favouriteFilter = this.initialFavouriteFilter;
+            this.foo2 = this.favouritefilter;
         },
         methods: {
             first() {
@@ -80,10 +82,9 @@
                 this.goToPage(this.conversionfactors.meta.last_page);
             },
             goToPage(page) {
-                console.log('in index, gotopage, favouriteFilter', this.favouriteFilter);
                 let url = route('conversionfactors.index');
                 url += `?searchText=${this.searchText}`;
-                url += `&favouriteFilter=${this.favouriteFilter}`;
+                url += `&favouritefilter=${this.foo2}`;
                 this.$inertia.visit(url, {
                     data:{
                         'page':page,
@@ -92,12 +93,26 @@
                     preserveScroll: true,
                 });
             },
+            refresh() {
+                let url = route('conversionfactors.index');
+                url += `?searchText=${this.searchText}`;
+                url += `&favouritefilter=${this.foo2}`;
+                this.$inertia.visit(url, {
+                    data:{
+                        'page':1,
+                    }
+                });
+            },
             handleSearch(searchText) {
                 this.searchText=searchText;
                 this.first();
             },
-            handleFavouriteFilter(newState){
-                this.favouriteFilter = newState;
+            handleFavouriteFilter(newstate){
+                if(newstate){
+                    this.foo2 = 'yes';
+                }else{
+                    this.foo2 = 'no';
+                }
                 this.first();
             },
             addConversionFactor(){

@@ -2,7 +2,7 @@
     <div class="p-6 bg-white border-b border-gray-200 flex">
         <span class="flex-none flex items-center justify-self-center">
             <label for="favourite">Favourites Filter:</label>
-            <input class="ml-2" type="checkbox" id="favourite" @change="toggleFavouriteFilter" v-model="favouriteFilter"/>
+            <input class="ml-2" type="checkbox" id="favourite" @change="toggleFavouriteFilter" :checked="foo"/>
         </span>
         <span class="flex-grow flex items-center justify-self-center justify-between px-8">
             <label class="flex-none" for="search">Search:</label>
@@ -23,29 +23,33 @@
             Button
         },
         props:{
-            initialFavouriteFilter: Boolean,
-        },
-        mounted() {
-            this.favouriteFilter = this.initialFavouriteFilter;
-            console.log('in header, favouriteFilter:', this.favouriteFilter);
+            favouritefilter: String,
         },
         emits: [
             'search',
             'toggledFavourite',
         ],
+        mounted() {
+            if(this.favouritefilter==='yes'){
+                console.log('its yes!');
+                this.foo = true;
+            } else {
+                console.log('its no!');
+                this.foo = false;
+            }
+        },
         data(){
             return {
                 searchText: '',
-                favouriteFilter: Boolean,
+                foo:Boolean,
             }
         },
         methods:{
             updateSearchText(){
                 this.$emit('search', this.searchText);
             },
-            toggleFavouriteFilter(){
-                console.log('in conversionfactorheader, favouriteFilter:', this.favouriteFilter);
-                this.$emit('toggleFavouriteFilter', this.favouriteFilter);
+            toggleFavouriteFilter(e){
+                this.$emit('toggleFavouriteFilter', e.target.checked);
             },
             addConversionFactor(){
                 this.$emit('addConversionFactor');
