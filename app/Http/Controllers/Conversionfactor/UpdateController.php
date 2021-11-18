@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Conversionfactor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateConversionfactorRequest;
 use App\Models\Conversionfactor;
 use App\Models\Nutrientamount;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class UpdateController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function __invoke(Request $request, Conversionfactor $conversionfactor)
+    public function __invoke(UpdateConversionfactorRequest $request, Conversionfactor $conversionfactor)
     {
         if(isset($request->FoodDescription))
         {

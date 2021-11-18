@@ -29,13 +29,12 @@
                             <input type="text" id="measuredescription" v-model="measureDescription">
                         </div>
                     </div>
-                    <h2>Nutrients</h2>
                     <div v-for="nutrient in nutrients" class="flex items-center mt-2 ml-2">
                         <div class="w-1/6">
                             <label >{{nutrient.NutrientSymbol}}:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="number" id="kcal" v-model="nutrient.NutrientAmount">
+                            <input type="number" v-model="nutrient.NutrientAmount">
                         </div>
                     </div>
                     <div class="m-2">

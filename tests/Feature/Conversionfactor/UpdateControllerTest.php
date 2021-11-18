@@ -16,20 +16,20 @@ class UpdateControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $user, $conversionfactor, $conversionfactorData;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        $nutrients = $this->createNutrients();
+        $this->conversionfactorData = $this->createConversionFactor($nutrients, $this->user->id);
+        $this->conversionfactor = Conversionfactor::find($this->conversionfactorData[0]['ConversionFactorID']);
+    }
+
     /** @test */
     public function it_can_update_a_conversionfactor_foodname_description()
     {
-        $user = User::factory()->create();
-
-        $nutrients = $this->createNutrients();
-        $conversionfactorData = $this->createConversionFactor($nutrients, $user->id);
-
-        $conversionfactor = Conversionfactor::find($conversionfactorData[0]['ConversionFactorID']);
-
-        $this->assertDatabaseHas('foodnames', [
-            'FoodDescription' => $conversionfactor->foodname->FoodDescription,
-        ]);
-
         $payload = [
           'FoodDescription' => 'New Description'
         ];
@@ -38,7 +38,7 @@ class UpdateControllerTest extends TestCase
             'FoodDescription' => $payload['FoodDescription'],
         ]);
 
-        $response = $this->actingAs($user)->patch(route('conversionfactors.update', $conversionfactor), $payload)
+        $this->actingAs($this->user)->patch(route('conversionfactors.update', $this->conversionfactor), $payload)
             ->assertRedirect();
 
         $this->assertDatabaseHas('foodnames', [
@@ -46,24 +46,13 @@ class UpdateControllerTest extends TestCase
         ]);
 
         $this->assertDatabaseMissing('foodnames', [
-            'FoodDescription' => $conversionfactor->foodname->FoodDescription,
+            'FoodDescription' => $this->conversionfactor->foodname->FoodDescription,
         ]);
     }
 
     /** @test */
     public function it_can_update_a_conversionfactor_measurename_description()
     {
-        $user = User::factory()->create();
-
-        $nutrients = $this->createNutrients();
-        $conversionfactorData = $this->createConversionFactor($nutrients, $user->id);
-
-        $conversionfactor = Conversionfactor::find($conversionfactorData[0]['ConversionFactorID']);
-
-        $this->assertDatabaseHas('measurenames', [
-            'MeasureDescription' => $conversionfactor->measurename->MeasureDescription,
-        ]);
-
         $payload = [
             'MeasureDescription' => 'New Description'
         ];
@@ -72,7 +61,7 @@ class UpdateControllerTest extends TestCase
             'MeasureDescription' => $payload['MeasureDescription'],
         ]);
 
-        $response = $this->actingAs($user)->patch(route('conversionfactors.update', $conversionfactor), $payload)
+        $this->actingAs($this->user)->patch(route('conversionfactors.update', $this->conversionfactor), $payload)
             ->assertRedirect();
 
         $this->assertDatabaseHas('measurenames', [
@@ -80,53 +69,79 @@ class UpdateControllerTest extends TestCase
         ]);
 
         $this->assertDatabaseMissing('measurenames', [
-            'MeasureDescription' => $conversionfactor->measurename->MeasureDescription,
+            'MeasureDescription' => $this->conversionfactor->measurename->MeasureDescription,
         ]);
     }
-
 
     /** @test */
     public function it_can_update_conversionfactor_nutrient_amounts()
     {
-        $user = User::factory()->create();
-
-        $nutrients = $this->createNutrients();
-        $conversionfactorData = $this->createConversionFactor($nutrients, $user->id);
-        $conversionfactor = Conversionfactor::find($conversionfactorData[0]['ConversionFactorID']);
-
-        $this->assertDatabaseHas('nutrientamounts', [
-            'FoodID' => $conversionfactorData[0]['Foodname']->FoodID,
-            'NutrientID' => $conversionfactorData[0]['NutrientData'][0]['NutrientID'],
-            'NutrientValue' => $conversionfactorData[0]['NutrientData'][0]['nutrient_value'],
-        ]);
-
         $payload = [
             'nutrients' => [
                 [
-                    'NutrientID' => $conversionfactorData[0]['NutrientData'][0]['NutrientID'],
+                    'NutrientID' => $this->conversionfactorData[0]['NutrientData'][0]['NutrientID'],
                     'NutrientAmount' => '99',
                 ],
                 [
-                    'NutrientID' => $conversionfactorData[0]['NutrientData'][1]['NutrientID'],
+                    'NutrientID' => $this->conversionfactorData[0]['NutrientData'][1]['NutrientID'],
                     'NutrientAmount' => '11',
                 ]
             ]
         ];
 
-        $response = $this->actingAs($user)->patch(route('conversionfactors.update', $conversionfactor), $payload)
+        $this->actingAs($this->user)->patch(route('conversionfactors.update', $this->conversionfactor), $payload)
             ->assertRedirect();
 
         $this->assertDatabaseHas('nutrientamounts', [
-            'FoodID' => $conversionfactorData[0]['Foodname']->FoodID,
-            'NutrientID' => $conversionfactorData[0]['NutrientData'][0]['NutrientID'],
-            'NutrientValue' => round($payload['nutrients'][0]['NutrientAmount']/$conversionfactorData[0]['ConversionFactorValue']),
+            'FoodID' => $this->conversionfactorData[0]['Foodname']->FoodID,
+            'NutrientID' => $this->conversionfactorData[0]['NutrientData'][0]['NutrientID'],
+            'NutrientValue' => round($payload['nutrients'][0]['NutrientAmount']/$this->conversionfactorData[0]['ConversionFactorValue']),
         ]);
 
         $this->assertDatabaseHas('nutrientamounts', [
-            'FoodID' => $conversionfactorData[0]['Foodname']->FoodID,
-            'NutrientID' => $conversionfactorData[0]['NutrientData'][1]['NutrientID'],
-            'NutrientValue' => round($payload['nutrients'][1]['NutrientAmount']/$conversionfactorData[0]['ConversionFactorValue']),
+            'FoodID' => $this->conversionfactorData[0]['Foodname']->FoodID,
+            'NutrientID' => $this->conversionfactorData[0]['NutrientData'][1]['NutrientID'],
+            'NutrientValue' => round($payload['nutrients'][1]['NutrientAmount']/$this->conversionfactorData[0]['ConversionFactorValue']),
         ]);
+    }
+
+    /** @test */
+    public function it_must_have_a_food_description()
+    {
+        $payload = [
+            'FoodDescription' => ''
+        ];
+        $this->actingAs($this->user)->patch(route('conversionfactors.update', $this->conversionfactor), $payload)
+            ->assertSessionHasErrors('FoodDescription');
+    }
+
+    /** @test */
+    public function it_must_have_a_measure_description()
+    {
+        $payload = [
+            'MeasureDescription' => ''
+        ];
+        $this->actingAs($this->user)->patch(route('conversionfactors.update', $this->conversionfactor), $payload)
+            ->assertSessionHasErrors('MeasureDescription');
+    }
+
+    /** @test */
+    public function it_must_have_all_nutrient_amounts_not_less_than_0()
+    {
+        $payload = [
+            'nutrients' => [
+                [
+                    'NutrientID' => $this->conversionfactorData[0]['NutrientData'][0]['NutrientID'],
+                    'NutrientAmount' => '3',
+                ],
+                [
+                    'NutrientID' => $this->conversionfactorData[0]['NutrientData'][1]['NutrientID'],
+                    'NutrientAmount' => '-3',
+                ]
+            ]
+        ];
+        $this->actingAs($this->user)->patch(route('conversionfactors.update', $this->conversionfactor), $payload)
+            ->assertSessionHasErrors('nutrients.*.NutrientAmount');
     }
 
     public function createConversionFactor($nutrients, $owner_id, $count = 1)
