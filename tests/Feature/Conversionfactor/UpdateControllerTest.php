@@ -31,18 +31,18 @@ class UpdateControllerTest extends TestCase
     public function it_can_update_a_conversionfactor_foodname_description()
     {
         $payload = [
-          'FoodDescription' => 'New Description'
+          'foodDescription' => 'New Description'
         ];
 
         $this->assertDatabaseMissing('foodnames', [
-            'FoodDescription' => $payload['FoodDescription'],
+            'FoodDescription' => $payload['foodDescription'],
         ]);
 
         $this->actingAs($this->user)->patch(route('conversionfactors.update', $this->conversionfactor), $payload)
             ->assertRedirect();
 
         $this->assertDatabaseHas('foodnames', [
-            'FoodDescription' => $payload['FoodDescription'],
+            'FoodDescription' => $payload['foodDescription'],
         ]);
 
         $this->assertDatabaseMissing('foodnames', [
@@ -54,18 +54,18 @@ class UpdateControllerTest extends TestCase
     public function it_can_update_a_conversionfactor_measurename_description()
     {
         $payload = [
-            'MeasureDescription' => 'New Description'
+            'measureDescription' => 'New Description'
         ];
 
         $this->assertDatabaseMissing('measurenames', [
-            'MeasureDescription' => $payload['MeasureDescription'],
+            'MeasureDescription' => $payload['measureDescription'],
         ]);
 
         $this->actingAs($this->user)->patch(route('conversionfactors.update', $this->conversionfactor), $payload)
             ->assertRedirect();
 
         $this->assertDatabaseHas('measurenames', [
-            'MeasureDescription' => $payload['MeasureDescription'],
+            'MeasureDescription' => $payload['measureDescription'],
         ]);
 
         $this->assertDatabaseMissing('measurenames', [
@@ -109,20 +109,20 @@ class UpdateControllerTest extends TestCase
     public function it_must_have_a_food_description()
     {
         $payload = [
-            'FoodDescription' => ''
+            'foodDescription' => ''
         ];
         $this->actingAs($this->user)->patch(route('conversionfactors.update', $this->conversionfactor), $payload)
-            ->assertSessionHasErrors('FoodDescription');
+            ->assertSessionHasErrors('foodDescription');
     }
 
     /** @test */
     public function it_must_have_a_measure_description()
     {
         $payload = [
-            'MeasureDescription' => ''
+            'measureDescription' => ''
         ];
         $this->actingAs($this->user)->patch(route('conversionfactors.update', $this->conversionfactor), $payload)
-            ->assertSessionHasErrors('MeasureDescription');
+            ->assertSessionHasErrors('measureDescription');
     }
 
     /** @test */

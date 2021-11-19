@@ -112,7 +112,7 @@ class IndexControllerTest extends TestCase
     public function it_returns_logentries_with_foodname_measurename_and_nutrient_values_symbol_and_units_for_a_date_range()
     {
         Carbon::setTestNow();
-        $now = now()->toDateString();
+
         $this->user = User::factory()->create();
 
         $foodgroup = Foodgroup::factory()->create();
@@ -158,34 +158,34 @@ class IndexControllerTest extends TestCase
             ->where('FoodID', $foodname->FoodID)
             ->first();
 
-        // future logentry within range
+        // old logentry within range
         $logentries[0] = Logentry::factory()->create([
             'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
-            'ConsumedAt' => Carbon::parse($now)->subDays(2)->toDateString(),
+            'ConsumedAt' => now()->copy()->addDays(2)->toDateString(),
         ]);
-        // old logentry within range
+        // future logentry within range
         $logentries[1] = Logentry::factory()->create([
             'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
-            'ConsumedAt' => Carbon::parse($now)->addDays(2)->toDateString(),
+            'ConsumedAt' => now()->copy()->subDays(2)->toDateString(),
         ]);
         // future logentry out of range
         $logentries[2] = Logentry::factory()->create([
             'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
-            'ConsumedAt' => Carbon::parse($now)->addDays(7)->toDateString(),
+            'ConsumedAt' => now()->copy()->addDays(7)->toDateString(),
         ]);
         // old logentry out of range
         $logentries[3] = Logentry::factory()->create([
             'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
-            'ConsumedAt' => Carbon::parse($now)->subDays(7)->toDateString(),
+            'ConsumedAt' => now()->copy()->subDays(7)->toDateString(),
         ]);
 
         $response = $this->actingAs($this->user)->get(route('logentries.index', [
-            'from' => Carbon::parse($now)->subDays(5)->toDateString(),
-            'to' => Carbon::parse($now)->addDays(5)->toDateString(),
+            'from' => now()->copy()->subDays(5)->toDateString(),
+            'to' => now()->copy()->addDays(5)->toDateString(),
         ]))
             ->assertSuccessful();
 
