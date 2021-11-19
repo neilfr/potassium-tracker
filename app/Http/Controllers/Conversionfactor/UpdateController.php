@@ -19,16 +19,16 @@ class UpdateController extends Controller
      */
     public function __invoke(UpdateConversionfactorRequest $request, Conversionfactor $conversionfactor)
     {
-        if(isset($request->FoodDescription))
+        if(isset($request->foodDescription))
         {
             $conversionfactor->foodname->update([
-                'FoodDescription' => $request->FoodDescription,
+                'FoodDescription' => $request->foodDescription,
             ]);
         }
-        if(isset($request->MeasureDescription))
+        if(isset($request->measureDescription))
         {
             $conversionfactor->measurename->update([
-                'MeasureDescription' => $request->MeasureDescription,
+                'MeasureDescription' => $request->measureDescription,
             ]);
         }
         if(isset($request->nutrients))
@@ -45,6 +45,6 @@ class UpdateController extends Controller
             });
         }
 
-        return redirect()->back();
+        return redirect()->route('conversionfactors.index');
     }
 }

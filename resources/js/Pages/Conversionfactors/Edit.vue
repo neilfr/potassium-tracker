@@ -13,6 +13,7 @@
                             </select>
                         </span>
                     </div>
+                    <div class="text-red-500" v-if="errors.foodDescription">{{errors.foodDescription}}</div>
                     <div class="flex items-center mt-2 ml-2">
                         <div class="w-1/6">
                             <label for="fooddescription">Description:</label>
@@ -21,6 +22,7 @@
                             <input type="text" id="fooddescription" v-model="foodDescription">
                         </div>
                     </div>
+                    <div class="text-red-500" v-if="errors.measureDescription">{{errors.measureDescription}}</div>
                     <div class="flex items-center mt-2 ml-2">
                         <div class="w-1/6">
                             <label for="measuredescription">Quantity:</label>
@@ -29,6 +31,7 @@
                             <input type="text" id="measuredescription" v-model="measureDescription">
                         </div>
                     </div>
+                    <div class="text-red-500" v-if="nutrientsError">Both K and KCAL must be zero or greater</div>
                     <div v-for="nutrient in nutrients" class="flex items-center mt-2 ml-2">
                         <div class="w-1/6">
                             <label >{{nutrient.NutrientSymbol}}:</label>
@@ -60,6 +63,7 @@
         props: {
             foodgroups:Object,
             conversionfactor:Object,
+            errors:Object,
         },
         data(){
             return {
@@ -74,7 +78,17 @@
             this.foodGroupId=this.conversionfactor.data.FoodGroupID;
             this.measureDescription=this.conversionfactor.data.MeasureDescription;
             this.nutrients=this.conversionfactor.data.nutrients;
-            console.log(this.nutrients);
+        },
+        computed: {
+          nutrientsError: function () {
+              if(
+                  this.errors['nutrients.0.NutrientAmount'] ||
+                  this.errors['nutrients.1.NutrientAmount']
+              ) {
+                  return true;
+              }
+              return false;
+          }
         },
         methods: {
             handleCancel(){

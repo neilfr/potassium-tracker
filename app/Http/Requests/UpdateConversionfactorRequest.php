@@ -14,8 +14,8 @@ class UpdateConversionfactorRequest extends FormRequest
     public function rules()
     {
         return [
-            'FoodDescription' => 'required|string',
-            'MeasureDescription' => 'required|string',
+            'foodDescription' => 'string',
+            'measureDescription' => 'string',
             'nutrients.*.NutrientAmount' => 'integer|numeric|min:0',
         ];
     }
