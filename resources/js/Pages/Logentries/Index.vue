@@ -60,7 +60,6 @@
             }
         },
         mounted() {
-            console.log('mounted');
             this.resetDateRange();
         },
         methods: {
