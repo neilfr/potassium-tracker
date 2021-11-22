@@ -1,7 +1,7 @@
 <template>
     <div class="flex px-4 py-2">
         <div class="flex-none col-span-2 row-span-2 flex items-center justify-self-center">
-            <input class="rounded" id="consumedAt" v-model="consumedAtDate" type="date" @change="handleDateChange"/>
+            <input class="rounded" id="consumedAt" v-model="consumedAtDate" type="date" @change="handleUpdate"/>
         </div>
         <div class="flex-grow px-6">
             <div class="flex justify-between">
@@ -13,7 +13,7 @@
                         type="number"
                         min="0"
                         v-model="portion"
-                        @change="handlePortionChange"
+                        @change="handleUpdate"
                     />
                 </span>
             </div>
@@ -53,7 +53,7 @@
         },
         emits:[
             'destroy',
-            'dateChanged',
+            'updated',
         ],
         data() {
             return {
@@ -71,19 +71,13 @@
                     'id': this.logentry.id
                 });
             },
-            handleDateChange(){
-                this.$emit('dateChanged',{
+            handleUpdate(){
+                this.$emit('updated',{
                     'id': this.logentry.id,
-                    'ConsumedAt': this.consumedAtDate
-                });
-            },
-            handlePortionChange(){
-                console.log('portion changed', this.portion);
-                this.$emit('portionChanged',{
-                    'id': this.logentry.id,
+                    'ConsumedAt': this.consumedAtDate,
                     'portion': this.portion,
                 });
-            }
+            },
         }
     }
 </script>

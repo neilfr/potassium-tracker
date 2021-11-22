@@ -18,8 +18,7 @@
                             :key="logentry.id"
                             :logentry="logentry"
                             @destroy="destroy"
-                            @dateChanged="handleDateChange"
-                            @portionChanged="handlePortionChange"
+                            @updated="handleLogentryCardUpdate"
                         />
                     </div>
                     <paginator
@@ -123,23 +122,13 @@
                     preserveScroll: true
                 });
             },
-            handleDateChange(logentry){
+            handleLogentryCardUpdate(logentry){
                 let url = route('logentries.update', logentry.id);
                 this.$inertia.visit(url, {
                     method: 'patch',
                     data:{
-                        'ConsumedAt':logentry.ConsumedAt
-                    },
-                    preserveState: true,
-                    preserveScroll: true,
-                });
-            },
-            handlePortionChange(logentry){
-                let url = route('logentries.update', logentry.id);
-                this.$inertia.visit(url, {
-                    method: 'patch',
-                    data:{
-                        'portion':logentry.portion
+                        'ConsumedAt':logentry.ConsumedAt,
+                        'portion':logentry.portion,
                     },
                     preserveState: true,
                     preserveScroll: true,

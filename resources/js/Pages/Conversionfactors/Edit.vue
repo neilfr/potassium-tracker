@@ -25,7 +25,7 @@
                     <div class="text-red-500" v-if="errors.measureDescription">{{errors.measureDescription}}</div>
                     <div class="flex items-center mt-2 ml-2">
                         <div class="w-1/6">
-                            <label for="measuredescription">Quantity:</label>
+                            <label for="measuredescription">Serving Size:</label>
                         </div>
                         <div class="w-5/6">
                             <input type="text" id="measuredescription" v-model="measureDescription">

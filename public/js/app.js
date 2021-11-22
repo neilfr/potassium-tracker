@@ -18318,7 +18318,7 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     logentry: Object
   },
-  emits: ['destroy', 'dateChanged'],
+  emits: ['destroy', 'updated'],
   data: function data() {
     return {
       consumedAtDate: String,
@@ -18335,16 +18335,10 @@ __webpack_require__.r(__webpack_exports__);
         'id': this.logentry.id
       });
     },
-    handleDateChange: function handleDateChange() {
-      this.$emit('dateChanged', {
+    handleUpdate: function handleUpdate() {
+      this.$emit('updated', {
         'id': this.logentry.id,
-        'ConsumedAt': this.consumedAtDate
-      });
-    },
-    handlePortionChange: function handlePortionChange() {
-      console.log('portion changed', this.portion);
-      this.$emit('portionChanged', {
-        'id': this.logentry.id,
+        'ConsumedAt': this.consumedAtDate,
         'portion': this.portion
       });
     }
@@ -19291,22 +19285,12 @@ __webpack_require__.r(__webpack_exports__);
         preserveScroll: true
       });
     },
-    handleDateChange: function handleDateChange(logentry) {
+    handleLogentryCardUpdate: function handleLogentryCardUpdate(logentry) {
       var url = route('logentries.update', logentry.id);
       this.$inertia.visit(url, {
         method: 'patch',
         data: {
-          'ConsumedAt': logentry.ConsumedAt
-        },
-        preserveState: true,
-        preserveScroll: true
-      });
-    },
-    handlePortionChange: function handlePortionChange(logentry) {
-      var url = route('logentries.update', logentry.id);
-      this.$inertia.visit(url, {
-        method: 'patch',
-        data: {
+          'ConsumedAt': logentry.ConsumedAt,
           'portion': logentry.portion
         },
         preserveState: true,
@@ -19822,7 +19806,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     }),
     type: "date",
     onChange: _cache[2] || (_cache[2] = function () {
-      return $options.handleDateChange && $options.handleDateChange.apply($options, arguments);
+      return $options.handleUpdate && $options.handleUpdate.apply($options, arguments);
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
@@ -19836,7 +19820,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       return $data.portion = $event;
     }),
     onChange: _cache[4] || (_cache[4] = function () {
-      return $options.handlePortionChange && $options.handlePortionChange.apply($options, arguments);
+      return $options.handleUpdate && $options.handleUpdate.apply($options, arguments);
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
@@ -21204,7 +21188,7 @@ var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
   "class": "w-1/6"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "for": "measuredescription"
-}, "Quantity:")], -1
+}, "Serving Size:")], -1
 /* HOISTED */
 );
 
@@ -21416,7 +21400,7 @@ var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
   "class": "w-1/6"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "for": "measuredescription"
-}, "Quantity:")], -1
+}, "Serving Size:")], -1
 /* HOISTED */
 );
 
@@ -21661,11 +21645,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           key: logentry.id,
           logentry: logentry,
           onDestroy: $options.destroy,
-          onDateChanged: $options.handleDateChange,
-          onPortionChanged: $options.handlePortionChange
+          onUpdated: $options.handleLogentryCardUpdate
         }, null, 8
         /* PROPS */
-        , ["logentry", "onDestroy", "onDateChanged", "onPortionChanged"]);
+        , ["logentry", "onDestroy", "onUpdated"]);
       }), 128
       /* KEYED_FRAGMENT */
       ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_paginator, {

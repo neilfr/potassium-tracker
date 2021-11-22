@@ -130,6 +130,7 @@ class DestroyControllerTest extends TestCase
         $logentry = Logentry::factory()->create([
             'UserID' => $user->id,
             'ConversionFactorID' => $conversionfactor->id,
+            'portion' => 100,
             'ConsumedAt' => now()->toDateString(),
         ]);
 

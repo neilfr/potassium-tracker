@@ -38,6 +38,7 @@ class DestroyControllerTest extends TestCase
             'UserID' => $user->id,
             'ConsumedAt' => now()->toDateString(),
             'ConversionFactorID' => $conversionfactor->id,
+            'portion' => 100,
         ]);
 
         $this->assertDatabaseHas('logentries', [

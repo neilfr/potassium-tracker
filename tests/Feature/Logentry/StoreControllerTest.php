@@ -19,6 +19,7 @@ class StoreControllerTest extends TestCase
     /** @test */
     public function it_stores_a_new_logentry()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $foodgroup=Foodgroup::factory()->create();
         $foodname=Foodname::factory()->create([

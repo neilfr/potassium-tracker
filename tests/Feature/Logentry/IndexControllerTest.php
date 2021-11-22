@@ -165,24 +165,28 @@ class IndexControllerTest extends TestCase
             'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => now()->copy()->addDays(2)->toDateString(),
+            'portion' => 100,
         ]);
         // future logentry within range
         $logentries[1] = Logentry::factory()->create([
             'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => now()->copy()->subDays(2)->toDateString(),
+            'portion' => 100,
         ]);
         // future logentry out of range
         $logentries[2] = Logentry::factory()->create([
             'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => now()->copy()->addDays(7)->toDateString(),
+            'portion' => 100,
         ]);
         // old logentry out of range
         $logentries[3] = Logentry::factory()->create([
             'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
             'ConsumedAt' => now()->copy()->subDays(7)->toDateString(),
+            'portion' => 100,
         ]);
 
         $response = $this->actingAs($this->user)->get(route('logentries.index', [

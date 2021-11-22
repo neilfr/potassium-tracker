@@ -19,6 +19,7 @@ class StoreController extends Controller
         Logentry::create([
             'UserID' => auth()->user()->id,
             'ConversionFactorID' => $request->input('id'),
+            'portion' => 100,
             'ConsumedAt' => now()->toDateString(),
         ]);
 
