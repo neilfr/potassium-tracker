@@ -28,7 +28,7 @@ class IndexControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_todays_logentries_with_foodname_measurename_and_nutrient_values_symbol_and_units()
+    public function it_returns_todays_logentries_with_foodname_measurename_and_nutrient_values_symbol_and_units_and_portion_size()
     {
         Carbon::setTestNow();
         $this->user = User::factory()->create();
@@ -79,6 +79,7 @@ class IndexControllerTest extends TestCase
         $logentries = Logentry::factory()->count(2)->create([
             'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
+            'portion' => 100,
             'ConsumedAt' => now()->toDateString(),
         ]);
 
@@ -94,6 +95,7 @@ class IndexControllerTest extends TestCase
             {
                 $this->assertEquals($logentries[$index]->toArray()['UserID'], $logentry['UserID']);
                 $this->assertEquals($logentries[$index]->toArray()['ConversionFactorID'], $logentry['ConversionFactorID']);
+                $this->assertEquals($logentries[$index]->toArray()['portion'], $logentry['portion']);
                 $this->assertEquals(Carbon::parse($logentries[$index]->toArray()['ConsumedAt'])->toDateString(), Carbon::parse($logentry['ConsumedAt'])->toDateString());
                 $this->assertEquals($foodname->FoodDescription, $logentry['FoodDescription']);
                 $this->assertEquals($measurename->MeasureDescription, $logentry['MeasureDescription']);
@@ -238,10 +240,12 @@ class IndexControllerTest extends TestCase
             return $nutrient;
         });
 
-        $expectedTotals = $foodname->nutrientnames->map(function($nutrient, $index) use($foodname){
+        $portionSize = 75;
+
+        $expectedTotals = $foodname->nutrientnames->map(function($nutrient, $index) use($foodname, $portionSize){
             return [
                 'NutrientID' => $foodname->nutrientnames[$index]->NutrientID,
-                'ExpectedTotal' => $foodname->nutrientnames[$index]->pivot->NutrientValue * 2
+                'ExpectedTotal' => $foodname->nutrientnames[$index]->pivot->NutrientValue * 2 * ($portionSize / 100),
             ];
         });
 
@@ -261,6 +265,7 @@ class IndexControllerTest extends TestCase
         $logentries = Logentry::factory()->count(2)->create([
             'UserID' => $this->user->id,
             'ConversionFactorID' => $conversionfactor->id,
+            'portion' => $portionSize,
             'ConsumedAt' => now(),
         ]);
 

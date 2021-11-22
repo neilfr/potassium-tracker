@@ -19,6 +19,7 @@ class LogentryResource extends JsonResource
             'UserID' => $this->UserID,
             'ConversionFactorID' => $this->ConversionFactorID,
             'ConsumedAt' => $this->ConsumedAt,
+            'portion' => $this->portion,
             'FoodDescription' => $this->conversionfactor->foodname->FoodDescription,
             'FoodGroupName' => $this->conversionfactor->foodname->foodgroup->FoodGroupName,
             'MeasureDescription' => $this->conversionfactor->measurename->MeasureDescription,
