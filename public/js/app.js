@@ -18300,6 +18300,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_StringText__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/StringText */ "./resources/js/Components/StringText.vue");
 /* harmony import */ var _Components_NumberText__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/NumberText */ "./resources/js/Components/NumberText.vue");
 /* harmony import */ var _Components_Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/Button */ "./resources/js/Components/Button.vue");
+/* harmony import */ var _Components_Label__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Components/Label */ "./resources/js/Components/Label.vue");
+
 
 
 
@@ -18307,6 +18309,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "LogEntry",
   components: {
+    Label: _Components_Label__WEBPACK_IMPORTED_MODULE_4__.default,
     NumberText: _Components_NumberText__WEBPACK_IMPORTED_MODULE_2__.default,
     StringText: _Components_StringText__WEBPACK_IMPORTED_MODULE_1__.default,
     DateText: _Components_DateText__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -18318,11 +18321,13 @@ __webpack_require__.r(__webpack_exports__);
   emits: ['destroy', 'dateChanged'],
   data: function data() {
     return {
-      consumedAtDate: String
+      consumedAtDate: String,
+      portion: Number
     };
   },
   mounted: function mounted() {
     this.consumedAtDate = this.logentry.ConsumedAt.substring(0, 10);
+    this.portion = this.logentry.portion;
   },
   methods: {
     destroy: function destroy() {
@@ -18334,6 +18339,13 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('dateChanged', {
         'id': this.logentry.id,
         'ConsumedAt': this.consumedAtDate
+      });
+    },
+    handlePortionChange: function handlePortionChange() {
+      console.log('portion changed', this.portion);
+      this.$emit('portionChanged', {
+        'id': this.logentry.id,
+        'portion': this.portion
       });
     }
   }
@@ -19289,6 +19301,17 @@ __webpack_require__.r(__webpack_exports__);
         preserveState: true,
         preserveScroll: true
       });
+    },
+    handlePortionChange: function handlePortionChange(logentry) {
+      var url = route('logentries.update', logentry.id);
+      this.$inertia.visit(url, {
+        method: 'patch',
+        data: {
+          'portion': logentry.portion
+        },
+        preserveState: true,
+        preserveScroll: true
+      });
     }
   }
 });
@@ -19768,14 +19791,21 @@ var _hoisted_3 = {
 var _hoisted_4 = {
   "class": "flex justify-between"
 };
-var _hoisted_5 = {
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "for": "portion"
+}, "Portion (%): ", -1
+/* HOISTED */
+);
+
+var _hoisted_6 = {
   "class": "flex justify-between"
 };
-var _hoisted_6 = {
+var _hoisted_7 = {
   "class": "flex-none flex items-center justify-self-center col-span-1 row-span-2"
 };
 
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Delete");
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Delete");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -19798,7 +19828,19 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.consumedAtDate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.FoodDescription) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.MeasureDescription), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentry.nutrients, function (nutrient) {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    id: "portion",
+    type: "number",
+    min: "0",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.portion = $event;
+    }),
+    onChange: _cache[4] || (_cache[4] = function () {
+      return $options.handlePortionChange && $options.handlePortionChange.apply($options, arguments);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.portion]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentry.nutrients, function (nutrient) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ": ", 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
@@ -19812,11 +19854,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* UNKEYED_FRAGMENT */
   )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.FoodGroupName), 1
   /* TEXT */
-  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
     onClick: $options.destroy
   }, {
     "default": _withId(function () {
-      return [_hoisted_7];
+      return [_hoisted_8];
     }),
     _: 1
     /* STABLE */
@@ -21619,10 +21661,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           key: logentry.id,
           logentry: logentry,
           onDestroy: $options.destroy,
-          onDateChanged: $options.handleDateChange
+          onDateChanged: $options.handleDateChange,
+          onPortionChanged: $options.handlePortionChange
         }, null, 8
         /* PROPS */
-        , ["logentry", "onDestroy", "onDateChanged"]);
+        , ["logentry", "onDestroy", "onDateChanged", "onPortionChanged"]);
       }), 128
       /* KEYED_FRAGMENT */
       ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_paginator, {

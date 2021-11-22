@@ -19,6 +19,7 @@
                             :logentry="logentry"
                             @destroy="destroy"
                             @dateChanged="handleDateChange"
+                            @portionChanged="handlePortionChange"
                         />
                     </div>
                     <paginator
@@ -128,6 +129,17 @@
                     method: 'patch',
                     data:{
                         'ConsumedAt':logentry.ConsumedAt
+                    },
+                    preserveState: true,
+                    preserveScroll: true,
+                });
+            },
+            handlePortionChange(logentry){
+                let url = route('logentries.update', logentry.id);
+                this.$inertia.visit(url, {
+                    method: 'patch',
+                    data:{
+                        'portion':logentry.portion
                     },
                     preserveState: true,
                     preserveScroll: true,

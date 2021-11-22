@@ -11,7 +11,7 @@ class Logentry extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['ConversionFactorID', 'UserID', 'ConsumedAt'];
+    protected $fillable = ['ConversionFactorID', 'UserID', 'ConsumedAt', 'portion'];
 
     protected $with = ['conversionfactor'];
 

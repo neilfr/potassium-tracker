@@ -6,6 +6,16 @@
         <div class="flex-grow px-6">
             <div class="flex justify-between">
                 <span>{{logentry.FoodDescription}} - {{logentry.MeasureDescription}}</span>
+                <span>
+                    <label for="portion">Portion (%): </label>
+                    <input
+                        id="portion"
+                        type="number"
+                        min="0"
+                        v-model="portion"
+                        @change="handlePortionChange"
+                    />
+                </span>
             </div>
             <div class="flex justify-between">
                 <span v-for="nutrient in logentry.nutrients">
@@ -27,10 +37,12 @@
     import StringText from "@/Components/StringText";
     import NumberText from "@/Components/NumberText";
     import Button from "@/Components/Button";
+    import Label from "@/Components/Label";
 
     export default {
         name: "LogEntry",
         components: {
+            Label,
             NumberText,
             StringText,
             DateText,
@@ -46,10 +58,12 @@
         data() {
             return {
                 consumedAtDate: String,
+                portion: Number,
             }
         },
         mounted(){
             this.consumedAtDate = this.logentry.ConsumedAt.substring(0,10);
+            this.portion = this.logentry.portion;
         },
         methods:{
             destroy(){
@@ -61,6 +75,13 @@
                 this.$emit('dateChanged',{
                     'id': this.logentry.id,
                     'ConsumedAt': this.consumedAtDate
+                });
+            },
+            handlePortionChange(){
+                console.log('portion changed', this.portion);
+                this.$emit('portionChanged',{
+                    'id': this.logentry.id,
+                    'portion': this.portion,
                 });
             }
         }
