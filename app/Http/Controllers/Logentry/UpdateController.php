@@ -19,6 +19,6 @@ class UpdateController extends Controller
     {
         $logentry->update($request->validated());
 
-        return redirect()->route('logentries.index');
+        return redirect()->back();
     }
 }
