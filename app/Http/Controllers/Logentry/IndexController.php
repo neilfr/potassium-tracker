@@ -35,15 +35,8 @@ class IndexController extends Controller
                 ->get()
         );
 
-        $allLogentriesWithPortionedNutrients = $allLogentries->map(function($logentry){
-            return $logentry->conversionfactor->nutrients->map(function($nutrient) use($logentry) {
-               return array_merge($nutrient,[
-                   'scaled' => $nutrient['NutrientAmount'] * $logentry->portion/100,
-               ]);
-            });
-        })->flatten(1);
-
-        $uniqueNutrientIds = $allLogentriesWithPortionedNutrients
+        $nutrientsForAllLogentries = collect($allLogentries->resolve())->pluck('nutrients')->flatten(1);
+        $uniqueNutrientIds = $nutrientsForAllLogentries
             ->whereIn('NutrientID', collect(explode(',', env('NUTRIENTS'))))
             ->pluck('NutrientID')
             ->unique();
@@ -51,10 +44,10 @@ class IndexController extends Controller
             ->whereIn('NutrientID', explode(',', env('NUTRIENTS', false)))
             ->get();
 
-        $nutrientTotals = $uniqueNutrientIds->map( function ($uniqueNutrientId) use($allLogentriesWithPortionedNutrients, $nutrientModels) {
-            $nutrientTotal = $allLogentriesWithPortionedNutrients->reduce(function ($acc, $nutrient) use($uniqueNutrientId) {
+        $nutrientTotals = $uniqueNutrientIds->map( function ($uniqueNutrientId) use($nutrientsForAllLogentries, $nutrientModels) {
+            $nutrientTotal = $nutrientsForAllLogentries->reduce(function ($acc, $nutrient) use($uniqueNutrientId) {
                 return $uniqueNutrientId === $nutrient['NutrientID']
-                    ? $acc + $nutrient['scaled']
+                    ? $acc + $nutrient['NutrientAmount']
                     : $acc;
             }, 0);
 

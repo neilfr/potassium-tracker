@@ -14,6 +14,11 @@ class LogentryResource extends JsonResource
      */
     public function toArray($request)
     {
+        $nutrients = $this->conversionfactor->nutrients->map(function ($nutrient) {
+            return array_merge($nutrient, [
+                'NutrientAmount' => $nutrient['NutrientAmount'] * $this->portion / 100,
+            ]);
+        });
         return [
             'id' => $this->id,
             'UserID' => $this->UserID,
@@ -24,7 +29,7 @@ class LogentryResource extends JsonResource
             'FoodGroupName' => $this->conversionfactor->foodname->foodgroup->FoodGroupName,
             'MeasureDescription' => $this->conversionfactor->measurename->MeasureDescription,
             'ConversionFactorValue' => $this->conversionfactor->ConversionFactorValue,
-            'nutrients' => $this->conversionfactor->nutrients,
+            'nutrients' => $nutrients,
         ];
     }
 }
