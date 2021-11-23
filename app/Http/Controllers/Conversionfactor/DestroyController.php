@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Conversionfactor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DestroyConversionfactorRequest;
 use App\Models\Conversionfactor;
 use App\Models\Logentry;
 use Illuminate\Http\Request;
@@ -21,9 +22,8 @@ class DestroyController extends Controller
         if ($conversionfactor->user_id !== auth()->user()->id){
             return;
         }
-
         if (Logentry::where('ConversionFactorID', $conversionfactor->id)->exists()){
-            return;
+            return redirect()->back();
         }
 
         $measurename = $conversionfactor->measurename;
@@ -36,6 +36,7 @@ class DestroyController extends Controller
         $conversionfactor->delete();
         $measurename->delete();
         $foodname->delete();
+//        dd('here');
 
         return redirect()->route('conversionfactors.index');
     }
