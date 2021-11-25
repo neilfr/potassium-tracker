@@ -3,6 +3,7 @@
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg align-middle">
+                    <div class="text-red-500" v-if="errors.logExists">{{errors.logExists}}</div>
                     <div class="flex items-center mt-2 ml-2">
                         <span class="w-1/6">
                             <label for="foodgroups">Foodgroup:</label>

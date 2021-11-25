@@ -23,7 +23,9 @@ class DestroyController extends Controller
             return;
         }
         if (Logentry::where('ConversionFactorID', $conversionfactor->id)->exists()){
-            return redirect()->back();
+            return redirect()->back()->withErrors([
+                'logExists' => 'Food cannot be deleted as there is a log entry for it.  To delete this food, first delete all of its related log entries.',
+            ]);
         }
 
         $measurename = $conversionfactor->measurename;
