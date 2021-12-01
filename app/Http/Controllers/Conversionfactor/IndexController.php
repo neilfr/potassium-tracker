@@ -22,7 +22,7 @@ class IndexController extends Controller
         $searchText = $request->query('searchText');
         $favouritefilter = $request->query('favouritefilter') ?: 'yes';
         $conversionfactors = Conversionfactor::query()
-            ->forAuthUser()
+            ->userOwnedOrShared()
             ->with('foodname')
             ->foodnameSearch($searchText)
             ->favouriteFilter($favouritefilter)

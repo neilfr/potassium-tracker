@@ -12,11 +12,12 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Tests\TestHelpers;
 use Throwable;
 
 class IndexControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, TestHelpers;
 
     /** @test */
     public function it_returns_favourite_conversionfactors_by_default_with_foodname_and_measurename_for_each_foodnames_measurename()
@@ -145,6 +146,8 @@ class IndexControllerTest extends TestCase
 
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
         $this->assertCount(2, $responseData['conversionfactors']['data']);
+        $this->assertEquals('user_id', array_search(null, $responseData['conversionfactors']['data'][0]));
+        $this->assertEquals('user_id', array_search($user->id, $responseData['conversionfactors']['data'][1]));
     }
 
     public function arrayHasArrayWithValue($arrayOfArrays, $value)
@@ -152,55 +155,5 @@ class IndexControllerTest extends TestCase
         return array_reduce($arrayOfArrays, function($acc, $array) use($value){
             return $acc + in_array($value, $array);
         },0) > 0;
-    }
-
-    public function createConversionFactor($nutrients, $owner_id, $count = 1)
-    {
-        $data = [];
-        for($i=0;$i<$count;$i++){
-            $foodgroup = Foodgroup::factory()->create();
-            $foodname = Foodname::factory()->create([
-                'FoodGroupID' => $foodgroup->FoodGroupID,
-            ]);
-            $measurename = Measurename::factory()->create();
-
-            $conversionFactorValue = rand(1,5);
-            $foodname->measurenames()->attach(
-                $measurename,
-                [
-                    'ConversionFactorValue' => $conversionFactorValue,
-                    'user_id' => $owner_id,
-                ]
-            );
-
-            $nutrientData = $nutrients->map(function($nutrient) use ($foodname) {
-                $nutrientValue = rand(100,200);
-                $foodname->nutrientnames()->attach($nutrient, [
-                    'NutrientValue' => $nutrientValue,
-                ]);
-                return array_merge($nutrient->toArray(), ['nutrient_value' => $nutrientValue]);
-            });
-            $data[$i] = [
-                'ConversionFactorID' => $foodname->measurenames()->first()->pivot->id,
-                'ConversionFactorValue' => $conversionFactorValue,
-                'Foodgroup' => $foodgroup,
-                'Foodname' => $foodname,
-                'Measurename' => $measurename,
-                'NutrientData' => $nutrientData,
-            ];
-        }
-
-        return $data;
-    }
-
-    protected function createNutrients(): \Illuminate\Support\Collection
-    {
-        $nutrientsConfig = collect(explode(',', env('NUTRIENTS')));
-        $nutrients = $nutrientsConfig->map(function ($nutrientId) {
-            return Nutrientname::factory()->create([
-                'NutrientID' => $nutrientId,
-            ]);
-        });
-        return $nutrients;
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Resources\FoodgroupResource;
 use App\Models\Conversionfactor;
 use App\Models\Foodgroup;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Inertia\Inertia;
 
 class EditController extends Controller
@@ -20,6 +21,10 @@ class EditController extends Controller
      */
     public function __invoke(Request $request, Conversionfactor $conversionfactor)
     {
+        if ($conversionfactor->user_id !== auth()->user()->id){
+            return response([], Response::HTTP_FORBIDDEN);
+        }
+
         return Inertia::render('Conversionfactors/Edit',
             [
                 'foodgroups' => FoodgroupResource::collection(Foodgroup::all()),

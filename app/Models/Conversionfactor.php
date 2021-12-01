@@ -60,7 +60,7 @@ class Conversionfactor extends Pivot
         }
     }
 
-    public function scopeForAuthUser(Builder $query)
+    public function scopeUserOwnedOrShared(Builder $query)
     {
         $query->where('user_id', null)
             ->orWhere('user_id', auth()->user()->id);
