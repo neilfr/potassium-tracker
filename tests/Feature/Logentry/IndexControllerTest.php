@@ -199,4 +199,29 @@ class IndexControllerTest extends TestCase
             );
         });
     }
+
+    /** @test */
+    public function it_only_returns_logentries_owned_by_the_logged_in_user()
+    {
+        $userOwnedLogentry = Logentry::factory()->create([
+            'UserID' => $this->user->id,
+            'ConversionFactorID' => $this->conversionfactor->id,
+            'ConsumedAt' => now(),
+            'portion' => 100,
+        ]);
+
+        $anotherUser = User::factory()->create();
+
+        $anotherUsersLogentry = Logentry::factory()->create([
+            'UserID' => $anotherUser->id,
+            'ConversionFactorID' => $this->conversionfactor->id,
+            'ConsumedAt' => now(),
+            'portion' => 100,
+        ]);
+
+        $response = $this->actingAs($this->user)->get(route('logentries.index'));
+        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+        $this->assertTrue(count($responseData['logentries']['data']) === 1);
+        $this->assertTrue($responseData['logentries']['data'][0]['UserID'] === auth()->user()->id);
+    }
 }
