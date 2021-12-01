@@ -18,7 +18,7 @@ class IndexControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $user, $conversionfactor, $foodname, $measurename;
+    protected $user, $conversionfactor, $foodname, $measurename, $conversionfactorValue;
 
     public function setUp(): void
     {
@@ -34,35 +34,25 @@ class IndexControllerTest extends TestCase
             'FoodGroupID' => $foodgroup->FoodGroupID,
         ]);
 
-        $potassium = Nutrientname::factory()->create([
-            'NutrientID' => 306,
-            'NutrientName' => 'POTASSIUM',
-            'NutrientSymbol' => 'K',
-            'NutrientUnit' => 'mg',
-        ]);
-        $potassiumNutrientValue = 100.6;
-        $this->foodname->nutrientnames()->attach($potassium, [
-            'NutrientValue' => $potassiumNutrientValue
-        ]);
+        $nutrientIds = collect(explode(',', env('NUTRIENTS')));
 
-        $kcal = Nutrientname::factory()->create([
-            'NutrientID' => 208,
-            'NutrientName' => 'ENERGY (KILOCALORIES)',
-            'NutrientSymbol' => 'KCAL',
-            'NutrientUnit' => 'kCal',
-        ]);
-        $kcalNutrientValue = 50.568;
-        $this->foodname->nutrientnames()->attach($kcal, [
-            'NutrientValue' => $kcalNutrientValue
-        ]);
+        $nutrientIds->each(function($nutrientId) {
+            $nutrient = Nutrientname::factory()->create([
+                'NutrientID' => $nutrientId,
+            ]);
+            $this->foodname->nutrientnames()->attach($nutrient, [
+                'NutrientValue' => rand(10,100),
+            ]);
+            return $nutrient;
+        });
 
         $this->measurename = Measurename::factory()->create([
             'MeasureID' => 5,
         ]);
-        $conversionFactorValue = 100;
+        $this->conversionFactorValue = 100;
         $this->foodname->measurenames()->attach($this->measurename, [
             'id' => 9,
-            'ConversionFactorValue' => $conversionFactorValue,
+            'ConversionFactorValue' => $this->conversionFactorValue,
         ]);
         $this->conversionfactor = Conversionfactor::query()
             ->where('MeasureID', $this->measurename->MeasureID)
@@ -172,53 +162,18 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function it_returns_logentries_with_nutrient_totals()
     {
-        $this->user = User::factory()->create();
-
-        $foodgroup = Foodgroup::factory()->create();
-
-        $foodname = Foodname::factory()->create([
-            'FoodID' => 7,
-            'FoodDescription' => 'My Food Description',
-            'FoodGroupID' => $foodgroup->FoodGroupID,
-        ]);
-
-        $nutrientIds = collect(explode(',', env('NUTRIENTS')));
-
-        $nutrientIds->each(function($nutrientId) use($foodname){
-            $nutrient = Nutrientname::factory()->create([
-                'NutrientID' => $nutrientId,
-            ]);
-            $foodname->nutrientnames()->attach($nutrient, [
-                'NutrientValue' => rand(10,100),
-            ]);
-            return $nutrient;
-        });
-
         $portionSize = 75;
 
-        $expectedTotals = $foodname->nutrientnames->map(function($nutrient, $index) use($foodname, $portionSize){
+        $expectedTotals = $this->foodname->nutrientnames->map(function($nutrient, $index) use($portionSize){
             return [
-                'NutrientID' => $foodname->nutrientnames[$index]->NutrientID,
-                'ExpectedTotal' => $foodname->nutrientnames[$index]->pivot->NutrientValue * 2 * ($portionSize / 100),
+                'NutrientID' => $this->foodname->nutrientnames[$index]->NutrientID,
+                'ExpectedTotal' => $this->foodname->nutrientnames[$index]->pivot->NutrientValue * 2 * ($portionSize / 100),
             ];
         });
 
-        $measurename = Measurename::factory()->create([
-            'MeasureID' => 5,
-        ]);
-        $conversionFactorValue = 100;
-        $foodname->measurenames()->attach($measurename, [
-            'id' => 9,
-            'ConversionFactorValue' => $conversionFactorValue,
-        ]);
-        $conversionfactor = Conversionfactor::query()
-            ->where('MeasureID', $measurename->MeasureID)
-            ->where('FoodID', $foodname->FoodID)
-            ->first();
-
         $logentries = Logentry::factory()->count(2)->create([
             'UserID' => $this->user->id,
-            'ConversionFactorID' => $conversionfactor->id,
+            'ConversionFactorID' => $this->conversionfactor->id,
             'portion' => $portionSize,
             'ConsumedAt' => now(),
         ]);
@@ -231,7 +186,7 @@ class IndexControllerTest extends TestCase
 
         $this->assertCount(count($logentries), $nutrientTotalsResponseData);
 
-        $nutrientTotalsResponseData->each(function ($nutrientTotal, $index) use($expectedTotals, $conversionFactorValue) {
+        $nutrientTotalsResponseData->each(function ($nutrientTotal, $index) use($expectedTotals) {
             $this->assertArrayHasKey('NutrientID', $nutrientTotal);
             $this->assertArrayHasKey('NutrientName', $nutrientTotal);
             $this->assertArrayHasKey('NutrientSymbol', $nutrientTotal);
@@ -239,7 +194,7 @@ class IndexControllerTest extends TestCase
             $this->assertArrayHasKey('total', $nutrientTotal);
             $this->assertEquals(
                 $expectedTotals->where('NutrientID', $nutrientTotal['NutrientID'])->first()['ExpectedTotal']
-                * $conversionFactorValue,
+                * $this->conversionFactorValue,
                 $nutrientTotal['total']
             );
         });

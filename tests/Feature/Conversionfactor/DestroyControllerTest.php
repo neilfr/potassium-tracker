@@ -135,7 +135,7 @@ class DestroyControllerTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)->delete(route('conversionfactors.destroy', $conversionfactor))
-            ->assertSuccessful();
+            ->assertRedirect();
 
         $this->assertDatabaseHas('conversionfactors', [
             'id' => $conversionfactor->id,
