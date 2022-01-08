@@ -70,21 +70,17 @@ class IndexControllerTest extends TestCase
             ]
         );
 
+
         Favourite::factory()->create([
             'ConversionFactorID' => Conversionfactor::first()->id,
             'user_id' => $user->id,
         ]);
 
-        $nutrientsConfig = collect(explode(',',env('NUTRIENTS')));
-
-        $nutrients = $nutrientsConfig->map(function($nutrientId) use ($foodname) {
-           $nutrient = Nutrientname::factory()->create([
-               'NutrientID' => $nutrientId,
-            ]);
-           $foodname->nutrientnames()->attach($nutrient, [
-               'NutrientValue' => rand(100, 200),
+        $nutrients = $this->createNutrients();
+        $nutrients->each(function($nutrient, $index) use ($foodname) {
+            $foodname->nutrientnames()->attach($nutrient, [
+               'NutrientValue' => ($index + 1) * 100,
            ]);
-           return $nutrient;
         });
 
         $response = $this->actingAs($user)->get(route('conversionfactors.index'))
@@ -92,7 +88,7 @@ class IndexControllerTest extends TestCase
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
         $conversionfactorResponseData = $responseData['conversionfactors']['data'];
 
-        $this->assertCount(1, $conversionfactorResponseData);
+$this->assertCount(1, $conversionfactorResponseData);
         $this->assertArrayHasKey('nutrients', $conversionfactorResponseData[0]);
 
         $nutrientsResponse = collect($conversionfactorResponseData[0]['nutrients']);
@@ -148,6 +144,63 @@ class IndexControllerTest extends TestCase
         $this->assertCount(2, $responseData['conversionfactors']['data']);
         $this->assertEquals('user_id', array_search(null, $responseData['conversionfactors']['data'][0]));
         $this->assertEquals('user_id', array_search($user->id, $responseData['conversionfactors']['data'][1]));
+    }
+
+    /** @test */
+    public function it_returns_nutrientdensity_with_a_conversionfactor()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create();
+        $foodgroup = Foodgroup::factory()->create([
+            'FoodGroupID' => 5
+        ]);
+        $foodname = Foodname::factory()->create([
+            'FoodID' => 7,
+            'FoodGroupID' => $foodgroup->FoodGroupID,
+        ]);
+        $measurename = Measurename::factory()->create();
+        $conversionFactorValue = 1;
+        $foodname->measurenames()->attach(
+            $measurename,
+            [
+                'ConversionFactorValue' => $conversionFactorValue,
+            ]
+        );
+
+        Favourite::factory()->create([
+            'ConversionFactorID' => Conversionfactor::first()->id,
+            'user_id' => $user->id,
+        ]);
+
+        $nutrients = $this->createNutrients();
+
+        $nutrientsDensityItems = collect(explode(',', env('NUTRIENT_DENSITY')));
+
+        $numeratorNutrientValue = 100;
+        $numeratorNutrient = collect($nutrients->filter(function($nutrient) use($nutrientsDensityItems) {
+            return $nutrient['NutrientID'] ==  $nutrientsDensityItems[0];
+        }))->first();
+        $foodname->nutrientnames()->attach($numeratorNutrient, ['NutrientValue' => $numeratorNutrientValue]);
+
+        $denominatorNutrientValue = 200;
+        $denominatorNutrient = collect($nutrients->filter(function($nutrient) use($nutrientsDensityItems) {
+            return $nutrient['NutrientID'] ==  $nutrientsDensityItems[1];
+        }))->first();
+        $foodname->nutrientnames()->attach($denominatorNutrient, ['NutrientValue' => $denominatorNutrientValue]);
+
+        $expectedNutrientDensityValue = $numeratorNutrientValue/$denominatorNutrientValue;
+        $expectedNutrientDensityUnit = $numeratorNutrient['NutrientUnit'] . ' ' . $numeratorNutrient['NutrientSymbol'] .
+            ' / ' . $denominatorNutrient['NutrientUnit'] . ' ' . $denominatorNutrient['NutrientSymbol'];
+
+        $response = $this->actingAs($user)->get(route('conversionfactors.index'))
+            ->assertSuccessful();
+        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+        $conversionfactorResponseData = $responseData['conversionfactors']['data'];
+
+        $this->assertArrayHasKey('NutrientDensityUnit',$conversionfactorResponseData[0]);
+        $this->assertEquals($expectedNutrientDensityUnit, $conversionfactorResponseData[0]['NutrientDensityUnit']);
+        $this->assertArrayHasKey('NutrientDensityValue',$conversionfactorResponseData[0]);
+        $this->assertEquals($expectedNutrientDensityValue, $conversionfactorResponseData[0]['NutrientDensityValue']);
     }
 
     public function arrayHasArrayWithValue($arrayOfArrays, $value)
