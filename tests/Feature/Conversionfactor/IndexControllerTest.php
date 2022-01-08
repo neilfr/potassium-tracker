@@ -149,7 +149,6 @@ $this->assertCount(1, $conversionfactorResponseData);
     /** @test */
     public function it_returns_nutrientdensity_with_a_conversionfactor()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $foodgroup = Foodgroup::factory()->create([
             'FoodGroupID' => 5
@@ -191,6 +190,101 @@ $this->assertCount(1, $conversionfactorResponseData);
         $expectedNutrientDensityValue = $numeratorNutrientValue/$denominatorNutrientValue;
         $expectedNutrientDensityUnit = $numeratorNutrient['NutrientUnit'] . ' ' . $numeratorNutrient['NutrientSymbol'] .
             ' / ' . $denominatorNutrient['NutrientUnit'] . ' ' . $denominatorNutrient['NutrientSymbol'];
+
+        $response = $this->actingAs($user)->get(route('conversionfactors.index'))
+            ->assertSuccessful();
+        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+        $conversionfactorResponseData = $responseData['conversionfactors']['data'];
+
+        $this->assertArrayHasKey('NutrientDensityUnit',$conversionfactorResponseData[0]);
+        $this->assertEquals($expectedNutrientDensityUnit, $conversionfactorResponseData[0]['NutrientDensityUnit']);
+        $this->assertArrayHasKey('NutrientDensityValue',$conversionfactorResponseData[0]);
+        $this->assertEquals($expectedNutrientDensityValue, $conversionfactorResponseData[0]['NutrientDensityValue']);
+    }
+
+    /** @test */
+    public function it_returns_NA_nutrientdensityvalue_and_empty_unit_if_denominator_nutrient_missing_with_a_conversionfactor()
+    {
+        $user = User::factory()->create();
+        $foodgroup = Foodgroup::factory()->create([
+            'FoodGroupID' => 5
+        ]);
+        $foodname = Foodname::factory()->create([
+            'FoodID' => 7,
+            'FoodGroupID' => $foodgroup->FoodGroupID,
+        ]);
+        $measurename = Measurename::factory()->create();
+        $conversionFactorValue = 1;
+        $foodname->measurenames()->attach(
+            $measurename,
+            [
+                'ConversionFactorValue' => $conversionFactorValue,
+            ]
+        );
+
+        Favourite::factory()->create([
+            'ConversionFactorID' => Conversionfactor::first()->id,
+            'user_id' => $user->id,
+        ]);
+
+        $nutrientDensityItems = collect(explode(',', env('NUTRIENT_DENSITY')));
+        $numeratorNutrient = Nutrientname::factory()->create([
+            'NutrientID' => $nutrientDensityItems[0],
+        ]);
+
+        $numeratorNutrientValue = 100;
+        $foodname->nutrientnames()->attach($numeratorNutrient, ['NutrientValue' => $numeratorNutrientValue]);
+
+        $expectedNutrientDensityValue = 'NA';
+        $expectedNutrientDensityUnit = '';
+
+        $response = $this->actingAs($user)->get(route('conversionfactors.index'))
+            ->assertSuccessful();
+        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+        $conversionfactorResponseData = $responseData['conversionfactors']['data'];
+
+        $this->assertArrayHasKey('NutrientDensityUnit',$conversionfactorResponseData[0]);
+        $this->assertEquals($expectedNutrientDensityUnit, $conversionfactorResponseData[0]['NutrientDensityUnit']);
+        $this->assertArrayHasKey('NutrientDensityValue',$conversionfactorResponseData[0]);
+        $this->assertEquals($expectedNutrientDensityValue, $conversionfactorResponseData[0]['NutrientDensityValue']);
+    }
+
+    /** @test */
+    public function it_returns_NA_nutrientdensityvalue_and_empty_unit_if_numerator_nutrient_missing_with_a_conversionfactor()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create();
+        $foodgroup = Foodgroup::factory()->create([
+            'FoodGroupID' => 5
+        ]);
+        $foodname = Foodname::factory()->create([
+            'FoodID' => 7,
+            'FoodGroupID' => $foodgroup->FoodGroupID,
+        ]);
+        $measurename = Measurename::factory()->create();
+        $conversionFactorValue = 1;
+        $foodname->measurenames()->attach(
+            $measurename,
+            [
+                'ConversionFactorValue' => $conversionFactorValue,
+            ]
+        );
+
+        Favourite::factory()->create([
+            'ConversionFactorID' => Conversionfactor::first()->id,
+            'user_id' => $user->id,
+        ]);
+
+        $nutrientDensityItems = collect(explode(',', env('NUTRIENT_DENSITY')));
+        $denominatorNutrient = Nutrientname::factory()->create([
+            'NutrientID' => $nutrientDensityItems[1],
+        ]);
+
+        $denominatorNutrientValue = 100;
+        $foodname->nutrientnames()->attach($denominatorNutrient, ['NutrientValue' => $denominatorNutrientValue]);
+
+        $expectedNutrientDensityValue = 'NA';
+        $expectedNutrientDensityUnit = '';
 
         $response = $this->actingAs($user)->get(route('conversionfactors.index'))
             ->assertSuccessful();
