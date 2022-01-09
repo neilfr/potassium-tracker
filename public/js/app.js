@@ -19415,7 +19415,7 @@ var _hoisted_4 = {
   "class": "flex justify-between"
 };
 var _hoisted_5 = {
-  "class": "flex justify-between"
+  "class": "grid grid-cols-4"
 };
 var _hoisted_6 = {
   "class": "flex-none col-span-2 row-span-2 flex items-center justify-self-center"
@@ -19450,7 +19450,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       value: Math.round(nutrient.NutrientAmount)
     }, null, 8
     /* PROPS */
-    , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientUnit), 1
+    , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientUnit), 1
     /* TEXT */
     )]);
   }), 256
