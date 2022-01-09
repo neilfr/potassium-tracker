@@ -51,7 +51,7 @@ class ConversionfactorResource extends JsonResource
         ];
 
         return [
-            'value' => round($numeratorNutrient['NutrientAmount'] / $denominatorNutrient['NutrientAmount'], 3),
+            'value' => round($numeratorNutrient['NutrientAmount'] / $denominatorNutrient['NutrientAmount'], 1),
             'unit' => $numeratorNutrient['NutrientUnit'] . ' ' . $numeratorNutrient['NutrientSymbol'] .
                 ' / ' . $denominatorNutrient['NutrientUnit'] . ' ' . $denominatorNutrient['NutrientSymbol']
         ];

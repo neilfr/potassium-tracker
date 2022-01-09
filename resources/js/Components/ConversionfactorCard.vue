@@ -15,6 +15,10 @@
                     <string-text :value="Math.round(nutrient.NutrientAmount)"/>
                     <span>{{nutrient.NutrientUnit}}</span>
                 </span>
+                <span>
+                    <span>{{conversionfactor.NutrientDensityValue}}&nbsp</span>
+                    <span>{{conversionfactor.NutrientDensityUnit}}</span>
+                </span>
                 <span>{{conversionfactor.FoodGroupName}}</span>
             </div>
         </div>
