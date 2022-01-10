@@ -27,12 +27,24 @@ class Conversionfactor extends Pivot
     }
 
     public function getNutrientsAttribute(){
-        $nutrients = $this->foodname->nutrientnames
-            ->whereIn('NutrientID', collect(explode(',', env('NUTRIENTS'))));
-        return $nutrients->map( function($nutrient) {
-            return array_merge($nutrient->toArray(), [
-                'NutrientAmount' => $nutrient->pivot->NutrientValue * $this->ConversionFactorValue,
-            ]);
+        $nutrientConfig = collect(explode(',', env('NUTRIENTS')));
+
+        return $nutrientConfig->map(function ($n, $i) {
+            $nutrientExists = $this->foodname->nutrientnames->where('NutrientID', $n)->first();
+            if($nutrientExists){
+                return array_merge($nutrientExists->toArray(), [
+                    'NutrientAmount' => $nutrientExists->pivot->NutrientValue * $this->ConversionFactorValue,
+                ]);
+            } else {
+                return array_merge(Nutrientname::where('NutrientID', $n)->first()->toArray(), [
+                    'pivot' => [
+                        'FoodID' => $this->foodname->FoodID,
+                        'NutrientID' => $n,
+                        'NutrientValue' => 'NA',
+                    ],
+                    'NutrientAmount' => 'NA'
+                ]);
+            }
         });
     }
 

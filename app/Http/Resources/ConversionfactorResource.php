@@ -17,7 +17,6 @@ class ConversionfactorResource extends JsonResource
     public function toArray($request)
     {
         $nutrientDensityData = $this->getNutrientDensityData();
-
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
@@ -44,8 +43,8 @@ class ConversionfactorResource extends JsonResource
     {
         $numeratorNutrient = $this->getNumeratorNutrient();
         $denominatorNutrient = $this->getDenominatorNutrient();
-
-        if(!$denominatorNutrient || !$numeratorNutrient || $denominatorNutrient['NutrientAmount'] == 0) return [
+//dd('numerator', $numeratorNutrient, 'denominator', $denominatorNutrient);
+        if(!$denominatorNutrient || !$numeratorNutrient || $denominatorNutrient['NutrientAmount'] == 0 || $denominatorNutrient['NutrientAmount'] == 'NA') return [
             'value' => 'NA',
             'unit' => '',
         ];

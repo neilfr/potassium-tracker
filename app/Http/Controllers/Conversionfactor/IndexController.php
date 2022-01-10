@@ -27,6 +27,7 @@ class IndexController extends Controller
             ->foodnameSearch($searchText)
             ->favouriteFilter($favouritefilter)
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
+
         return Inertia::render('Conversionfactors/Index', [
             'conversionfactors' => ConversionfactorResource::collection($conversionfactors),
             'favouritefilter' => $favouritefilter,
