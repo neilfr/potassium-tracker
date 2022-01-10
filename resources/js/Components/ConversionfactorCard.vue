@@ -12,8 +12,8 @@
             <div class="grid grid-cols-4">
                 <span v-for="nutrient in conversionfactor.nutrients">
                     <span>{{nutrient.NutrientSymbol}}: </span>
-                    <string-text :value="Math.round(nutrient.NutrientAmount)"/>
-                    <span>&nbsp{{nutrient.NutrientUnit}}</span>
+                    <string-text :value="isNaN(nutrient.NutrientAmount)?nutrient.NutrientAmount:Math.round(nutrient.NutrientAmount)"/>
+                    <span>&nbsp{{isNaN(nutrient.NutrientAmount)?'':nutrient.NutrientUnit}}</span>
                 </span>
                 <span>
                     <span>{{conversionfactor.NutrientDensityValue}}&nbsp</span>

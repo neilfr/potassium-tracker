@@ -43,10 +43,10 @@ class ConversionfactorResource extends JsonResource
     {
         $numeratorNutrient = $this->getNumeratorNutrient();
         $denominatorNutrient = $this->getDenominatorNutrient();
-//dd('numerator', $numeratorNutrient, 'denominator', $denominatorNutrient);
         if(!$denominatorNutrient || !$numeratorNutrient || $denominatorNutrient['NutrientAmount'] == 0 || $denominatorNutrient['NutrientAmount'] == 'NA') return [
             'value' => 'NA',
-            'unit' => '',
+            'unit' => $numeratorNutrient['NutrientUnit'] . ' ' . $numeratorNutrient['NutrientSymbol'] .
+                ' / ' . $denominatorNutrient['NutrientUnit'] . ' ' . $denominatorNutrient['NutrientSymbol']
         ];
 
         return [

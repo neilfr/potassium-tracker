@@ -19447,10 +19447,10 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ": ", 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
-      value: Math.round(nutrient.NutrientAmount)
+      value: isNaN(nutrient.NutrientAmount) ? nutrient.NutrientAmount : Math.round(nutrient.NutrientAmount)
     }, null, 8
     /* PROPS */
-    , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientUnit), 1
+    , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(isNaN(nutrient.NutrientAmount) ? '' : nutrient.NutrientUnit), 1
     /* TEXT */
     )]);
   }), 256

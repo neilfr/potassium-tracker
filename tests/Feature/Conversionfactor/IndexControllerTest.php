@@ -253,7 +253,7 @@ class IndexControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_NA_nutrientdensityvalue_and_empty_unit_if_denominator_nutrient_is_0_with_a_conversionfactor()
+    public function it_returns_NA_nutrientdensityvalue_and_if_denominator_nutrient_is_0_with_a_conversionfactor()
     {
         $user = User::factory()->create();
         $foodgroup = Foodgroup::factory()->create([
@@ -292,7 +292,8 @@ class IndexControllerTest extends TestCase
         $foodname->nutrientnames()->attach($denominatorNutrient, ['NutrientValue' => $denominatorNutrientValue]);
 
         $expectedNutrientDensityValue = 'NA';
-        $expectedNutrientDensityUnit = '';
+        $expectedNutrientDensityUnit = $numeratorNutrient['NutrientUnit'] . ' ' . $numeratorNutrient['NutrientSymbol'] .
+            ' / ' . $denominatorNutrient['NutrientUnit'] . ' ' . $denominatorNutrient['NutrientSymbol'];
 
         $response = $this->actingAs($user)->get(route('conversionfactors.index'))
             ->assertSuccessful();
