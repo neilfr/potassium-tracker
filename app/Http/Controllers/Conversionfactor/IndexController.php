@@ -26,9 +26,10 @@ class IndexController extends Controller
             ->with('foodname')
             ->foodnameSearch($searchText)
             ->favouriteFilter($favouritefilter)
-            ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
-//            ->sortBy;
-//dd('conversionfactors', ConversionfactorResource::collection($conversionfactors));
+            ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'))
+            ->sortBy('NutrientDensity["value"]');
+        // not sorting correctly!!!
+dd('conversionfactors', $conversionfactors[0]->NutrientDensity, $conversionfactors[1]->NutrientDensity);
         return Inertia::render('Conversionfactors/Index', [
             'conversionfactors' => ConversionfactorResource::collection($conversionfactors),
             'favouritefilter' => $favouritefilter,

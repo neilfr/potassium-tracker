@@ -172,7 +172,6 @@ class IndexControllerTest extends TestCase
         $this->assertEquals(true, $responseData['conversionfactors']['data'][0]['Favourite']);
         $this->assertArrayHasKey('Favourite', $responseData['conversionfactors']['data'][1]);
         $this->assertEquals(false, $responseData['conversionfactors']['data'][1]['Favourite']);
-
     }
 
     /** @test */

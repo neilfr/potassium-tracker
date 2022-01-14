@@ -16,7 +16,6 @@ class ConversionfactorResource extends JsonResource
      */
     public function toArray($request)
     {
-//        $nutrientDensityData = $this->getNutrientDensityData();
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
