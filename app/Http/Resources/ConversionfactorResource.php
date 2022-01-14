@@ -16,7 +16,7 @@ class ConversionfactorResource extends JsonResource
      */
     public function toArray($request)
     {
-        $nutrientDensityData = $this->getNutrientDensityData();
+//        $nutrientDensityData = $this->getNutrientDensityData();
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
@@ -34,43 +34,9 @@ class ConversionfactorResource extends JsonResource
                 ->where('ConversionFactorID', $this->id)
                 ->exists(),
             'editable' => $this->user_id === auth()->user()->id,
-            'NutrientDensityUnit' => $nutrientDensityData['unit'],
-            'NutrientDensityValue' => $nutrientDensityData['value'],
+            'NutrientDensityUnit' => $this->nutrientDensity['unit'],
+            'NutrientDensityValue' => $this->nutrientDensity['value'],
         ];
     }
 
-    private function getNutrientDensityData()
-    {
-        $numeratorNutrient = $this->getNumeratorNutrient();
-        $denominatorNutrient = $this->getDenominatorNutrient();
-        if(!$denominatorNutrient || !$numeratorNutrient || $denominatorNutrient['NutrientAmount'] == 0 || $denominatorNutrient['NutrientAmount'] == 'NA') return [
-            'value' => 'NA',
-            'unit' => $numeratorNutrient['NutrientUnit'] . ' ' . $numeratorNutrient['NutrientSymbol'] .
-                ' / ' . $denominatorNutrient['NutrientUnit'] . ' ' . $denominatorNutrient['NutrientSymbol']
-        ];
-
-        return [
-            'value' => round($numeratorNutrient['NutrientAmount'] / $denominatorNutrient['NutrientAmount'], 1),
-            'unit' => $numeratorNutrient['NutrientUnit'] . ' ' . $numeratorNutrient['NutrientSymbol'] .
-                ' / ' . $denominatorNutrient['NutrientUnit'] . ' ' . $denominatorNutrient['NutrientSymbol']
-        ];
-    }
-
-    private function getNumeratorNutrient()
-    {
-        $nutrientsDensityItems = collect(explode(',', env('NUTRIENT_DENSITY')));
-
-        return collect($this->nutrients->filter(function($nutrient) use ($nutrientsDensityItems){
-            return $nutrient['NutrientID'] ==  $nutrientsDensityItems[0];
-        }))->first();
-    }
-
-    private function getDenominatorNutrient()
-    {
-        $nutrientsDensityItems = collect(explode(',', env('NUTRIENT_DENSITY')));
-
-        return collect($this->nutrients->filter(function($nutrient) use ($nutrientsDensityItems){
-            return $nutrient['NutrientID'] ==  $nutrientsDensityItems[1];
-        }))->first();
-    }
 }
