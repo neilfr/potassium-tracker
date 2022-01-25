@@ -24,7 +24,7 @@
                         @previous="previous"
                         @next="next"
                         @last="last"
-                        :paginatordata="conversionfactors.meta"
+                        :paginatordata="paginatorData"
                     />
                 </div>
             </div>
@@ -46,6 +46,14 @@
             ConversionfactorCard,
             ConversionfactorHeader,
             Button,
+        },
+        computed: {
+            paginatorData: function () {
+                return {
+                    current_page: this.conversionfactors.current_page,
+                    last_page: this.conversionfactors.last_page
+                }
+            }
         },
         props: {
             conversionfactors: Object,
@@ -69,17 +77,17 @@
                 this.goToPage(1);
             },
             previous() {
-                if(this.conversionfactors.meta.current_page >1){
-                    this.goToPage(this.conversionfactors.meta.current_page - 1);
+                if(this.conversionfactors.current_page >1){
+                    this.goToPage(this.conversionfactors.current_page - 1);
                 }
             },
             next() {
-                if (this.conversionfactors.meta.current_page < this.conversionfactors.meta.last_page) {
-                    this.goToPage(this.conversionfactors.meta.current_page + 1);
+                if (this.conversionfactors.current_page < this.conversionfactors.last_page) {
+                    this.goToPage(this.conversionfactors.current_page + 1);
                 }
             },
             last() {
-                this.goToPage(this.conversionfactors.meta.last_page);
+                this.goToPage(this.conversionfactors.last_page);
             },
             goToPage(page) {
                 let url = route('conversionfactors.index');

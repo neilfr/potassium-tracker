@@ -16,8 +16,18 @@
                     <span>&nbsp{{isNaN(nutrient.NutrientAmount)?'':nutrient.NutrientUnit}}</span>
                 </span>
                 <span>
-                    <span>{{conversionfactor.NutrientDensityValue}}&nbsp</span>
-                    <span>{{conversionfactor.NutrientDensityUnit}}</span>
+                    <span>{{conversionfactor.KCalSymbol}}: </span>
+                    <span>{{conversionfactor.KCalValue}}</span>
+                    <span>{{conversionfactor.KCalUnit}}</span>
+                </span>
+                <span>
+                    <span>{{conversionfactor.PotassiumSymbol}}: </span>
+                    <span>{{conversionfactor.PotassiumValue}}</span>
+                    <span>{{conversionfactor.PotassiumUnit}}</span>
+                </span>
+                <span>
+                    <span>{{Number.parseFloat(conversionfactor.NutrientDensity).toFixed(3)}}&nbsp</span>
+                    <span>{{conversionfactor.KCalUnit}}/{{conversionfactor.PotassiumUnit}}</span>
                 </span>
                 <span>{{conversionfactor.FoodGroupName}}</span>
             </div>
@@ -72,7 +82,7 @@
                 this.$inertia.visit(url, {
                     method: 'post',
                     data:{
-                        'id':this.conversionfactor.id
+                        'id':this.conversionfactor.ConversionFactorID
                     },
                 });
             },

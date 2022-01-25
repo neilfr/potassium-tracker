@@ -159,11 +159,45 @@ class IndexControllerTest extends TestCase
     /** @test */
     public function it_returns_conversionfactor_with_favourite()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $nutrients = $this->createNutrients();
-        $conversionFactorData = $this->createConversionFactor($nutrients, $user->id, 2);
-        $user->favourites()->attach(Conversionfactor::find($conversionFactorData[0]['ConversionFactorID']));
+//        $conversionFactorData = $this->createConversionFactor($nutrients, $user->id, 12);
+
+        //for weird testing
+        $foodgroup = Foodgroup::factory()->create();
+        $anotherfood = Foodname::factory()->create([
+            'FoodGroupID' => $foodgroup->FoodGroupID,
+        ]);
+        $nutrients->each(function($nutrient) use($anotherfood){
+            $nutrientValue = rand(100,200);
+            $anotherfood->nutrientnames()->attach($nutrient, [
+                'NutrientValue' => $nutrientValue,
+            ]);
+        });
+        $measure1 = Measurename::factory()->create();
+        $measure2 = Measurename::factory()->create();
+        $conversionfactor1=Conversionfactor::factory()->create([
+            'id' => 1,
+            'FoodID' => $anotherfood->FoodID,
+            'MeasureID' => $measure1->MeasureID,
+            'ConversionFactorValue' => 5,
+        ]);
+        $conversionfactor2=Conversionfactor::factory()->create([
+            'id' => 2,
+            'FoodID' => $anotherfood->FoodID,
+            'MeasureID' => $measure2->MeasureID,
+            'ConversionFactorValue' => 10,
+        ]);
+        $user->favourites()->attach($conversionfactor1->id);
+        $user->favourites()->attach($conversionfactor2->id);
+
+//dd('stop');
+
+//        for($i=0;$i<12;$i=$i+2){
+//            $user->favourites()->attach(Conversionfactor::find($conversionFactorData[$i]['ConversionFactorID']));
+//        }
 
         $response = $this->actingAs($user)->get(route('conversionfactors.index', ['favouritefilter' => 'no']))
             ->assertSuccessful();

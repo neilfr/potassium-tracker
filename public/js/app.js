@@ -18087,7 +18087,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$inertia.visit(url, {
         method: 'post',
         data: {
-          'id': this.conversionfactor.id
+          'id': this.conversionfactor.ConversionFactorID
         }
       });
     },
@@ -19086,6 +19086,14 @@ __webpack_require__.r(__webpack_exports__);
     ConversionfactorHeader: _Components_ConversionfactorHeader__WEBPACK_IMPORTED_MODULE_1__.default,
     Button: _Components_Button__WEBPACK_IMPORTED_MODULE_4__.default
   },
+  computed: {
+    paginatorData: function paginatorData() {
+      return {
+        current_page: this.conversionfactors.current_page,
+        last_page: this.conversionfactors.last_page
+      };
+    }
+  },
   props: {
     conversionfactors: Object,
     favouritefilter: String
@@ -19106,17 +19114,17 @@ __webpack_require__.r(__webpack_exports__);
       this.goToPage(1);
     },
     previous: function previous() {
-      if (this.conversionfactors.meta.current_page > 1) {
-        this.goToPage(this.conversionfactors.meta.current_page - 1);
+      if (this.conversionfactors.current_page > 1) {
+        this.goToPage(this.conversionfactors.current_page - 1);
       }
     },
     next: function next() {
-      if (this.conversionfactors.meta.current_page < this.conversionfactors.meta.last_page) {
-        this.goToPage(this.conversionfactors.meta.current_page + 1);
+      if (this.conversionfactors.current_page < this.conversionfactors.last_page) {
+        this.goToPage(this.conversionfactors.current_page + 1);
       }
     },
     last: function last() {
-      this.goToPage(this.conversionfactors.meta.last_page);
+      this.goToPage(this.conversionfactors.last_page);
     },
     goToPage: function goToPage(page) {
       var url = route('conversionfactors.index');
@@ -19455,9 +19463,21 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     )]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.conversionfactor.NutrientDensityValue) + " ", 1
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.conversionfactor.KCalSymbol) + ": ", 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.conversionfactor.NutrientDensityUnit), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.conversionfactor.KCalValue), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.conversionfactor.KCalUnit), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.conversionfactor.PotassiumSymbol) + ": ", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.conversionfactor.PotassiumValue), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.conversionfactor.PotassiumUnit), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Number.parseFloat($props.conversionfactor.NutrientDensity).toFixed(3)) + " ", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.conversionfactor.KCalUnit) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.conversionfactor.PotassiumUnit), 1
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.conversionfactor.FoodGroupName), 1
   /* TEXT */
@@ -21592,7 +21612,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onPrevious: $options.previous,
         onNext: $options.next,
         onLast: $options.last,
-        paginatordata: $props.conversionfactors.meta
+        paginatordata: $options.paginatorData
       }, null, 8
       /* PROPS */
       , ["onFirst", "onPrevious", "onNext", "onLast", "paginatordata"])])])])];
