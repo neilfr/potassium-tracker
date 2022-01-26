@@ -178,6 +178,7 @@ class IndexControllerTest extends TestCase
         });
         $measure1 = Measurename::factory()->create();
         $measure2 = Measurename::factory()->create();
+        $measure3 = Measurename::factory()->create();
         $conversionfactor1=Conversionfactor::factory()->create([
             'id' => 1,
             'FoodID' => $anotherfood->FoodID,
@@ -189,6 +190,12 @@ class IndexControllerTest extends TestCase
             'FoodID' => $anotherfood->FoodID,
             'MeasureID' => $measure2->MeasureID,
             'ConversionFactorValue' => 10,
+        ]);
+        $conversionfactor3=Conversionfactor::factory()->create([
+            'id' => 3,
+            'FoodID' => $anotherfood->FoodID,
+            'MeasureID' => $measure3->MeasureID,
+            'ConversionFactorValue' => 15,
         ]);
         $user->favourites()->attach($conversionfactor1->id);
         $user->favourites()->attach($conversionfactor2->id);

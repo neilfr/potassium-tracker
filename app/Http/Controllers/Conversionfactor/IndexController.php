@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Conversionfactor;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ConversionfactorResource;
-use App\Models\Conversionfactor;
-use App\Models\Favourite;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -21,9 +17,9 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $base = DB::table('conversionfactors')
-            ->join('favourites', 'favourites.ConversionFactorID', '=', 'conversionfactors.id')
-            ->join('measurenames', 'measurenames.MeasureID', '=', 'conversionfactors.MeasureID')
+        ['query'=>$query1, 'select' =>$foo] = $this->tacos($request->query('favouritefilter'));
+
+        $base = $query1->join('measurenames', 'measurenames.MeasureID', '=', 'conversionfactors.MeasureID')
             ->join('foodnames', 'foodnames.FoodID', '=', 'conversionfactors.FoodID')
             ->where('conversionfactors.user_id','=', null)
             ->orWhere('conversionfactors.user_id', '=', auth()->user()->id)
@@ -33,7 +29,8 @@ class IndexController extends Controller
                 'conversionfactors.MeasureID',
                 'conversionfactors.ConversionFactorValue',
                 'foodnames.FoodDescription',
-                'measurenames.MeasureDescription'
+                'measurenames.MeasureDescription',
+                $foo,
         );
 
         $withKCal = DB::table('nutrientamounts')
@@ -50,6 +47,7 @@ class IndexController extends Controller
                 'base.ConversionFactorValue',
                 'base.FoodDescription',
                 'base.MeasureDescription',
+                'base.Favourite',
                 DB::raw('nutrientamounts.NutrientValue * base.ConversionFactorValue as KCalValue'),
                 'nutrientnames.NutrientUnit as KCalUnit',
                 'nutrientnames.NutrientSymbol as KCalSymbol',
@@ -67,6 +65,7 @@ class IndexController extends Controller
                 'withKCal.ConversionFactorID',
                 'withKCal.FoodID',
                 'withKCal.MeasureID',
+                'withKCal.Favourite',
                 'withKCal.FoodDescription',
                 'withKCal.MeasureDescription',
                 'withKCal.ConversionFactorValue',
@@ -81,17 +80,30 @@ class IndexController extends Controller
                 DB::raw('withKCal.KCalValue / (nutrientamounts.NutrientValue * withKCal.ConversionFactorValue) as NutrientDensity')
             )->orderBy('NutrientDensity','desc')
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
-        $searchText = $request->query('searchText');
+//        $searchText = $request->query('searchText');
         $favouritefilter = $request->query('favouritefilter') ?: 'yes';
 
         return Inertia::render('Conversionfactors/Index', [
             'conversionfactors' => $withPotassium,
             'favouritefilter' => $favouritefilter,
         ]);
-
-//        return Inertia::render('Conversionfactors/Index', [
-//            'conversionfactors' => ConversionfactorResource::collection($conversionfactors),
-//            'favouritefilter' => $favouritefilter,
-//        ]);
     }
+
+    public function tacos($queryParamFavourite)
+    {
+        if ($queryParamFavourite==='yes') {
+            return [
+                'query' => DB::table('favourites')
+                    ->join('conversionfactors', 'favourites.ConversionFactorID', '=', 'conversionfactors.id'),
+                'select' => DB::raw('1 as Favourite')
+            ];
+        }
+
+        return [
+            'query' => DB::table('favourites')
+                ->rightJoin('conversionfactors', 'favourites.ConversionFactorID', '=', 'conversionfactors.id'),
+            'select' => DB::raw('favourites.user_id is not null as Favourite')
+        ];
+    }
+
 }
