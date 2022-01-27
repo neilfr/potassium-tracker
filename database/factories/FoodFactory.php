@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Food;
+use App\Models\Foodname;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FoodFactory extends Factory
@@ -22,7 +23,6 @@ class FoodFactory extends Factory
     public function definition()
     {
         return [
-            //
         ];
     }
 }

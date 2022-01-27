@@ -24,7 +24,6 @@ class FoodnameFactory extends Factory
     {
         return [
             'FoodDescription' => $this->faker->sentence,
-//            'FoodGroupID' => Foodgroup::factory()->create()->FoodGroupID,
             'FoodCode' => null,
         ];
     }
