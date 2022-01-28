@@ -7,17 +7,15 @@
                         <food-card
                             class="bg-gray-100 rounded-lg mb-2"
                             v-for="food in foods.data"
-                            :key="food.FoodID"
+                            :key="food.id"
                             :food="food"
-                            @toggle-favourite="handleToggleFavourite"
-                            @edit="handleEditConversionfactor"
                         />
                         <paginator
                             @first="first"
                             @previous="previous"
                             @next="next"
                             @last="last"
-                            :paginatordata="paginatorData"
+                            :paginatordata="foods.meta"
                         />
                     </div>
                 </div>
@@ -48,6 +46,19 @@
         props: {
             foods: Object,
         },
+        // emits: [
+        //     'toggleFavouriteFilter',
+        // ],
+        // data(){
+        //     return {
+        //         searchText: String,
+        //         updatedFavouriteFilter: '',
+        //     }
+        // },
+        // mounted() {
+        //     this.searchText = '';
+        //     this.updatedFavouriteFilter = this.favouritefilter;
+        // },
         methods: {
             first() {
                 this.goToPage(1);
@@ -67,8 +78,8 @@
             },
             goToPage(page) {
                 let url = route('foods.index');
-                url += `?searchText=${this.searchText}`;
-                url += `&favouritefilter=${this.updatedFavouriteFilter}`;
+                // url += `?searchText=${this.searchText}`;
+                // url += `&favouritefilter=${this.updatedFavouriteFilter}`;
                 this.$inertia.visit(url, {
                     data:{
                         'page':page,
@@ -76,6 +87,7 @@
                     preserveState: true,
                     preserveScroll: true,
                 });
+                console.log('foods',this.foods);
             },
         }
     }

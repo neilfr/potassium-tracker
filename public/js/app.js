@@ -19287,6 +19287,19 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     foods: Object
   },
+  // emits: [
+  //     'toggleFavouriteFilter',
+  // ],
+  // data(){
+  //     return {
+  //         searchText: String,
+  //         updatedFavouriteFilter: '',
+  //     }
+  // },
+  // mounted() {
+  //     this.searchText = '';
+  //     this.updatedFavouriteFilter = this.favouritefilter;
+  // },
   methods: {
     first: function first() {
       this.goToPage(1);
@@ -19305,9 +19318,9 @@ __webpack_require__.r(__webpack_exports__);
       this.goToPage(this.foods.meta.last_page);
     },
     goToPage: function goToPage(page) {
-      var url = route('foods.index');
-      url += "?searchText=".concat(this.searchText);
-      url += "&favouritefilter=".concat(this.updatedFavouriteFilter);
+      var url = route('foods.index'); // url += `?searchText=${this.searchText}`;
+      // url += `&favouritefilter=${this.updatedFavouriteFilter}`;
+
       this.$inertia.visit(url, {
         data: {
           'page': page
@@ -19315,6 +19328,7 @@ __webpack_require__.r(__webpack_exports__);
         preserveState: true,
         preserveScroll: true
       });
+      console.log('foods', this.foods);
     }
   }
 });
@@ -20495,7 +20509,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   }, 8
   /* PROPS */
-  , ["onClick"])], 64
+  , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.paginatordata.current_page) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.paginatordata.last_page), 1
+  /* TEXT */
+  )], 64
   /* STABLE_FRAGMENT */
   );
 });
@@ -22034,13 +22050,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.foods.data, function (food) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_food_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
-          key: food.FoodID,
-          food: food,
-          onToggleFavourite: _ctx.handleToggleFavourite,
-          onEdit: _ctx.handleEditConversionfactor
+          key: food.id,
+          food: food
         }, null, 8
         /* PROPS */
-        , ["food", "onToggleFavourite", "onEdit"]);
+        , ["food"]);
       }), 128
       /* KEYED_FRAGMENT */
       )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_paginator, {
@@ -22048,7 +22062,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         onPrevious: $options.previous,
         onNext: $options.next,
         onLast: $options.last,
-        paginatordata: $options.paginatorData
+        paginatordata: $props.foods.meta
       }, null, 8
       /* PROPS */
       , ["onFirst", "onPrevious", "onNext", "onLast", "paginatordata"])])])])])];
