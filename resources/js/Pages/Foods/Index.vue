@@ -4,11 +4,19 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
+                        <food-header
+                            @search="handleSearch"
+                            @toggleFavouriteFilter="handleFavouriteFilter"
+                            @addConversionFactor="addConversionFactor"
+                            :favouritefilter="favouritefilter"
+                        />
                         <food-card
                             class="bg-gray-100 rounded-lg mb-2"
                             v-for="food in foods.data"
                             :key="food.id"
                             :food="food"
+                            @toggle-favourite="handleToggleFavourite"
+                            @edit="handleEditConversionfactor"
                         />
                         <paginator
                             @first="first"
@@ -28,12 +36,14 @@
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated'
     import FoodCard from '@/Components/FoodCard'
     import Paginator from '@/Components/Paginator'
+    import FoodHeader from "@/Components/FoodHeader";
     export default {
         name: "FoodsIndex",
         components: {
             BreezeAuthenticatedLayout,
             FoodCard,
-            Paginator
+            Paginator,
+            FoodHeader
         },
         computed: {
             paginatorData: function () {
@@ -46,19 +56,19 @@
         props: {
             foods: Object,
         },
-        // emits: [
-        //     'toggleFavouriteFilter',
-        // ],
-        // data(){
-        //     return {
-        //         searchText: String,
-        //         updatedFavouriteFilter: '',
-        //     }
-        // },
-        // mounted() {
-        //     this.searchText = '';
-        //     this.updatedFavouriteFilter = this.favouritefilter;
-        // },
+        emits: [
+            'toggleFavouriteFilter',
+        ],
+        data(){
+            return {
+                searchText: String,
+                updatedFavouriteFilter: '',
+            }
+        },
+        mounted() {
+            this.searchText = '';
+            this.updatedFavouriteFilter = this.favouritefilter;
+        },
         methods: {
             first() {
                 this.goToPage(1);
@@ -78,8 +88,8 @@
             },
             goToPage(page) {
                 let url = route('foods.index');
-                // url += `?searchText=${this.searchText}`;
-                // url += `&favouritefilter=${this.updatedFavouriteFilter}`;
+                url += `?searchText=${this.searchText}`;
+                url += `&favouritefilter=${this.updatedFavouriteFilter}`;
                 this.$inertia.visit(url, {
                     data:{
                         'page':page,
@@ -87,8 +97,45 @@
                     preserveState: true,
                     preserveScroll: true,
                 });
-                console.log('foods',this.foods);
             },
+            handleSearch(searchText) {
+                this.searchText=searchText;
+                this.first();
+            },
+            handleFavouriteFilter(newstate){
+                if(newstate){
+                    this.updatedFavouriteFilter = 'yes';
+                }else{
+                    this.updatedFavouriteFilter = 'no';
+                }
+                this.first();
+            },
+            addConversionFactor(){
+                // let url = route('conversionfactors.create');
+                // this.$inertia.visit(url, {
+                //     data:{},
+                // });
+            },
+            handleToggleFavourite(conversionfactor){
+                // let url = route('conversionfactors.toggle-favourite', conversionfactor);
+                // this.$inertia.visit(url,
+                //     {
+                //         method: 'post',
+                //         data:{},
+                //         preserveState: true,
+                //         preserveScroll: true,
+                //     });
+            },
+            handleEditConversionfactor(conversionfactor){
+                // let url = route('conversionfactors.edit', conversionfactor);
+                // this.$inertia.visit(url,
+                //     {
+                //         method: 'get',
+                //         data:{},
+                //         preserveState: true,
+                //         preserveScroll: true,
+                //     });
+            }
         }
     }
 </script>

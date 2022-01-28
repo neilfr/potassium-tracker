@@ -100,16 +100,6 @@
                     preserveScroll: true,
                 });
             },
-            refresh() {
-                let url = route('conversionfactors.index');
-                url += `?searchText=${this.searchText}`;
-                url += `&favouritefilter=${this.updatedFavouriteFilter}`;
-                this.$inertia.visit(url, {
-                    data:{
-                        'page':1,
-                    }
-                });
-            },
             handleSearch(searchText) {
                 this.searchText=searchText;
                 this.first();
