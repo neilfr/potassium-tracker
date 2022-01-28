@@ -10,7 +10,7 @@
                         :favouritefilter="favouritefilter"
                     />
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <food
+                        <conversionfactor
                             class="bg-gray-100 rounded-lg mb-2"
                             v-for="conversionfactor in conversionfactors.data"
                             :key="conversionfactor.id"
@@ -35,15 +35,14 @@
 <script>
     import BreezeAuthenticatedLayout from '@/Layouts/Authenticated'
     import ConversionfactorHeader from "@/Components/ConversionfactorHeader";
-    import food from "@/Components/ConversionfactorCard";
     import Paginator from "@/Components/Paginator";
     import Button from "@/Components/Button";
 
     export default {
         components: {
+            Conversionfactor,
             Paginator,
             BreezeAuthenticatedLayout,
-            food,
             ConversionfactorHeader,
             Button,
         },

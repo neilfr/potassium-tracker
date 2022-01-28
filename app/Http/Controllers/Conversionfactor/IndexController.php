@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Conversionfactor;
+namespace App\Http\Controllers\Food;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
