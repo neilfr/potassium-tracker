@@ -16,10 +16,87 @@ class IndexControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $user, $foods;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+
+        $foodgroup = Foodgroup::factory()->create();
+        $measurename = Measurename::factory()->create();
+        $foodname = Foodname::factory()->create([
+            'FoodGroupID' => $foodgroup->FoodGroupID,
+        ]);
+        $conversionfactorvalue=5;
+        $foodname->measurenames()->attach(
+            $measurename,
+            [
+                'ConversionFactorValue' => $conversionfactorvalue
+            ]
+        );
+
+        $conversionfactor = Conversionfactor::where('MeasureID', '=', $measurename->MeasureID)
+            ->where('FoodID', '=', $foodname->FoodID)
+            ->first();
+
+        $this->foods = Food::factory()->count(5)->create([
+            'ConversionFactorID' => $conversionfactor->id,
+            'UserID' => $this->user->id,
+            'FoodGroupID' => $foodgroup->FoodGroupID,
+            'FoodID' => $foodname->FoodID,
+            'MeasureID' => $measurename->MeasureID,
+            'FoodGroupName' => $foodgroup->FoodGroupName,
+            'FoodDescription'=> $foodname->FoodDescription,
+            'MeasureDescription' => $measurename->MeasureDescription,
+            'ConversionFactorValue' => $conversionfactorvalue,
+            'KCalValue' => 5,
+            'KCalSymbol' => 'KCal',
+            'KCalName' => 'Energy (Kilocalories)',
+            'KCalUnit' => 'kcal',
+            'PotassiumValue' => 100,
+            'PotassiumSymbol' => 'K',
+            'PotassiumName' => 'Potassium',
+            'PotassiumUnit' => 'mg',
+            'NutrientDensity' => '0.05',
+        ]);
+
+    }
+
     /** @test */
     public function it_can_return_foods()
     {
-        $this->withoutExceptionHandling();
+        $response = $this->actingAs($this->user)->get(route('foods.index'))
+            ->assertSuccessful();
+
+        $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+        $foodsResponseData = collect($responseData['foods']['data']);
+
+        $this->assertCount(5,$foodsResponseData);
+        $foodsResponseData->each(function($food, $index) {
+           $this->assertEquals($food['UserID'], $this->foods[$index]['UserID']);
+           $this->assertEquals($food['FoodID'], $this->foods[$index]['FoodID']);
+           $this->assertEquals($food['FoodGroupID'], $this->foods[$index]['FoodGroupID']);
+           $this->assertEquals($food['MeasureID'], $this->foods[$index]['MeasureID']);
+           $this->assertEquals($food['FoodGroupName'], $this->foods[$index]['FoodGroupName']);
+           $this->assertEquals($food['FoodDescription'], $this->foods[$index]['FoodDescription']);
+           $this->assertEquals($food['MeasureDescription'], $this->foods[$index]['MeasureDescription']);
+           $this->assertEquals($food['ConversionFactorValue'], $this->foods[$index]['ConversionFactorValue']);
+           $this->assertEquals($food['KCalValue'], $this->foods[$index]['KCalValue']);
+           $this->assertEquals($food['KCalSymbol'], $this->foods[$index]['KCalSymbol']);
+           $this->assertEquals($food['KCalName'], $this->foods[$index]['KCalName']);
+           $this->assertEquals($food['KCalUnit'], $this->foods[$index]['KCalUnit']);
+           $this->assertEquals($food['PotassiumValue'], $this->foods[$index]['PotassiumValue']);
+           $this->assertEquals($food['PotassiumSymbol'], $this->foods[$index]['PotassiumSymbol']);
+           $this->assertEquals($food['PotassiumName'], $this->foods[$index]['PotassiumName']);
+           $this->assertEquals($food['PotassiumUnit'], $this->foods[$index]['PotassiumUnit']);
+           $this->assertEquals($food['NutrientDensity'], $this->foods[$index]['NutrientDensity']);
+        });
+    }
+
+    /** @test */
+    public function it_can_return_food_with_favourite_data()
+    {
         $user = User::factory()->create();
 
         $foodgroup = Foodgroup::factory()->create();
