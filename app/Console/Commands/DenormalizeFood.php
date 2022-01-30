@@ -68,6 +68,7 @@ class DenormalizeFood extends Command
             ->select(
                 'base.ConversionFactorID',
                 'base.UserID',
+                'base.FoodGroupID',
                 'base.FoodID',
                 'base.MeasureID',
                 'base.ConversionFactorValue',
@@ -92,6 +93,7 @@ class DenormalizeFood extends Command
                 'withKCal.ConversionFactorID',
                 'withKCal.UserID',
                 'withKCal.FoodID',
+                'withKCal.FoodGroupID',
                 'withKCal.MeasureID',
                 'withKCal.Favourite',
                 'withKCal.FoodDescription',
@@ -117,6 +119,7 @@ class DenormalizeFood extends Command
                     "ConversionFactorID" => $food->ConversionFactorID,
                     "UserID" => $food->UserID,
                     "FoodID" => $food->FoodID,
+                    "FoodGroupID" => $food->FoodGroupID,
                     "MeasureID" => $food->MeasureID,
                     "Favourite" => $food->Favourite,
                     "FoodDescription" => $food->FoodDescription,
