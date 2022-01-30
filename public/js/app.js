@@ -18279,6 +18279,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
+    console.log('favourite:', this.food.Favourite);
     this.favourite = this.food.Favourite;
   },
   methods: {
@@ -19348,6 +19349,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
+    console.log('foods', this.foods);
     this.searchText = '';
     this.updatedFavouriteFilter = this.favouritefilter;
   },

@@ -15,7 +15,8 @@ class FoodResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'UserID' => $this->id,
+            'id' => $this->id,
+            'UserID' => $this->UserID,
             'FoodID' => $this->FoodID,
             'FoodGroupID' => $this->FoodGroupID,
             'MeasureID' => $this->MeasureID,
@@ -24,7 +25,7 @@ class FoodResource extends JsonResource
             'FoodDescription'=> $this->FoodDescription,
             'MeasureDescription' => $this->MeasureDescription,
             'ConversionFactorValue' => $this->ConversionFactorValue,
-            'ConversionFactorID' => $this->id,
+            'ConversionFactorID' => $this->ConversionFactorID,
             'KCalValue' => $this->KCalValue,
             'KCalSymbol' => $this->KCalSymbol,
             'KCalName' => $this->KCalName,

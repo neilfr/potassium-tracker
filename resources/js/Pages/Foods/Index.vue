@@ -66,6 +66,7 @@
             }
         },
         mounted() {
+            console.log('foods',this.foods);
             this.searchText = '';
             this.updatedFavouriteFilter = this.favouritefilter;
         },
