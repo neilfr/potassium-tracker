@@ -3,6 +3,7 @@
 namespace Tests\Feature\Food;
 
 use App\Models\Conversionfactor;
+use App\Models\Favourite;
 use App\Models\Food;
 use App\Models\Foodgroup;
 use App\Models\Foodname;
@@ -16,153 +17,113 @@ class IndexControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $user, $foods;
+    protected $user;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->user = User::factory()->create();
-
-        $foodgroup = Foodgroup::factory()->create();
-        $measurename = Measurename::factory()->create();
-        $foodname = Foodname::factory()->create([
-            'FoodGroupID' => $foodgroup->FoodGroupID,
-        ]);
-        $conversionfactorvalue=5;
-        $foodname->measurenames()->attach(
-            $measurename,
-            [
-                'ConversionFactorValue' => $conversionfactorvalue
-            ]
-        );
-
-        $conversionfactor = Conversionfactor::where('MeasureID', '=', $measurename->MeasureID)
-            ->where('FoodID', '=', $foodname->FoodID)
-            ->first();
-
-        $this->foods = Food::factory()->count(5)->create([
-            'ConversionFactorID' => $conversionfactor->id,
-            'UserID' => $this->user->id,
-            'FoodGroupID' => $foodgroup->FoodGroupID,
-            'FoodID' => $foodname->FoodID,
-            'MeasureID' => $measurename->MeasureID,
-            'FoodGroupName' => $foodgroup->FoodGroupName,
-            'FoodDescription'=> $foodname->FoodDescription,
-            'MeasureDescription' => $measurename->MeasureDescription,
-            'ConversionFactorValue' => $conversionfactorvalue,
-            'KCalValue' => 5,
-            'KCalSymbol' => 'KCal',
-            'KCalName' => 'Energy (Kilocalories)',
-            'KCalUnit' => 'kcal',
-            'PotassiumValue' => 100,
-            'PotassiumSymbol' => 'K',
-            'PotassiumName' => 'Potassium',
-            'PotassiumUnit' => 'mg',
-            'NutrientDensity' => '0.05',
-        ]);
-
     }
 
     /** @test */
     public function it_can_return_foods()
     {
+        $food = $this->createFoods(1);
         $response = $this->actingAs($this->user)->get(route('foods.index'))
             ->assertSuccessful();
 
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
         $foodsResponseData = collect($responseData['foods']['data']);
 
-        $this->assertCount(5,$foodsResponseData);
-        $foodsResponseData->each(function($food, $index) {
-           $this->assertEquals($food['UserID'], $this->foods[$index]['UserID']);
-           $this->assertEquals($food['FoodID'], $this->foods[$index]['FoodID']);
-           $this->assertEquals($food['FoodGroupID'], $this->foods[$index]['FoodGroupID']);
-           $this->assertEquals($food['MeasureID'], $this->foods[$index]['MeasureID']);
-           $this->assertEquals($food['FoodGroupName'], $this->foods[$index]['FoodGroupName']);
-           $this->assertEquals($food['FoodDescription'], $this->foods[$index]['FoodDescription']);
-           $this->assertEquals($food['MeasureDescription'], $this->foods[$index]['MeasureDescription']);
-           $this->assertEquals($food['ConversionFactorValue'], $this->foods[$index]['ConversionFactorValue']);
-           $this->assertEquals($food['KCalValue'], $this->foods[$index]['KCalValue']);
-           $this->assertEquals($food['KCalSymbol'], $this->foods[$index]['KCalSymbol']);
-           $this->assertEquals($food['KCalName'], $this->foods[$index]['KCalName']);
-           $this->assertEquals($food['KCalUnit'], $this->foods[$index]['KCalUnit']);
-           $this->assertEquals($food['PotassiumValue'], $this->foods[$index]['PotassiumValue']);
-           $this->assertEquals($food['PotassiumSymbol'], $this->foods[$index]['PotassiumSymbol']);
-           $this->assertEquals($food['PotassiumName'], $this->foods[$index]['PotassiumName']);
-           $this->assertEquals($food['PotassiumUnit'], $this->foods[$index]['PotassiumUnit']);
-           $this->assertEquals($food['NutrientDensity'], $this->foods[$index]['NutrientDensity']);
-        });
+        $this->assertCount(1,$foodsResponseData);
+        $this->assertEquals($food[0]['UserID'], $foodsResponseData[0]['UserID']);
+        $this->assertEquals($food[0]['FoodID'], $foodsResponseData[0]['FoodID']);
+        $this->assertEquals($food[0]['FoodGroupID'], $foodsResponseData[0]['FoodGroupID']);
+        $this->assertEquals($food[0]['MeasureID'], $foodsResponseData[0]['MeasureID']);
+        $this->assertEquals($food[0]['FoodGroupName'], $foodsResponseData[0]['FoodGroupName']);
+        $this->assertEquals($food[0]['FoodDescription'], $foodsResponseData[0]['FoodDescription']);
+        $this->assertEquals($food[0]['MeasureDescription'], $foodsResponseData[0]['MeasureDescription']);
+        $this->assertEquals($food[0]['ConversionFactorValue'], $foodsResponseData[0]['ConversionFactorValue']);
+        $this->assertEquals($food[0]['KCalValue'], $foodsResponseData[0]['KCalValue']);
+        $this->assertEquals($food[0]['KCalSymbol'], $foodsResponseData[0]['KCalSymbol']);
+        $this->assertEquals($food[0]['KCalName'], $foodsResponseData[0]['KCalName']);
+        $this->assertEquals($food[0]['KCalUnit'], $foodsResponseData[0]['KCalUnit']);
+        $this->assertEquals($food[0]['PotassiumValue'], $foodsResponseData[0]['PotassiumValue']);
+        $this->assertEquals($food[0]['PotassiumSymbol'], $foodsResponseData[0]['PotassiumSymbol']);
+        $this->assertEquals($food[0]['PotassiumName'], $foodsResponseData[0]['PotassiumName']);
+        $this->assertEquals($food[0]['PotassiumUnit'], $foodsResponseData[0]['PotassiumUnit']);
+        $this->assertEquals($food[0]['NutrientDensity'], $foodsResponseData[0]['NutrientDensity']);
     }
 
     /** @test */
     public function it_can_return_food_with_favourite_data()
     {
-        $user = User::factory()->create();
+        $foods = $this->createFoods(2);
 
-        $foodgroup = Foodgroup::factory()->create();
-        $measurename = Measurename::factory()->create();
-        $foodname = Foodname::factory()->create([
-            'FoodGroupID' => $foodgroup->FoodGroupID,
-        ]);
-        $conversionfactorvalue=5;
-        $foodname->measurenames()->attach(
-            $measurename,
-            [
-                'ConversionFactorValue' => $conversionfactorvalue
-            ]
-        );
-
-        $conversionfactor = Conversionfactor::where('MeasureID', '=', $measurename->MeasureID)
-            ->where('FoodID', '=', $foodname->FoodID)
-            ->first();
-
-        $foods = Food::factory()->count(5)->create([
-            'ConversionFactorID' => $conversionfactor->id,
-            'UserID' => $user->id,
-            'FoodGroupID' => $foodgroup->FoodGroupID,
-            'FoodID' => $foodname->FoodID,
-            'MeasureID' => $measurename->MeasureID,
-            'FoodGroupName' => $foodgroup->FoodGroupName,
-            'FoodDescription'=> $foodname->FoodDescription,
-            'MeasureDescription' => $measurename->MeasureDescription,
-            'ConversionFactorValue' => $conversionfactorvalue,
-            'KCalValue' => 5,
-            'KCalSymbol' => 'KCal',
-            'KCalName' => 'Energy (Kilocalories)',
-            'KCalUnit' => 'kcal',
-            'PotassiumValue' => 100,
-            'PotassiumSymbol' => 'K',
-            'PotassiumName' => 'Potassium',
-            'PotassiumUnit' => 'mg',
-            'NutrientDensity' => '0.05',
+        $fav1 = Favourite::factory()->create([
+            'user_id' => $this->user->id,
+            'ConversionFactorID' => $foods[1]->ConversionFactorID,
         ]);
 
-        $response = $this->actingAs($user)->get(route('foods.index'))
+        $response = $this->actingAs($this->user)->get(route('foods.index'))
             ->assertSuccessful();
 
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
         $foodsResponseData = collect($responseData['foods']['data']);
 
-        $this->assertCount(5,$foodsResponseData);
-        $foodsResponseData->each(function($food, $index) use($foodsResponseData) {
-           $this->assertEquals($food['UserID'], $foodsResponseData[$index]['UserID']);
-           $this->assertEquals($food['FoodID'], $foodsResponseData[$index]['FoodID']);
-           $this->assertEquals($food['FoodGroupID'], $foodsResponseData[$index]['FoodGroupID']);
-           $this->assertEquals($food['MeasureID'], $foodsResponseData[$index]['MeasureID']);
-           $this->assertEquals($food['FoodGroupName'], $foodsResponseData[$index]['FoodGroupName']);
-           $this->assertEquals($food['FoodDescription'], $foodsResponseData[$index]['FoodDescription']);
-           $this->assertEquals($food['MeasureDescription'], $foodsResponseData[$index]['MeasureDescription']);
-           $this->assertEquals($food['ConversionFactorValue'], $foodsResponseData[$index]['ConversionFactorValue']);
-           $this->assertEquals($food['KCalValue'], $foodsResponseData[$index]['KCalValue']);
-           $this->assertEquals($food['KCalSymbol'], $foodsResponseData[$index]['KCalSymbol']);
-           $this->assertEquals($food['KCalName'], $foodsResponseData[$index]['KCalName']);
-           $this->assertEquals($food['KCalUnit'], $foodsResponseData[$index]['KCalUnit']);
-           $this->assertEquals($food['PotassiumValue'], $foodsResponseData[$index]['PotassiumValue']);
-           $this->assertEquals($food['PotassiumSymbol'], $foodsResponseData[$index]['PotassiumSymbol']);
-           $this->assertEquals($food['PotassiumName'], $foodsResponseData[$index]['PotassiumName']);
-           $this->assertEquals($food['PotassiumUnit'], $foodsResponseData[$index]['PotassiumUnit']);
-           $this->assertEquals($food['NutrientDensity'], $foodsResponseData[$index]['NutrientDensity']);
+        $favourites = $foodsResponseData->filter(function($food){
+            return $food['Favourite']===true;
         });
+
+        $this->assertCount(1,$favourites);
+        dd($favourites);
+
+    }
+
+    protected function createFoods($count)
+    {
+        $foods = [];
+        for ($i = 0; $i < $count; $i++) {
+            $foodgroup = Foodgroup::factory()->create();
+            $measurename = Measurename::factory()->create();
+            $foodname = Foodname::factory()->create([
+                'FoodGroupID' => $foodgroup->FoodGroupID,
+            ]);
+            $conversionfactorvalue = rand(1,5);
+            $foodname->measurenames()->attach(
+                $measurename,
+                [
+                    'ConversionFactorValue' => $conversionfactorvalue
+                ]
+            );
+
+            $conversionfactor = Conversionfactor::where('MeasureID', '=', $measurename->MeasureID)
+                ->where('FoodID', '=', $foodname->FoodID)
+                ->first();
+            $foods[$i] = (
+                Food::factory()->create([
+                    'ConversionFactorID' => $conversionfactor->id,
+                    'UserID' => $this->user->id,
+                    'FoodGroupID' => $foodgroup->FoodGroupID,
+                    'FoodID' => $foodname->FoodID,
+                    'MeasureID' => $measurename->MeasureID,
+                    'FoodGroupName' => $foodgroup->FoodGroupName,
+                    'FoodDescription' => $foodname->FoodDescription,
+                    'MeasureDescription' => $measurename->MeasureDescription,
+                    'ConversionFactorValue' => $conversionfactorvalue,
+                    'KCalValue' => $kcal = rand(1,100),
+                    'KCalSymbol' => 'KCal',
+                    'KCalName' => 'Energy (Kilocalories)',
+                    'KCalUnit' => 'kcal',
+                    'PotassiumValue' => $k = rand(1,100),
+                    'PotassiumSymbol' => 'K',
+                    'PotassiumName' => 'Potassium',
+                    'PotassiumUnit' => 'mg',
+                    'NutrientDensity' => $kcal / $k,
+                ])
+            );
+        }
+        return collect($foods);
     }
 
 }
