@@ -40,8 +40,8 @@ class DenormalizeFood extends Command
      */
     public function handle()
     {
-        $base = DB::table('favourites')
-            ->rightJoin('conversionfactors', 'favourites.ConversionFactorID', '=', 'conversionfactors.id')->join('measurenames', 'measurenames.MeasureID', '=', 'conversionfactors.MeasureID')
+        $base = DB::table('conversionfactors')
+            ->join('measurenames', 'measurenames.MeasureID', '=', 'conversionfactors.MeasureID')
             ->join('foodnames', 'foodnames.FoodID', '=', 'conversionfactors.FoodID')
             ->join('foodgroups', 'foodgroups.FoodGroupID','=','foodnames.FoodGroupID')
             ->where('conversionfactors.user_id','=', null)
@@ -56,7 +56,6 @@ class DenormalizeFood extends Command
                 'foodnames.FoodDescription',
                 'foodgroups.FoodGroupName',
                 'measurenames.MeasureDescription',
-                DB::raw('favourites.user_id is not null as Favourite'),
             );
 
         $withKCal = DB::table('nutrientamounts')
@@ -76,7 +75,6 @@ class DenormalizeFood extends Command
                 'base.FoodDescription',
                 'base.FoodGroupName',
                 'base.MeasureDescription',
-                'base.Favourite',
                 DB::raw('nutrientamounts.NutrientValue * base.ConversionFactorValue as KCalValue'),
                 'nutrientnames.NutrientUnit as KCalUnit',
                 'nutrientnames.NutrientSymbol as KCalSymbol',
@@ -96,7 +94,6 @@ class DenormalizeFood extends Command
                 'withKCal.FoodID',
                 'withKCal.FoodGroupID',
                 'withKCal.MeasureID',
-                'withKCal.Favourite',
                 'withKCal.FoodDescription',
                 'withKCal.FoodGroupName',
                 'withKCal.MeasureDescription',
@@ -122,7 +119,6 @@ class DenormalizeFood extends Command
                     "FoodID" => $food->FoodID,
                     "FoodGroupID" => $food->FoodGroupID,
                     "MeasureID" => $food->MeasureID,
-                    "Favourite" => $food->Favourite,
                     "FoodDescription" => $food->FoodDescription,
                     "FoodGroupName" => $food->FoodGroupName,
                     "MeasureDescription" => $food->MeasureDescription,

@@ -62,7 +62,6 @@
             }
         },
         mounted() {
-            console.log('favourite:', this.food.Favourite);
           this.favourite = this.food.Favourite;
         },
         methods:{

@@ -45,7 +45,6 @@ class IndexControllerTest extends TestCase
             'FoodGroupID' => $foodgroup->FoodGroupID,
             'FoodID' => $foodname->FoodID,
             'MeasureID' => $measurename->MeasureID,
-            'Favourite' => true,
             'FoodGroupName' => $foodgroup->FoodGroupName,
             'FoodDescription'=> $foodname->FoodDescription,
             'MeasureDescription' => $measurename->MeasureDescription,
@@ -59,7 +58,6 @@ class IndexControllerTest extends TestCase
             'PotassiumName' => 'Potassium',
             'PotassiumUnit' => 'mg',
             'NutrientDensity' => '0.05',
-
         ]);
 
         $response = $this->actingAs($user)->get(route('foods.index'))
@@ -74,7 +72,6 @@ class IndexControllerTest extends TestCase
            $this->assertEquals($food['FoodID'], $foodsResponseData[$index]['FoodID']);
            $this->assertEquals($food['FoodGroupID'], $foodsResponseData[$index]['FoodGroupID']);
            $this->assertEquals($food['MeasureID'], $foodsResponseData[$index]['MeasureID']);
-           $this->assertEquals($food['Favourite'], $foodsResponseData[$index]['Favourite']);
            $this->assertEquals($food['FoodGroupName'], $foodsResponseData[$index]['FoodGroupName']);
            $this->assertEquals($food['FoodDescription'], $foodsResponseData[$index]['FoodDescription']);
            $this->assertEquals($food['MeasureDescription'], $foodsResponseData[$index]['MeasureDescription']);

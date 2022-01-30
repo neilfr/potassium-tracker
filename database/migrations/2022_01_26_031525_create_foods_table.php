@@ -21,7 +21,6 @@ class CreateFoodsTable extends Migration
             $table->unsignedBigInteger('FoodGroupID')->nullable();
             $table->unsignedBigInteger('FoodID');
             $table->unsignedBigInteger('MeasureID');
-            $table->boolean('Favourite');
             $table->string('FoodGroupName');
             $table->string('FoodDescription');
             $table->string('MeasureDescription');
