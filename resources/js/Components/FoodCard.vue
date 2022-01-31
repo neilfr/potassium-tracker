@@ -62,6 +62,7 @@
             }
         },
         mounted() {
+            console.log('food',this.food);
           this.favourite = this.food.Favourite;
         },
         methods:{

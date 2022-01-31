@@ -30,6 +30,15 @@ class FoodResource extends JsonResource
             'MeasureDescription' => $this->MeasureDescription,
             'ConversionFactorValue' => $this->ConversionFactorValue,
             'ConversionFactorID' => $this->ConversionFactorID,
+            'KCalValue' => $this->KCalValue,
+            'KCalSymbol' => $this->KCalSymbol,
+            'KCalName' => $this->KCalName,
+            'KCalUnit' => $this->KCalUnit,
+            'PotassiumValue' => $this->PotassiumValue,
+            'PotassiumSymbol' => $this->PotassiumSymbol,
+            'PotassiumName' => $this->PotassiumName,
+            'PotassiumUnit' => $this->PotassiumUnit,
+            'NutrientDensity' => $this->NutrientDensity,
         ];
     }
 }
