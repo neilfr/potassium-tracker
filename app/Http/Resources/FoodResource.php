@@ -17,8 +17,7 @@ class FoodResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'UserID' => 5,
-//            'UserID' => $this->UserID,
+            'UserID' => $this->UserID,
             'FoodID' => $this->FoodID,
             'Favourite' => User::find(auth()->user()->id)
                 ->favourites()

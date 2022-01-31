@@ -60,7 +60,7 @@ class IndexControllerTest extends TestCase
     {
         $foods = $this->createFoods(2);
 
-        $fav1 = Favourite::factory()->create([
+        $favourite = Favourite::factory()->create([
             'user_id' => $this->user->id,
             'ConversionFactorID' => $foods[1]->ConversionFactorID,
         ]);
@@ -69,16 +69,16 @@ class IndexControllerTest extends TestCase
             ->assertSuccessful();
 
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
-        dd('foods', $responseData);
+
         $foodsResponseData = collect($responseData['foods']['data']);
 
         $favourites = $foodsResponseData->filter(function($food){
             return $food['Favourite']===true;
-        });
+        })->values();
 
         $this->assertCount(1,$favourites);
-        dd($favourites);
-
+        $this->assertEquals($foods[1]['UserID'], $favourites[0]['UserID']);
+        $this->assertEquals($foods[1]['FoodDescription'], $favourites[0]['FoodDescription']);
     }
 
     protected function createFoods($count)
