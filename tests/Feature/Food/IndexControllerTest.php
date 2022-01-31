@@ -69,6 +69,7 @@ class IndexControllerTest extends TestCase
             ->assertSuccessful();
 
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+        dd('foods', $responseData);
         $foodsResponseData = collect($responseData['foods']['data']);
 
         $favourites = $foodsResponseData->filter(function($food){

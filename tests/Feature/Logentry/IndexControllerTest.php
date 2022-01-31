@@ -74,6 +74,7 @@ class IndexControllerTest extends TestCase
             ->assertSuccessful();
 
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);
+        dd('logentries responseData', $responseData);
         $logentriesResponseData = collect($responseData['logentries']['data']);
         $this->assertCount(count($logentries), $logentriesResponseData);
 

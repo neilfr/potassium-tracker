@@ -23,12 +23,11 @@ class IndexController extends Controller
         $favouritefilter = $request->query('favouritefilter') ?: 'yes';
         $foods = Food::query()->orderByDesc('NutrientDensity')
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
-//        dd('favourites', Favourite::all());
 //        $foodFavourites = Food::query()
 //            ->join('favourites', 'foods.ConversionFactorID', '=', 'favourites.ConversionFactorID')
 //            ->where('favourites.user_id', '=', auth()->user()->id)
 //            ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
-//        dd('foodfavourites', $foodFavourites);
+
         return Inertia::render('Foods/Index', [
            'foods' => FoodResource::collection($foods),
             'favouritefilter' => $favouritefilter,

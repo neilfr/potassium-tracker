@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FoodResource extends JsonResource
@@ -16,25 +17,20 @@ class FoodResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'UserID' => $this->UserID,
+            'UserID' => 5,
+//            'UserID' => $this->UserID,
             'FoodID' => $this->FoodID,
+            'Favourite' => User::find(auth()->user()->id)
+                ->favourites()
+                ->where('ConversionFactorID', $this->ConversionFactorID)
+                ->exists(),
             'FoodGroupID' => $this->FoodGroupID,
             'MeasureID' => $this->MeasureID,
-            'Favourite' => $this->Favourite,
             'FoodGroupName' => $this->FoodGroupName,
             'FoodDescription'=> $this->FoodDescription,
             'MeasureDescription' => $this->MeasureDescription,
             'ConversionFactorValue' => $this->ConversionFactorValue,
             'ConversionFactorID' => $this->ConversionFactorID,
-            'KCalValue' => $this->KCalValue,
-            'KCalSymbol' => $this->KCalSymbol,
-            'KCalName' => $this->KCalName,
-            'KCalUnit' => $this->KCalUnit,
-            'PotassiumValue' => $this->PotassiumValue,
-            'PotassiumSymbol' => $this->PotassiumSymbol,
-            'PotassiumName' => $this->PotassiumName,
-            'PotassiumUnit' => $this->PotassiumUnit,
-            'NutrientDensity' => $this->NutrientDensity,
         ];
     }
 }
