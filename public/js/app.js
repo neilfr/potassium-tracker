@@ -18279,7 +18279,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log('food', this.food);
     this.favourite = this.food.Favourite;
   },
   methods: {
@@ -19339,7 +19338,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   props: {
-    foods: Object
+    foods: Object,
+    favouritefilter: String
   },
   emits: ['toggleFavouriteFilter'],
   data: function data() {
@@ -19349,7 +19349,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log('foods', this.foods);
     this.searchText = '';
     this.updatedFavouriteFilter = this.favouritefilter;
   },
@@ -22216,7 +22215,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         onSearch: $options.handleSearch,
         onToggleFavouriteFilter: $options.handleFavouriteFilter,
         onAddConversionFactor: $options.addConversionFactor,
-        favouritefilter: _ctx.favouritefilter
+        favouritefilter: $props.favouritefilter
       }, null, 8
       /* PROPS */
       , ["onSearch", "onToggleFavouriteFilter", "onAddConversionFactor", "favouritefilter"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.foods.data, function (food) {

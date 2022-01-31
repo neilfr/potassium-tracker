@@ -55,6 +55,7 @@
         },
         props: {
             foods: Object,
+            favouritefilter: String,
         },
         emits: [
             'toggleFavouriteFilter',
@@ -66,7 +67,6 @@
             }
         },
         mounted() {
-            console.log('foods',this.foods);
             this.searchText = '';
             this.updatedFavouriteFilter = this.favouritefilter;
         },
