@@ -22,4 +22,12 @@ class Food extends Model
         }
     }
 
+    public function getFavouriteAttribute()
+    {
+        return User::find(auth()->user()->id)
+            ->favourites()
+            ->where('ConversionFactorID', $this->ConversionFactorID)
+            ->exists();
+    }
+
 }

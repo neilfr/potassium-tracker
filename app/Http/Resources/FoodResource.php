@@ -19,10 +19,7 @@ class FoodResource extends JsonResource
             'id' => $this->id,
             'UserID' => $this->UserID,
             'FoodID' => $this->FoodID,
-            'Favourite' => User::find(auth()->user()->id)
-                ->favourites()
-                ->where('ConversionFactorID', $this->ConversionFactorID)
-                ->exists(),
+            'Favourite' => $this->favourite,
             'FoodGroupID' => $this->FoodGroupID,
             'MeasureID' => $this->MeasureID,
             'FoodGroupName' => $this->FoodGroupName,
