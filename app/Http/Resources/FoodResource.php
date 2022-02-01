@@ -18,7 +18,7 @@ class FoodResource extends JsonResource
         return [
             'id' => $this->id,
             'UserID' => $this->UserID,
-            'Editable' => $this->UserID === auth()->user()->id,
+            'Editable' => $this->editable,
             'FoodID' => $this->FoodID,
             'Favourite' => $this->favourite,
             'FoodGroupID' => $this->FoodGroupID,

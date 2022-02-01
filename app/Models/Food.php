@@ -30,4 +30,8 @@ class Food extends Model
             ->exists();
     }
 
+    public function getEditableAttribute()
+    {
+        return $this->UserID === auth()->user()->id;
+    }
 }
