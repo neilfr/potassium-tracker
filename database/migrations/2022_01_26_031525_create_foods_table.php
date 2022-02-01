@@ -33,7 +33,7 @@ class CreateFoodsTable extends Migration
             $table->string('PotassiumSymbol')->nullable();
             $table->string('PotassiumName')->nullable();
             $table->string('PotassiumUnit')->nullable();
-            $table->string('NutrientDensity')->nullable();
+            $table->decimal('NutrientDensity')->nullable();
             $table->timestamps();
 
             $table->foreign('ConversionFactorID')->references('id')->on('conversionfactors');
