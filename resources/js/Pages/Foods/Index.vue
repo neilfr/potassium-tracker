@@ -117,15 +117,15 @@
                 //     data:{},
                 // });
             },
-            handleToggleFavourite(conversionfactor){
-                // let url = route('conversionfactors.toggle-favourite', conversionfactor);
-                // this.$inertia.visit(url,
-                //     {
-                //         method: 'post',
-                //         data:{},
-                //         preserveState: true,
-                //         preserveScroll: true,
-                //     });
+            handleToggleFavourite(food){
+                let url = route('foods.toggle-favourite', food);
+                this.$inertia.visit(url,
+                    {
+                        method: 'post',
+                        data:{},
+                        preserveState: true,
+                        preserveScroll: true,
+                    });
             },
             handleEditConversionfactor(conversionfactor){
                 // let url = route('conversionfactors.edit', conversionfactor);

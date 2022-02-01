@@ -45,4 +45,5 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Conversionfactor::class, 'favourites','user_id' ,'ConversionFactorID');
     }
+
 }

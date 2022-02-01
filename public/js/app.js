@@ -19399,14 +19399,14 @@ __webpack_require__.r(__webpack_exports__);
       //     data:{},
       // });
     },
-    handleToggleFavourite: function handleToggleFavourite(conversionfactor) {// let url = route('conversionfactors.toggle-favourite', conversionfactor);
-      // this.$inertia.visit(url,
-      //     {
-      //         method: 'post',
-      //         data:{},
-      //         preserveState: true,
-      //         preserveScroll: true,
-      //     });
+    handleToggleFavourite: function handleToggleFavourite(food) {
+      var url = route('foods.toggle-favourite', food);
+      this.$inertia.visit(url, {
+        method: 'post',
+        data: {},
+        preserveState: true,
+        preserveScroll: true
+      });
     },
     handleEditConversionfactor: function handleEditConversionfactor(conversionfactor) {// let url = route('conversionfactors.edit', conversionfactor);
       // this.$inertia.visit(url,
