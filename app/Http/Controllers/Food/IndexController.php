@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Food;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FoodResource;
-use App\Models\Favourite;
 use App\Models\Food;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class IndexController extends Controller
@@ -25,47 +23,12 @@ class IndexController extends Controller
 
         $foods = Food::query()
             ->favouriteFilter($favouritefilter)
+            ->foodSearch($searchText)
             ->orderByDesc('NutrientDensity')
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
 
-//        if($favouritefilter==='yes'){
-//            $query = DB::table('favourites')
-//                ->join('foods', 'favourites.ConversionFactorID', '=', 'foods.ConversionFactorID');
-//        } else {
-//            $query = DB::table('favourites')
-//                ->rightJoin('foods', 'favourites.ConversionFactorID', '=', 'foods.ConversionFactorID');
-//        }
-
-//        $foods = $query
-//            ->where('foods.UserID','=', null)
-//            ->orWhere('foods.UserID', '=', auth()->user()->id)
-//            ->select(
-//                'foods.id',
-//                'foods.UserID',
-//                'foods.FoodID',
-//                'foods.FoodGroupID',
-//                'foods.MeasureID',
-//                'foods.ConversionFactorID',
-//                DB::raw('favourites.user_id is not null as Favourite'),
-//                'foods.FoodDescription',
-//                'foods.FoodGroupName',
-//                'foods.MeasureDescription',
-//                'foods.ConversionFactorValue',
-//                'foods.KCalValue',
-//                'foods.KCalSymbol',
-//                'foods.KCalName',
-//                'foods.KCalUnit',
-//                'foods.PotassiumValue',
-//                'foods.PotassiumSymbol',
-//                'foods.PotassiumName',
-//                'foods.PotassiumUnit',
-//                'foods.NutrientDensity',
-//            )
-//            ->orderBy('NutrientDensity','desc')
-//            ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
-
         return Inertia::render('Foods/Index', [
-           'foods' => FoodResource::collection($foods),
+            'foods' => FoodResource::collection($foods),
             'favouritefilter' => $favouritefilter,
         ]);
     }
