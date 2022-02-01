@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Favourite;
 use App\Models\Food;
+use App\Models\FoodFavourite;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -40,11 +42,18 @@ class DenormalizeFood extends Command
      */
     public function handle()
     {
+        $this->createDenormalizedFoods();
+        $this->migrateFavourites();
+    }
+
+    protected function createDenormalizedFoods(): void
+    {
+        $this->info('Retrieving food data');
         $base = DB::table('conversionfactors')
             ->join('measurenames', 'measurenames.MeasureID', '=', 'conversionfactors.MeasureID')
             ->join('foodnames', 'foodnames.FoodID', '=', 'conversionfactors.FoodID')
-            ->join('foodgroups', 'foodgroups.FoodGroupID','=','foodnames.FoodGroupID')
-            ->where('conversionfactors.user_id','=', null)
+            ->join('foodgroups', 'foodgroups.FoodGroupID', '=', 'foodnames.FoodGroupID')
+            ->where('conversionfactors.user_id', '=', null)
             ->orWhere('conversionfactors.user_id', '=', 1)
             ->select(
                 'conversionfactors.id as ConversionFactorID',
@@ -63,8 +72,8 @@ class DenormalizeFood extends Command
                 $base, 'base', function ($join) {
                 $join->on('nutrientamounts.FoodID', '=', 'base.FoodID');
             })
-            ->join('nutrientnames', 'nutrientnames.NutrientID','=','nutrientamounts.NutrientID')
-            ->where('nutrientamounts.NutrientID','=',208)
+            ->join('nutrientnames', 'nutrientnames.NutrientID', '=', 'nutrientamounts.NutrientID')
+            ->where('nutrientamounts.NutrientID', '=', 208)
             ->select(
                 'base.ConversionFactorID',
                 'base.UserID',
@@ -81,13 +90,14 @@ class DenormalizeFood extends Command
                 'nutrientnames.NutrientName as KCalName',
             );
 
+        $this->info('Populating denormalized foods table');
         $withPotassium = DB::table('nutrientamounts')
             ->joinSub(
                 $withKCal, 'withKCal', function ($join) {
                 $join->on('nutrientamounts.FoodID', '=', 'withKCal.FoodID');
             })
-            ->join('nutrientnames', 'nutrientnames.NutrientID','=','nutrientamounts.NutrientID')
-            ->where('nutrientamounts.NutrientID','=',306)
+            ->join('nutrientnames', 'nutrientnames.NutrientID', '=', 'nutrientamounts.NutrientID')
+            ->where('nutrientamounts.NutrientID', '=', 306)
             ->select(
                 'withKCal.ConversionFactorID',
                 'withKCal.UserID',
@@ -112,7 +122,7 @@ class DenormalizeFood extends Command
 
         $this->withProgressBar(
             $withPotassium,
-            function($food) {
+            function ($food) {
                 Food::factory()->create([
                     "ConversionFactorID" => $food->ConversionFactorID,
                     "UserID" => $food->UserID,
@@ -135,6 +145,21 @@ class DenormalizeFood extends Command
                 ]);
             }
         );
+    }
 
+    protected function migrateFavourites(): void
+    {
+        $this->info('Retrieving favourites data');
+        $favourites = Favourite::all();
+
+        $this->info('Populating new food_favourites table');
+        $this->withProgressBar($favourites, function ($favourite) {
+            $food = Food::where('ConversionFactorID', '=', $favourite->ConversionFactorID)
+                ->first();
+            FoodFavourite::factory()->create([
+                'UserID' => $favourite->user_id,
+                'FoodID' => $food->id,
+            ]);
+        });
     }
 }
