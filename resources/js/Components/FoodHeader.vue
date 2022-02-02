@@ -9,7 +9,7 @@
             <input class="flex-grow ml-2 rounded" type="text" id="search" @input="updateSearchText" v-model="searchText"/>
         </span>
         <div class="flex-none flex items-center justify-self-center">
-            <Button class="mt-2 ml-2" @click="addConversionFactor">Add Food</Button>
+            <Button class="mt-2 ml-2" @click="addFood">Add Food</Button>
         </div>
     </div>
 </template>
@@ -50,8 +50,8 @@
             toggleFavouriteFilter(e){
                 this.$emit('toggleFavouriteFilter', e.target.checked);
             },
-            addConversionFactor(){
-                this.$emit('addFoodFactor');
+            addFood(){
+                this.$emit('addFood');
             }
         }
     }

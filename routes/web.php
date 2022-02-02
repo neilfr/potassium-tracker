@@ -32,6 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/logentries/destroy/{logentry}', App\Http\Controllers\Logentry\DestroyController::class)->name('logentries.destroy');
 
     Route::get('/foods', App\Http\Controllers\Newfood\IndexController::class)->name('foods.index');
+    Route::get('/foods/create', App\Http\Controllers\Newfood\CreateController::class)->name('foods.create');
     Route::post('/foods/{food}/toggle-favourite', App\Http\Controllers\Newfood\ToggleFavouriteController::class)->name('foods.toggle-favourite');
 });
 

@@ -7,7 +7,7 @@
                         <food-header
                             @search="handleSearch"
                             @toggleFavouriteFilter="handleFavouriteFilter"
-                            @addConversionFactor="addConversionFactor"
+                            @addFood="addFood"
                             :favouritefilter="favouritefilter"
                         />
                         <food-card
@@ -111,11 +111,11 @@
                 }
                 this.first();
             },
-            addConversionFactor(){
-                // let url = route('conversionfactors.create');
-                // this.$inertia.visit(url, {
-                //     data:{},
-                // });
+            addFood(){
+                let url = route('foods.create');
+                this.$inertia.visit(url, {
+                    data:{},
+                });
             },
             handleToggleFavourite(food){
                 let url = route('foods.toggle-favourite', food.NewfoodID);
