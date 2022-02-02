@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\DB;
 
 class NewfoodResource extends JsonResource
 {
@@ -18,7 +16,6 @@ class NewfoodResource extends JsonResource
     {
         return [
             'NewfoodID' => $this->NewfoodID,
-            'Foo' => 'foo',
             'UserID' => $this->UserID,
             'Editable' => $this->editable,
             'FoodID' => $this->FoodID,

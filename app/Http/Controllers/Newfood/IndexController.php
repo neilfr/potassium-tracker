@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Newfood;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\FoodResource;
 use App\Http\Resources\NewfoodResource;
-use App\Models\Food;
 use App\Models\Newfood;
 use Illuminate\Http\Request;
 use Inertia\Inertia;

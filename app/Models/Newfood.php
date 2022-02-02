@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 class Newfood extends Model
 {
@@ -41,16 +40,10 @@ class Newfood extends Model
 
     public function getFavouriteAttribute()
     {
-//        return DB::table('food_favourites')
-//            ->where('UserID', '=', auth()->user()->id)
-//            ->where('food_favourites.NewfoodID', '=', $this->NewfoodID)
-//            ->exists();
-
         return User::find(auth()->user()->id)
             ->foodfavourites()
             ->where('food_favourites.NewfoodID', $this->NewfoodID)
             ->exists();
-
     }
 
     public function getEditableAttribute()
