@@ -23,12 +23,11 @@ class IndexController extends Controller
 //        $searchText = $request->query('searchText');
         $favouritefilter = $request->query('favouritefilter') ?: 'yes';
         $foods = Newfood::query()
-//            ->favouriteFilter($favouritefilter)
+            ->favouriteFilter($favouritefilter)
 //            ->newfoodSearch($searchText)
             ->orderByDesc('NutrientDensity')
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
-//        $f = NewfoodResource::collection($foods);
-//dd('foods',$foods);
+
         return Inertia::render('Foods/Index', [
             'foods' => NewfoodResource::collection($foods),
             'favouritefilter' => $favouritefilter,

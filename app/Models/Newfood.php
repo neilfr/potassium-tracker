@@ -14,16 +14,16 @@ class Newfood extends Model
     protected $table = 'newfoods';
 
     protected $primaryKey = 'NewfoodID';
-//
-//    public function scopeFavouriteFilter(Builder $query, $favouritefilter)
-//    {
-//        if ($favouritefilter==='yes') {
-//            $favouriteIds = User::find(auth()
-//                ->user()->id)
-//                ->foodfavourites()->pluck('newfoods.NewfoodID');
-//            $query->whereIn('NewfoodID', $favouriteIds);;
-//        }
-//    }
+
+    public function scopeFavouriteFilter(Builder $query, $favouritefilter)
+    {
+        if ($favouritefilter==='yes') {
+            $favouriteIds = User::find(auth()
+                ->user()->id)
+                ->foodfavourites()->pluck('newfoods.NewfoodID');
+            $query->whereIn('NewfoodID', $favouriteIds);;
+        }
+    }
 //
 //    public function scopeNewfoodSearch(Builder $query, ?string $searchText = null)
 //    {
