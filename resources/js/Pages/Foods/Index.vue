@@ -118,7 +118,7 @@
                 // });
             },
             handleToggleFavourite(food){
-                let url = route('foods.toggle-favourite', food);
+                let url = route('foods.toggle-favourite', food.NewfoodID);
                 this.$inertia.visit(url,
                     {
                         method: 'post',

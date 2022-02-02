@@ -18279,15 +18279,12 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log('food', this.food);
     this.favourite = this.food.Favourite;
   },
   methods: {
     emitToggleFavourite: function emitToggleFavourite() {
       this.favourite = !this.favourite;
-      this.$emit('toggle-favourite', {
-        'food': this.food
-      });
+      this.$emit('toggle-favourite', this.food);
     },
     log: function log() {
       console.log('log'); // let url = route('logentries.store');
@@ -19350,7 +19347,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    console.log('AAAARRRRG', this.foods.data[0].NewfoodID);
     this.searchText = '';
     this.updatedFavouriteFilter = this.favouritefilter;
   },
@@ -19402,7 +19398,7 @@ __webpack_require__.r(__webpack_exports__);
       // });
     },
     handleToggleFavourite: function handleToggleFavourite(food) {
-      var url = route('foods.toggle-favourite', food);
+      var url = route('foods.toggle-favourite', food.NewfoodID);
       this.$inertia.visit(url, {
         method: 'post',
         data: {},

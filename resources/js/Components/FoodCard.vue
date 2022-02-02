@@ -68,9 +68,7 @@
         methods:{
             emitToggleFavourite(){
                 this.favourite = !this.favourite;
-                this.$emit('toggle-favourite', {
-                    'food': this.food
-                });
+                this.$emit('toggle-favourite', this.food);
             },
             log(){
                 console.log('log')
