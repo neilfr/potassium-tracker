@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Food;
+namespace App\Http\Controllers\aaaa;
 
 use App\Http\Controllers\Controller;
 use App\Models\Favourite;

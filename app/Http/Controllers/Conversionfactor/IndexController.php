@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Food;
+namespace App\Http\Controllers\Conversionfactor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,6 +17,7 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
+        dd('here');
         ['query'=>$query1, 'select' =>$foo] = $this->tacos($request->query('favouritefilter'));
 
         $base = $query1->join('measurenames', 'measurenames.MeasureID', '=', 'conversionfactors.MeasureID')
