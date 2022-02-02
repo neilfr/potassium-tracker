@@ -23,7 +23,6 @@ class CreateNewfoodsTable extends Migration
             $table->string('FoodGroupName');
             $table->string('FoodDescription');
             $table->string('MeasureDescription');
-            $table->decimal('ConversionFactorValue',10,5);
             $table->decimal('KCalValue',10,5)->nullable();
             $table->decimal('PotassiumValue',10,5)->nullable();
             $table->decimal('NutrientDensity')->nullable();

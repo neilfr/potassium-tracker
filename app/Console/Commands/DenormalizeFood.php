@@ -123,7 +123,6 @@ class DenormalizeFood extends Command
                     "FoodDescription" => $food->FoodDescription,
                     "FoodGroupName" => $food->FoodGroupName,
                     "MeasureDescription" => $food->MeasureDescription,
-                    "ConversionFactorValue" => $food->ConversionFactorValue,
                     "KCalValue" => $food->KCalValue,
                     "PotassiumValue" => $food->PotassiumValue,
                     "NutrientDensity" => $food->NutrientDensity,
