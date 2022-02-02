@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\Favourite;
-use App\Models\Food;
 use App\Models\FoodFavourite;
 use App\Models\Newfood;
 use Illuminate\Console\Command;
@@ -86,9 +85,6 @@ class DenormalizeFood extends Command
                 'base.FoodGroupName',
                 'base.MeasureDescription',
                 DB::raw('nutrientamounts.NutrientValue * base.ConversionFactorValue as KCalValue'),
-                'nutrientnames.NutrientUnit as KCalUnit',
-                'nutrientnames.NutrientSymbol as KCalSymbol',
-                'nutrientnames.NutrientName as KCalName',
             );
 
         $this->info('Populating denormalized foods table');
@@ -110,13 +106,7 @@ class DenormalizeFood extends Command
                 'withKCal.MeasureDescription',
                 'withKCal.ConversionFactorValue',
                 'withKCal.KCalValue',
-                'withKCal.KCalSymbol',
-                'withKCal.KCalName',
-                'withKCal.KCalUnit',
                 DB::raw('nutrientamounts.NutrientValue * withKCal.ConversionFactorValue as PotassiumValue'),
-                'nutrientnames.NutrientSymbol as PotassiumSymbol',
-                'nutrientnames.NutrientName as PotassiumName',
-                'nutrientnames.NutrientUnit as PotassiumUnit',
                 DB::raw('withKCal.KCalValue / (nutrientamounts.NutrientValue * withKCal.ConversionFactorValue) as NutrientDensity')
             )
             ->get();
@@ -135,13 +125,7 @@ class DenormalizeFood extends Command
                     "MeasureDescription" => $food->MeasureDescription,
                     "ConversionFactorValue" => $food->ConversionFactorValue,
                     "KCalValue" => $food->KCalValue,
-                    "KCalSymbol" => $food->KCalSymbol,
-                    "KCalName" => $food->KCalName,
-                    "KCalUnit" => $food->KCalUnit,
                     "PotassiumValue" => $food->PotassiumValue,
-                    "PotassiumSymbol" => $food->PotassiumSymbol,
-                    "PotassiumName" => $food->PotassiumName,
-                    "PotassiumUnit" => $food->PotassiumUnit,
                     "NutrientDensity" => $food->NutrientDensity,
                 ]);
             }

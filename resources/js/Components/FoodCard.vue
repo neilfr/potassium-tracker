@@ -11,18 +11,18 @@
             </div>
             <div class="grid grid-cols-4">
                 <span>
-                    <span>{{food.KCalSymbol}}: </span>
+                    <span>KCAL: </span>
                     <span>{{food.KCalValue}}</span>
-                    <span>{{food.KCalUnit}}</span>
+                    <span> KCal</span>
                 </span>
                 <span>
-                    <span>{{food.PotassiumSymbol}}: </span>
+                    <span>K: </span>
                     <span>{{food.PotassiumValue}}</span>
-                    <span>{{food.PotassiumUnit}}</span>
+                    <span> mg</span>
                 </span>
                 <span>
                     <span>{{Number.parseFloat(food.NutrientDensity).toFixed(3)}}&nbsp</span>
-                    <span>{{food.KCalUnit}}/{{food.PotassiumUnit}}</span>
+                    <span> KCal / mgs</span>
                 </span>
                 <span>{{food.FoodGroupName}}</span>
             </div>

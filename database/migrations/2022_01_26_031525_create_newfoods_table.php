@@ -15,23 +15,17 @@ class CreateNewfoodsTable extends Migration
     {
         Schema::create('newfoods', function (Blueprint $table) {
             $table->id('NewfoodID');
-            $table->unsignedBigInteger('ConversionFactorID');
+            $table->unsignedBigInteger('ConversionFactorID')->nullable();
             $table->unsignedBigInteger('UserID')->nullable();
-            $table->unsignedBigInteger('FoodGroupID')->nullable();
-            $table->unsignedBigInteger('FoodID');
-            $table->unsignedBigInteger('MeasureID');
+            $table->unsignedBigInteger('FoodGroupID');
+            $table->unsignedBigInteger('FoodID')->nullable();
+            $table->unsignedBigInteger('MeasureID')->nullable();
             $table->string('FoodGroupName');
             $table->string('FoodDescription');
             $table->string('MeasureDescription');
             $table->decimal('ConversionFactorValue',10,5);
             $table->decimal('KCalValue',10,5)->nullable();
-            $table->string('KCalSymbol')->nullable();
-            $table->string('KCalName')->nullable();
-            $table->string('KCalUnit')->nullable();
             $table->decimal('PotassiumValue',10,5)->nullable();
-            $table->string('PotassiumSymbol')->nullable();
-            $table->string('PotassiumName')->nullable();
-            $table->string('PotassiumUnit')->nullable();
             $table->decimal('NutrientDensity')->nullable();
             $table->timestamps();
 
