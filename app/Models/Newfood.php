@@ -24,21 +24,21 @@ class Newfood extends Model
             $query->whereIn('NewfoodID', $favouriteIds);;
         }
     }
-//
-//    public function scopeNewfoodSearch(Builder $query, ?string $searchText = null)
-//    {
-//        if (is_null($searchText)) {
-//            return $query;
-//        }
-//
-//        $query->where(function($query) use ($searchText) {
-//            $terms = collect(array_map('trim',explode(',', $searchText)));
-//            $terms->each(function($term) use($query) {
-//                $query->where('FoodDescription', 'like', "%$term%" );
-//            });
-//        });
-//    }
-//
+
+    public function scopeNewfoodSearch(Builder $query, ?string $searchText = null)
+    {
+        if (is_null($searchText)) {
+            return $query;
+        }
+
+        $query->where(function($query) use ($searchText) {
+            $terms = collect(array_map('trim',explode(',', $searchText)));
+            $terms->each(function($term) use($query) {
+                $query->where('FoodDescription', 'like', "%$term%" );
+            });
+        });
+    }
+
     public function getFavouriteAttribute()
     {
 //        return DB::table('food_favourites')

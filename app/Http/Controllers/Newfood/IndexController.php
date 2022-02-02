@@ -20,11 +20,11 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-//        $searchText = $request->query('searchText');
+        $searchText = $request->query('searchText');
         $favouritefilter = $request->query('favouritefilter') ?: 'yes';
         $foods = Newfood::query()
             ->favouriteFilter($favouritefilter)
-//            ->newfoodSearch($searchText)
+            ->newfoodSearch($searchText)
             ->orderByDesc('NutrientDensity')
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
 
