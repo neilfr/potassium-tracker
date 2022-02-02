@@ -67,7 +67,7 @@
             }
         },
         mounted() {
-            console.log('AAAARRRRG')
+            console.log('AAAARRRRG', this.foods.data[0].NewfoodID)
             this.searchText = '';
             this.updatedFavouriteFilter = this.favouritefilter;
         },

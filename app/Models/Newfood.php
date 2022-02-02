@@ -39,28 +39,19 @@ class Newfood extends Model
 //        });
 //    }
 //
-//    public function getFavouriteAttribute()
-//    {
-//return DB::table('food_favourites')
-//    ->where('UserID', '=', auth()->user()->id)
-//    ->where('food_favourites.NewfoodID', '=', $this->NewfoodID)
-//    ->exists();
-
-//        $taco = User::find(auth()->user()->id)
-//            ->foodfavourites()
-//            ->where('food_favourites.NewfoodID', $this->NewfoodID)
-//            ->get();
-//        dd('taco',$taco, 'truth', User::find(auth()->user()->id)
-//            ->foodfavourites()
-//            ->where('newfoods.NewfoodID', $this->NewfoodID)
-//            ->exists());
-//        return User::find(auth()->user()->id)
-//            ->foodfavourites()
-//            ->where('food_favourites.NewfoodID', $this->NewfoodID)
+    public function getFavouriteAttribute()
+    {
+//        return DB::table('food_favourites')
+//            ->where('UserID', '=', auth()->user()->id)
+//            ->where('food_favourites.NewfoodID', '=', $this->NewfoodID)
 //            ->exists();
-//        dd('taco', $taco->pluck('NewfoodID'));
-//        return true;
-//    }
+
+        return User::find(auth()->user()->id)
+            ->foodfavourites()
+            ->where('food_favourites.NewfoodID', $this->NewfoodID)
+            ->exists();
+
+    }
 
     public function getEditableAttribute()
     {

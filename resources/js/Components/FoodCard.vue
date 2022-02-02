@@ -63,8 +63,8 @@
             }
         },
         mounted() {
-            console.log('food',food);
-          this.favourite = this.food.Favourite;
+            console.log('food',this.food);
+            this.favourite = this.food.Favourite;
         },
         methods:{
             emitToggleFavourite(){
@@ -74,6 +74,7 @@
                 });
             },
             log(){
+                console.log('log')
                 // let url = route('logentries.store');
                 // this.$inertia.visit(url, {
                 //     method: 'post',
@@ -83,6 +84,7 @@
                 // });
             },
             edit(){
+                console.log('edit')
                 // this.$emit('edit', {
                 //     'food': this.food
                 // });
