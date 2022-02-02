@@ -18279,6 +18279,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
+    console.log('food', food);
     this.favourite = this.food.Favourite;
   },
   methods: {
@@ -18288,19 +18289,17 @@ __webpack_require__.r(__webpack_exports__);
         'food': this.food
       });
     },
-    log: function log() {
-      var url = route('logentries.store');
-      this.$inertia.visit(url, {
-        method: 'post',
-        data: {
-          'id': this.food.FoodID
-        }
-      });
+    log: function log() {// let url = route('logentries.store');
+      // this.$inertia.visit(url, {
+      //     method: 'post',
+      //     data:{
+      //         'id':this.food.FoodID
+      //     },
+      // });
     },
-    edit: function edit() {
-      this.$emit('edit', {
-        'food': this.food
-      });
+    edit: function edit() {// this.$emit('edit', {
+      //     'food': this.food
+      // });
     }
   }
 });
@@ -19349,6 +19348,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
+    console.log('AAAARRRRG');
     this.searchText = '';
     this.updatedFavouriteFilter = this.favouritefilter;
   },
@@ -22227,7 +22227,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       , ["onSearch", "onToggleFavouriteFilter", "onAddConversionFactor", "favouritefilter"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.foods.data, function (food) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_food_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
-          key: food.id,
+          key: food.NewfoodID,
           food: food,
           onToggleFavourite: $options.handleToggleFavourite,
           onEdit: $options.handleEditConversionfactor

@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Food;
+namespace App\Http\Controllers\Newfood;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FoodResource;
+use App\Http\Resources\NewfoodResource;
 use App\Models\Food;
+use App\Models\Newfood;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,17 +20,17 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $searchText = $request->query('searchText');
+//        $searchText = $request->query('searchText');
         $favouritefilter = $request->query('favouritefilter') ?: 'yes';
-
-        $foods = Food::query()
-            ->favouriteFilter($favouritefilter)
-            ->foodSearch($searchText)
+        $foods = Newfood::query()
+//            ->favouriteFilter($favouritefilter)
+//            ->newfoodSearch($searchText)
             ->orderByDesc('NutrientDensity')
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
-
+        $f = NewfoodResource::collection($foods);
+dd('foods',$foods);
         return Inertia::render('Foods/Index', [
-            'foods' => FoodResource::collection($foods),
+            'foods' => NewfoodResource::collection($foods),
             'favouritefilter' => $favouritefilter,
         ]);
     }

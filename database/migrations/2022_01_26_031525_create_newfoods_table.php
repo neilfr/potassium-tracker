@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFoodsTable extends Migration
+class CreateNewfoodsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateFoodsTable extends Migration
      */
     public function up()
     {
-        //TODO: add foodgroup stuff
-        Schema::create('foods', function (Blueprint $table) {
-            $table->id();
+        Schema::create('newfoods', function (Blueprint $table) {
+            $table->id('NewfoodID');
             $table->unsignedBigInteger('ConversionFactorID');
             $table->unsignedBigInteger('UserID')->nullable();
             $table->unsignedBigInteger('FoodGroupID')->nullable();

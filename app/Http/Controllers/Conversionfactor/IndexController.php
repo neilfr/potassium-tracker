@@ -17,7 +17,6 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        dd('here');
         ['query'=>$query1, 'select' =>$foo] = $this->tacos($request->query('favouritefilter'));
 
         $base = $query1->join('measurenames', 'measurenames.MeasureID', '=', 'conversionfactors.MeasureID')

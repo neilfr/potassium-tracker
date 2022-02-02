@@ -63,6 +63,7 @@
             }
         },
         mounted() {
+            console.log('food',food);
           this.favourite = this.food.Favourite;
         },
         methods:{
@@ -73,18 +74,18 @@
                 });
             },
             log(){
-                let url = route('logentries.store');
-                this.$inertia.visit(url, {
-                    method: 'post',
-                    data:{
-                        'id':this.food.FoodID
-                    },
-                });
+                // let url = route('logentries.store');
+                // this.$inertia.visit(url, {
+                //     method: 'post',
+                //     data:{
+                //         'id':this.food.FoodID
+                //     },
+                // });
             },
             edit(){
-                this.$emit('edit', {
-                    'food': this.food
-                });
+                // this.$emit('edit', {
+                //     'food': this.food
+                // });
             }
 
         }

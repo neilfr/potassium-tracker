@@ -13,7 +13,7 @@
                         <food-card
                             class="bg-gray-100 rounded-lg mb-2"
                             v-for="food in foods.data"
-                            :key="food.id"
+                            :key="food.NewfoodID"
                             :food="food"
                             @toggle-favourite="handleToggleFavourite"
                             @edit="handleEditConversionfactor"
@@ -67,6 +67,7 @@
             }
         },
         mounted() {
+            console.log('AAAARRRRG')
             this.searchText = '';
             this.updatedFavouriteFilter = this.favouritefilter;
         },

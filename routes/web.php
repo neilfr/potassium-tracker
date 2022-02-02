@@ -31,8 +31,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/logentries/update/{logentry}', App\Http\Controllers\Logentry\UpdateController::class)->name('logentries.update');
     Route::delete('/logentries/destroy/{logentry}', App\Http\Controllers\Logentry\DestroyController::class)->name('logentries.destroy');
 
-    Route::get('/foods', App\Http\Controllers\Food\IndexController::class)->name('foods.index');
-    Route::post('/foods/{food}/toggle-favourite', App\Http\Controllers\Food\ToggleFavouriteController::class)->name('foods.toggle-favourite');
+    Route::get('/foods', App\Http\Controllers\Newfood\IndexController::class)->name('foods.index');
+    Route::post('/foods/{food}/toggle-favourite', App\Http\Controllers\Newfood\ToggleFavouriteController::class)->name('foods.toggle-favourite');
 });
 
 

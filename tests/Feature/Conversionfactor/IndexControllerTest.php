@@ -200,12 +200,6 @@ class IndexControllerTest extends TestCase
         $user->favourites()->attach($conversionfactor1->id);
         $user->favourites()->attach($conversionfactor2->id);
 
-//dd('stop');
-
-//        for($i=0;$i<12;$i=$i+2){
-//            $user->favourites()->attach(Conversionfactor::find($conversionFactorData[$i]['ConversionFactorID']));
-//        }
-
         $response = $this->actingAs($user)->get(route('conversionfactors.index', ['favouritefilter' => 'no']))
             ->assertSuccessful();
         $responseData = json_decode(json_encode($response->original->getData()['page']['props']), JSON_OBJECT_AS_ARRAY);

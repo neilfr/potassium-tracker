@@ -16,10 +16,10 @@ class CreateFoodFavouritesTable extends Migration
         Schema::create('food_favourites', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('UserID');
-            $table->unsignedBigInteger('FoodID');
+            $table->unsignedBigInteger('NewfoodID');
             $table->timestamps();
             $table->foreign('UserID')->references('id')->on('users');
-            $table->foreign('FoodID')->references('id')->on('foods');
+            $table->foreign('NewfoodID')->references('NewfoodID')->on('newfoods');
         });
     }
 

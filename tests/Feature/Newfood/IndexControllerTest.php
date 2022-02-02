@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Feature\Food;
+namespace Tests\Feature\Newfood;
 
 use App\Models\Conversionfactor;
 use App\Models\Favourite;
-use App\Models\Food;
+use App\Models\Newfood;
 use App\Models\Foodgroup;
 use App\Models\Foodname;
 use App\Models\Measurename;
@@ -102,7 +102,7 @@ class IndexControllerTest extends TestCase
                 ->where('FoodID', '=', $foodname->FoodID)
                 ->first();
             $foods[$i] = (
-                Food::factory()->create([
+                Newfood::factory()->create([
                     'ConversionFactorID' => $conversionfactor->id,
                     'UserID' => $this->user->id,
                     'FoodGroupID' => $foodgroup->FoodGroupID,

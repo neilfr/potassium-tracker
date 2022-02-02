@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Favourite;
 use App\Models\Food;
 use App\Models\FoodFavourite;
+use App\Models\Newfood;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -123,7 +124,7 @@ class DenormalizeFood extends Command
         $this->withProgressBar(
             $withPotassium,
             function ($food) {
-                Food::factory()->create([
+                Newfood::factory()->create([
                     "ConversionFactorID" => $food->ConversionFactorID,
                     "UserID" => $food->UserID,
                     "FoodID" => $food->FoodID,
@@ -154,11 +155,11 @@ class DenormalizeFood extends Command
 
         $this->info('Populating new food_favourites table');
         $this->withProgressBar($favourites, function ($favourite) {
-            $food = Food::where('ConversionFactorID', '=', $favourite->ConversionFactorID)
+            $food = Newfood::where('ConversionFactorID', '=', $favourite->ConversionFactorID)
                 ->first();
             FoodFavourite::factory()->create([
                 'UserID' => $favourite->user_id,
-                'FoodID' => $food->id,
+                'NewfoodID' => $food->NewfoodID,
             ]);
         });
     }
