@@ -17,6 +17,7 @@ class StoreController extends Controller
     public function __invoke(StoreNewfoodRequest $request)
     {
         $newFood = new Newfood();
+        $newFood->UserID = auth()->user()->id;
         $newFood->FoodDescription = $request->foodDescription;
         $newFood->FoodGroupID = $request->foodGroupId;
         $newFood->MeasureDescription = $request->measureDescription;
