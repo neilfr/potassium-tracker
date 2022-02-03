@@ -17,17 +17,15 @@ class StoreController extends Controller
      */
     public function __invoke(Request $request)
     {
-//        dd($request->input());
         $newFood = new Newfood();
         $newFood->FoodDescription = $request->foodDescription;
-        $newFood->FoodGroupID = $request->foodDescription;
-        $newFood->FoodGroupName = Foodgroup::find($request->foodGroupId)->first()->FoodGroupName;
+        $newFood->FoodGroupID = $request->foodGroupId;
         $newFood->MeasureDescription = $request->measureDescription;
         $newFood->KCalValue = $request->k;
         $newFood->PotassiumValue = $request->kcal;
         $newFood->NutrientDensity = $request->kcal / $request->k;
         $newFood->save();
-        auth()->user()->favourites()->attach($newFood);
+        auth()->user()->foodfavourites()->attach($newFood);
 
         return redirect()->route('foods.index');
     }
