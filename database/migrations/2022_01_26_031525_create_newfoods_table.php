@@ -20,7 +20,6 @@ class CreateNewfoodsTable extends Migration
             $table->unsignedBigInteger('FoodGroupID');
             $table->unsignedBigInteger('FoodID')->nullable();
             $table->unsignedBigInteger('MeasureID')->nullable();
-            $table->string('FoodGroupName');
             $table->string('FoodDescription');
             $table->string('MeasureDescription');
             $table->decimal('KCalValue',10,5)->nullable();

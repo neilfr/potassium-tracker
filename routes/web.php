@@ -33,6 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/foods', App\Http\Controllers\Newfood\IndexController::class)->name('foods.index');
     Route::get('/foods/create', App\Http\Controllers\Newfood\CreateController::class)->name('foods.create');
+    Route::post('/food', App\Http\Controllers\Newfood\StoreController::class)->name('foods.store');
     Route::post('/foods/{food}/toggle-favourite', App\Http\Controllers\Newfood\ToggleFavouriteController::class)->name('foods.toggle-favourite');
 });
 

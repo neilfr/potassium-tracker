@@ -22,7 +22,7 @@ class NewfoodResource extends JsonResource
             'Favourite' => $this->favourite,
             'FoodGroupID' => $this->FoodGroupID,
             'MeasureID' => $this->MeasureID,
-            'FoodGroupName' => $this->FoodGroupName,
+            'FoodGroupName' => $this->foodgroup->FoodGroupName,
             'FoodDescription'=> $this->FoodDescription,
             'MeasureDescription' => $this->MeasureDescription,
             'ConversionFactorValue' => $this->ConversionFactorValue,

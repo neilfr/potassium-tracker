@@ -52,18 +52,16 @@ class DenormalizeFood extends Command
         $base = DB::table('conversionfactors')
             ->join('measurenames', 'measurenames.MeasureID', '=', 'conversionfactors.MeasureID')
             ->join('foodnames', 'foodnames.FoodID', '=', 'conversionfactors.FoodID')
-            ->join('foodgroups', 'foodgroups.FoodGroupID', '=', 'foodnames.FoodGroupID')
             ->where('conversionfactors.user_id', '=', null)
             ->orWhere('conversionfactors.user_id', '=', 1)
             ->select(
                 'conversionfactors.id as ConversionFactorID',
                 'conversionfactors.user_id as UserID',
                 'conversionfactors.FoodID',
-                'foodgroups.FoodGroupID',
+                'foodnames.FoodGroupID',
                 'conversionfactors.MeasureID',
                 'conversionfactors.ConversionFactorValue',
                 'foodnames.FoodDescription',
-                'foodgroups.FoodGroupName',
                 'measurenames.MeasureDescription',
             );
 
@@ -82,7 +80,6 @@ class DenormalizeFood extends Command
                 'base.MeasureID',
                 'base.ConversionFactorValue',
                 'base.FoodDescription',
-                'base.FoodGroupName',
                 'base.MeasureDescription',
                 DB::raw('nutrientamounts.NutrientValue * base.ConversionFactorValue as KCalValue'),
             );
@@ -102,7 +99,6 @@ class DenormalizeFood extends Command
                 'withKCal.FoodGroupID',
                 'withKCal.MeasureID',
                 'withKCal.FoodDescription',
-                'withKCal.FoodGroupName',
                 'withKCal.MeasureDescription',
                 'withKCal.ConversionFactorValue',
                 'withKCal.KCalValue',
@@ -121,7 +117,6 @@ class DenormalizeFood extends Command
                     "FoodGroupID" => $food->FoodGroupID,
                     "MeasureID" => $food->MeasureID,
                     "FoodDescription" => $food->FoodDescription,
-                    "FoodGroupName" => $food->FoodGroupName,
                     "MeasureDescription" => $food->MeasureDescription,
                     "KCalValue" => $food->KCalValue,
                     "PotassiumValue" => $food->PotassiumValue,

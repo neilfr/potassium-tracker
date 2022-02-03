@@ -51,5 +51,10 @@ class Newfood extends Model
         return $this->UserID === auth()->user()->id;
     }
 
+    public function foodgroup()
+    {
+        return $this->belongsTo(Foodgroup::class, 'FoodGroupID', 'FoodGroupID');
+    }
+
 
 }

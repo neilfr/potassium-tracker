@@ -8,8 +8,8 @@
                             <label for="foodgroups">Foodgroup:</label>
                         </span>
                         <span class="w-5/6">
-                            <select id="foodgroups">
-                                <option v-for="foodgroup in foodgroups.data" value="FoodGroupID">{{foodgroup.FoodGroupName}}</option>
+                            <select id="foodgroups" @change="handleFoodgroupChange($event)">
+                                <option v-for="foodgroup in foodgroups.data" :value="foodgroup.FoodGroupID">{{foodgroup.FoodGroupName}}</option>
                             </select>
                         </span>
                     </div>
@@ -94,19 +94,28 @@
                 let url = route('foods.index');
                 this.$inertia.visit(url, {});
             },
+            handleFoodgroupChange(e){
+              console.log('foodgroupchange', e.target.value);
+              this.foodGroupId = e.target.value;
+            },
             handleSave(){
                 console.log('save');
-                // let url = route('foods.store');
-                // this.$inertia.visit(url, {
-                //     method: 'post',
-                //     data: {
-                //         'foodDescription': this.foodDescription,
-                //         'foodGroupId': this.foodGroupId,
-                //         'measureDescription': this.measureDescription,
-                //         'k': this.k,
-                //         'kcal': this.kcal,
-                //     }
-                // });
+                console.log('foodDescription',this.foodDescription);
+                console.log('foodGroupId',this.foodGroupId);
+                console.log('measureDescription',this.measureDescription);
+                console.log('k',this.k);
+                console.log('kcal',this.kcal);
+                let url = route('foods.store');
+                this.$inertia.visit(url, {
+                    method: 'post',
+                    data: {
+                        'foodDescription': this.foodDescription,
+                        'foodGroupId': this.foodGroupId,
+                        'measureDescription': this.measureDescription,
+                        'k': this.k,
+                        'kcal': this.kcal,
+                    }
+                });
             }
         }
     }
