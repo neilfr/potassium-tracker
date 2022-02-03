@@ -37,7 +37,7 @@
                             <label for="kcal">KCal:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="text" id="kcal" v-model="kcal">
+                            <input type="number" id="kcal" v-model="kcal" min="0">
                         </div>
                     </div>
                     <div class="text-red-500" v-if="errors.k">{{errors.k}}</div>
@@ -46,7 +46,7 @@
                             <label for="k">K:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="text" id="k" v-model="k">
+                            <input type="number" id="k" v-model="k" min="0">
                         </div>
                     </div>
                     <div class="m-2">
@@ -99,12 +99,6 @@
               this.foodGroupId = e.target.value;
             },
             handleSave(){
-                console.log('save');
-                console.log('foodDescription',this.foodDescription);
-                console.log('foodGroupId',this.foodGroupId);
-                console.log('measureDescription',this.measureDescription);
-                console.log('k',this.k);
-                console.log('kcal',this.kcal);
                 let url = route('foods.store');
                 this.$inertia.visit(url, {
                     method: 'post',
