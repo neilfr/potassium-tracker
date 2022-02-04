@@ -72,13 +72,13 @@
             },
             log(){
                 console.log('log')
-                // let url = route('logentries.store');
-                // this.$inertia.visit(url, {
-                //     method: 'post',
-                //     data:{
-                //         'id':this.food.FoodID
-                //     },
-                // });
+                let url = route('newlogentries.store');
+                this.$inertia.visit(url, {
+                    method: 'post',
+                    data:{
+                        'NewfoodID':this.food.NewfoodID
+                    },
+                });
             },
             edit(){
                 this.$emit('edit', this.food);

@@ -128,7 +128,6 @@
                 });
             },
             handleDelete(){
-                console.log('delete');
                 let url = route('foods.destroy', this.food.data.NewfoodID);
                 this.$inertia.visit(url, {
                     method: 'delete',

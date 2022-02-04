@@ -38,6 +38,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/foods/update/{food}', App\Http\Controllers\Newfood\UpdateController::class)->name('foods.update');
     Route::get('/foods/edit/{food}', App\Http\Controllers\Newfood\EditController::class)->name('foods.edit');
     Route::post('/foods/{food}/toggle-favourite', App\Http\Controllers\Newfood\ToggleFavouriteController::class)->name('foods.toggle-favourite');
+
+    Route::get('/newlogentries', App\Http\Controllers\Newlogentry\IndexController::class)->name('newlogentries.index');
+    Route::post('/newlogentries/store', App\Http\Controllers\Newlogentry\StoreController::class)->name('newlogentries.store');
 });
 
 
