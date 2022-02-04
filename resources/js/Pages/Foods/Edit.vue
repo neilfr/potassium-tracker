@@ -112,7 +112,7 @@
             },
             handleSave(){
                 console.log('save');
-                let url = route('foods.update', this.food.data.FoodID);
+                let url = route('foods.update', this.food.data.NewfoodID);
                 this.$inertia.visit(url, {
                     method: 'patch',
                     data: {

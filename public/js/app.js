@@ -19417,7 +19417,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     handleSave: function handleSave() {
       console.log('save');
-      var url = route('foods.update', this.food.data.FoodID);
+      var url = route('foods.update', this.food.data.NewfoodID);
       this.$inertia.visit(url, {
         method: 'patch',
         data: {
