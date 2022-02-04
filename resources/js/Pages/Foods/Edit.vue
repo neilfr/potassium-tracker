@@ -9,8 +9,8 @@
                             <label for="foodgroups">Foodgroup:</label>
                         </span>
                         <span class="w-5/6">
-                            <select id="foodgroups">
-                                <option v-for="foodgroup in foodgroups.data" value="FoodGroupID">{{foodgroup.FoodGroupName}}</option>
+                            <select id="foodgroups" @change="handleFoodgroupChange($event)">
+                                <option v-for="foodgroup in foodgroups.data" :value="foodgroup.FoodGroupID">{{foodgroup.FoodGroupName}}</option>
                             </select>
                         </span>
                     </div>
@@ -80,6 +80,7 @@
         },
         data(){
             return {
+                newFoodId: Number,
                 foodDescription: String,
                 foodGroupId: Number,
                 measureDescription: String,
@@ -89,6 +90,8 @@
             }
         },
         mounted() {
+            console.log('foodgroups', foodgroups);
+            this.newFoodId=this.food.data.NewfoodID;
             this.foodDescription=this.food.data.FoodDescription;
             this.foodGroupId=this.food.data.FoodGroupID;
             this.measureDescription=this.food.data.MeasureDescription;
@@ -114,16 +117,22 @@
             },
             handleSave(){
                 console.log('save');
-                // let url = route('conversionfactors.update', this.conversionfactor.data.id);
-                // this.$inertia.visit(url, {
-                //     method: 'patch',
-                //     data: {
-                //         'foodDescription': this.foodDescription,
-                //         'foodGroupId': this.foodGroupId,
-                //         'measureDescription': this.measureDescription,
-                //         'nutrients': this.nutrients,
-                //     }
-                // });
+                let url = route('foods.update', this.food.data.FoodID);
+                this.$inertia.visit(url, {
+                    method: 'patch',
+                    data: {
+                        'newFoodId': this.newFoodId,
+                        'foodDescription': this.foodDescription,
+                        'foodGroupId': this.foodGroupId,
+                        'measureDescription': this.measureDescription,
+                        'kCalValue': this.kCalValue,
+                        'potassiumValue': this.potassiumValue,
+                    }
+                });
+            },
+            handleFoodgroupChange(e){
+                console.log('foodgroupchange', e.target.value);
+                this.foodGroupId = e.target.value;
             },
             handleDelete(){
                 console.log('delete');
