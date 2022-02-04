@@ -37,7 +37,10 @@
                             <label for="kCalValue">KCal:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="number" id="kCalValue" v-model="kCalValue" min="0">
+                            <span>
+                                <input type="number" id="kCalValue" v-model="kCalValue" min="0">
+                                <span> kcal</span>
+                            </span>
                         </div>
                     </div>
                     <div class="text-red-500" v-if="errors.potassiumValue">{{errors.potassiumValue}}</div>
@@ -46,7 +49,10 @@
                             <label for="potassiumValue">K:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="number" id="potassiumValue" v-model="potassiumValue" min="0">
+                            <span>
+                                <input type="number" id="potassiumValue" v-model="potassiumValue" min="0">
+                                <span> mg</span>
+                            </span>
                         </div>
                     </div>
                     <div class="m-2">
