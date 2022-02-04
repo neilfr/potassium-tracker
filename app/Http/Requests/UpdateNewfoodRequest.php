@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreNewfoodRequest extends FormRequest
+class UpdateNewfoodRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,7 +14,6 @@ class StoreNewfoodRequest extends FormRequest
     public function rules()
     {
         return [
-            'foodGroupID' => 'exists:foodgroups,FoodGroupID',
             'foodDescription' => 'required|string',
             'measureDescription' => 'required|string',
             'kCalValue' => 'required|numeric|min:0',

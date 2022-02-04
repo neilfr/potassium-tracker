@@ -31,22 +31,22 @@
                             <input type="text" id="measuredescription" v-model="measureDescription">
                         </div>
                     </div>
-                    <div class="text-red-500" v-if="errors.kcal">{{errors.kcal}}</div>
+                    <div class="text-red-500" v-if="errors.kCalValue">{{errors.kCalValue}}</div>
                     <div class="flex items-center mt-2 ml-2">
                         <div class="w-1/6">
-                            <label for="kcal">KCal:</label>
+                            <label for="kCalValue">KCal:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="number" id="kcal" v-model="kcal" min="0">
+                            <input type="number" id="kCalValue" v-model="kCalValue" min="0">
                         </div>
                     </div>
-                    <div class="text-red-500" v-if="errors.k">{{errors.k}}</div>
+                    <div class="text-red-500" v-if="errors.potassiumValue">{{errors.potassiumValue}}</div>
                     <div class="flex items-center mt-2 ml-2">
                         <div class="w-1/6">
-                            <label for="k">K:</label>
+                            <label for="potassiumValue">K:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="number" id="k" v-model="k" min="0">
+                            <input type="number" id="potassiumValue" v-model="potassiumValue" min="0">
                         </div>
                     </div>
                     <div class="m-2">
@@ -77,17 +77,16 @@
                 foodDescription: String,
                 foodGroupId: Number,
                 measureDescription: String,
-                kcal: Number,
-                k: Number,
+                kCalValue: Number,
+                potassiumValue: Number,
             }
         },
         mounted() {
             this.foodDescription='';
             this.foodGroupId=1;
             this.measureDescription='';
-            this.kcal=0;
-            this.k=0;
-            console.log('errors', this.errors.foodDescription);
+            this.kCalValue=0;
+            this.potassiumValue=0;
         },
         methods: {
             handleCancel(){
@@ -95,7 +94,6 @@
                 this.$inertia.visit(url, {});
             },
             handleFoodgroupChange(e){
-              console.log('foodgroupchange', e.target.value);
               this.foodGroupId = e.target.value;
             },
             handleSave(){
@@ -106,8 +104,8 @@
                         'foodDescription': this.foodDescription,
                         'foodGroupId': this.foodGroupId,
                         'measureDescription': this.measureDescription,
-                        'k': this.k,
-                        'kcal': this.kcal,
+                        'potassiumValue': this.potassiumValue,
+                        'kCalValue': this.kCalValue,
                     }
                 });
             }

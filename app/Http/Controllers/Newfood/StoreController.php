@@ -21,9 +21,9 @@ class StoreController extends Controller
         $newFood->FoodDescription = $request->foodDescription;
         $newFood->FoodGroupID = $request->foodGroupId;
         $newFood->MeasureDescription = $request->measureDescription;
-        $newFood->KCalValue = $request->k;
-        $newFood->PotassiumValue = $request->kcal;
-        $newFood->NutrientDensity = $request->kcal / $request->k;
+        $newFood->KCalValue = $request->kCalValue;
+        $newFood->PotassiumValue = $request->potassiumValue;
+        $newFood->NutrientDensity = $request->kCalValue / $request->potassiumValue;
         $newFood->save();
         auth()->user()->foodfavourites()->attach($newFood);
 

@@ -40,7 +40,10 @@
                             <label for="kCalValue">KCal:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="number" id="kCalValue" v-model="kCalValue" min="0">
+                            <span>
+                                <input type="number" id="kCalValue" v-model="kCalValue" min="0">
+                                <span> kcal</span>
+                            </span>
                         </div>
                     </div>
                     <div class="text-red-500" v-if="errors.potassiumValue">{{errors.potassiumValue}}</div>
@@ -49,7 +52,10 @@
                             <label for="potassiumValue">K:</label>
                         </div>
                         <div class="w-5/6">
-                            <input type="number" id="potassiumValue" v-model="potassiumValue" min="0">
+                            <span>
+                                <input type="number" id="potassiumValue" v-model="potassiumValue" min="0">
+                                <span> mg</span>
+                            </span>
                         </div>
                     </div>
 
@@ -90,7 +96,7 @@
             }
         },
         mounted() {
-            console.log('foodgroups', foodgroups);
+            console.log('errors', this.errors);
             this.newFoodId=this.food.data.NewfoodID;
             this.foodDescription=this.food.data.FoodDescription;
             this.foodGroupId=this.food.data.FoodGroupID;
