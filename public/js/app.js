@@ -19435,11 +19435,12 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     handleDelete: function handleDelete() {
-      console.log('delete'); // let url = route('conversionfactors.destroy', this.conversionfactor.data.id);
-      // this.$inertia.visit(url, {
-      //     method: 'delete',
-      //     data: {}
-      // });
+      console.log('delete');
+      var url = route('foods.destroy', this.food.data.NewfoodID);
+      this.$inertia.visit(url, {
+        method: 'delete',
+        data: {}
+      });
     }
   }
 });

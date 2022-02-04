@@ -129,11 +129,11 @@
             },
             handleDelete(){
                 console.log('delete');
-                // let url = route('conversionfactors.destroy', this.conversionfactor.data.id);
-                // this.$inertia.visit(url, {
-                //     method: 'delete',
-                //     data: {}
-                // });
+                let url = route('foods.destroy', this.food.data.NewfoodID);
+                this.$inertia.visit(url, {
+                    method: 'delete',
+                    data: {}
+                });
             }
         }
     }
