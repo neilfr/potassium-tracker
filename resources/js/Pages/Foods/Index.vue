@@ -16,7 +16,7 @@
                             :key="food.NewfoodID"
                             :food="food"
                             @toggle-favourite="handleToggleFavourite"
-                            @edit="handleEditConversionfactor"
+                            @edit="handleEditFood"
                         />
                         <paginator
                             @first="first"
@@ -127,15 +127,17 @@
                         preserveScroll: true,
                     });
             },
-            handleEditConversionfactor(conversionfactor){
-                // let url = route('conversionfactors.edit', conversionfactor);
-                // this.$inertia.visit(url,
-                //     {
-                //         method: 'get',
-                //         data:{},
-                //         preserveState: true,
-                //         preserveScroll: true,
-                //     });
+            handleEditFood(food){
+                let url = route('foods.edit', food.NewfoodID);
+                console.log('handleeditfood', food);
+                console.log('url', url);
+                this.$inertia.visit(url,
+                    {
+                        method: 'get',
+                        data:{},
+                        preserveState: true,
+                        preserveScroll: true,
+                    });
             }
         }
     }

@@ -81,10 +81,7 @@
                 // });
             },
             edit(){
-                console.log('edit')
-                // this.$emit('edit', {
-                //     'food': this.food
-                // });
+                this.$emit('edit', this.food);
             }
 
         }

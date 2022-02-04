@@ -25,16 +25,9 @@ class NewfoodResource extends JsonResource
             'FoodGroupName' => $this->foodgroup->FoodGroupName,
             'FoodDescription'=> $this->FoodDescription,
             'MeasureDescription' => $this->MeasureDescription,
-            'ConversionFactorValue' => $this->ConversionFactorValue,
             'ConversionFactorID' => $this->ConversionFactorID,
             'KCalValue' => $this->KCalValue,
-            'KCalSymbol' => $this->KCalSymbol,
-            'KCalName' => $this->KCalName,
-            'KCalUnit' => $this->KCalUnit,
             'PotassiumValue' => $this->PotassiumValue,
-            'PotassiumSymbol' => $this->PotassiumSymbol,
-            'PotassiumName' => $this->PotassiumName,
-            'PotassiumUnit' => $this->PotassiumUnit,
             'NutrientDensity' => $this->NutrientDensity,
         ];
     }

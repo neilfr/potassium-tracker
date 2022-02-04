@@ -34,6 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/foods', App\Http\Controllers\Newfood\IndexController::class)->name('foods.index');
     Route::get('/foods/create', App\Http\Controllers\Newfood\CreateController::class)->name('foods.create');
     Route::post('/foods', App\Http\Controllers\Newfood\StoreController::class)->name('foods.store');
+    Route::get('/foods/edit/{food}', App\Http\Controllers\Newfood\EditController::class)->name('foods.edit');
     Route::post('/foods/{food}/toggle-favourite', App\Http\Controllers\Newfood\ToggleFavouriteController::class)->name('foods.toggle-favourite');
 });
 
