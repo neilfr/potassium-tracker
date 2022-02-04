@@ -23,7 +23,7 @@ class UpdateController extends Controller
         $newFood->MeasureDescription = $request->measureDescription;
         $newFood->KCalValue = $request->kCalValue;
         $newFood->PotassiumValue = $request->potassiumValue;
-        $newFood->NutrientDensity = $request->kCalValue / $request->potassiumValue;
+        $newFood->NutrientDensity = $request->potassiumValue === 0 ? null : $request->kCalValue / $request->potassiumValue;
         $newFood->save();
 
         return redirect()->route('foods.index');

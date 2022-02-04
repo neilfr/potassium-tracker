@@ -21,7 +21,7 @@
                     <span> mg</span>
                 </span>
                 <span>
-                    <span>{{Number.parseFloat(food.NutrientDensity).toFixed(3)}}&nbsp</span>
+                    <span>{{food.NutrientDensity === null ? 'NA' : parseFloat(food.NutrientDensity).toFixed(3)}}&nbsp</span>
                     <span> KCal / mgs</span>
                 </span>
                 <span>{{food.FoodGroupName}}</span>

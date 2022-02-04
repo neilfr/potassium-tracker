@@ -105,20 +105,9 @@
             this.potassiumValue=this.food.data.PotassiumValue;
             this.nutrientDensity=this.food.data.NutrientDensity;
         },
-        // computed: {
-        //   nutrientsError: function () {
-        //       if(
-        //           this.errors['nutrients.0.NutrientAmount'] ||
-        //           this.errors['nutrients.1.NutrientAmount']
-        //       ) {
-        //           return true;
-        //       }
-        //       return false;
-        //   }
-        // },
         methods: {
             handleCancel(){
-                let url = route('conversionfactors.index');
+                let url = route('foods.index');
                 this.$inertia.visit(url, {});
             },
             handleSave(){

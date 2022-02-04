@@ -19410,20 +19410,9 @@ __webpack_require__.r(__webpack_exports__);
     this.potassiumValue = this.food.data.PotassiumValue;
     this.nutrientDensity = this.food.data.NutrientDensity;
   },
-  // computed: {
-  //   nutrientsError: function () {
-  //       if(
-  //           this.errors['nutrients.0.NutrientAmount'] ||
-  //           this.errors['nutrients.1.NutrientAmount']
-  //       ) {
-  //           return true;
-  //       }
-  //       return false;
-  //   }
-  // },
   methods: {
     handleCancel: function handleCancel() {
-      var url = route('conversionfactors.index');
+      var url = route('foods.index');
       this.$inertia.visit(url, {});
     },
     handleSave: function handleSave() {
@@ -20183,7 +20172,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* TEXT */
   ), _hoisted_7]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.food.PotassiumValue), 1
   /* TEXT */
-  ), _hoisted_9]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Number.parseFloat($props.food.NutrientDensity).toFixed(3)) + " ", 1
+  ), _hoisted_9]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.food.NutrientDensity === null ? 'NA' : parseFloat($props.food.NutrientDensity).toFixed(3)) + " ", 1
   /* TEXT */
   ), _hoisted_10]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.food.FoodGroupName), 1
   /* TEXT */
