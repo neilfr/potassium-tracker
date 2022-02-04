@@ -18475,7 +18475,8 @@ __webpack_require__.r(__webpack_exports__);
     Button: _Components_Button__WEBPACK_IMPORTED_MODULE_0__.default
   },
   props: {
-    nutrienttotals: Object,
+    kcalTotal: Number,
+    potassiumTotal: Number,
     startdate: String,
     enddate: String
   },
@@ -18487,9 +18488,6 @@ __webpack_require__.r(__webpack_exports__);
         startdate: this.startdate,
         enddate: this.enddate
       });
-    },
-    addLogentry: function addLogentry() {
-      this.$emit('addLogentry');
     }
   }
 });
@@ -19721,7 +19719,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     logentries: Object,
-    nutrienttotals: Object
+    kcalTotal: Number,
+    potassiumTotal: Number
   },
   data: function data() {
     return {
@@ -19733,17 +19732,6 @@ __webpack_require__.r(__webpack_exports__);
     this.resetDateRange();
   },
   methods: {
-    addLogentry: function addLogentry() {
-      var url = route('conversionfactors.index');
-      url += "?searchText=";
-      url += "&favourite=true";
-      this.$inertia.visit(url, {
-        method: 'get',
-        data: {},
-        preserveState: true,
-        preserveScroll: true
-      });
-    },
     handleDateRangeChange: function handleDateRangeChange(dates) {
       this.startdate = dates.startdate;
       this.enddate = dates.enddate;
@@ -19768,7 +19756,7 @@ __webpack_require__.r(__webpack_exports__);
       this.goToPage(this.logentries.meta.last_page);
     },
     goToPage: function goToPage(page) {
-      var url = route('logentries.index');
+      var url = route('newlogentries.index');
       url += "?from=".concat(this.startdate);
       url += "&to=".concat(this.enddate);
       this.$inertia.visit(url, {
@@ -19787,14 +19775,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     destroy: function destroy(logentry) {
       console.log('destroy');
-      var url = route('logentries.destroy', logentry.id);
+      var url = route('newlogentries.destroy', logentry.id);
       this.$inertia["delete"](url, {
         preserveState: true,
         preserveScroll: true
       });
     },
     handleLogentryCardUpdate: function handleLogentryCardUpdate(logentry) {
-      var url = route('logentries.update', logentry.id);
+      var url = route('newlogentries.update', logentry.id);
       this.$inertia.visit(url, {
         method: 'patch',
         data: {
@@ -20519,8 +20507,6 @@ var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_string_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("string-text");
-
   var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
@@ -20549,19 +20535,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.portion]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentry.nutrients, function (nutrient) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientSymbol) + ": ", 1
-    /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_string_text, {
-      value: Math.round(nutrient.NutrientAmount)
-    }, null, 8
-    /* PROPS */
-    , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrient.NutrientUnit), 1
-    /* TEXT */
-    )]);
-  }), 256
-  /* UNKEYED_FRAGMENT */
-  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.FoodGroupName), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.portion]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "KCal: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($props.logentry.KCalValue)) + "kcal", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "K: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($props.logentry.PotassiumValue)) + "mg", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.FoodGroupName), 1
   /* TEXT */
   )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
     onClick: $options.destroy
@@ -20621,22 +20599,15 @@ var _hoisted_5 = {
   "class": "flex items-center"
 };
 var _hoisted_6 = {
-  key: 0
+  "class": "mr-6"
 };
 var _hoisted_7 = {
   "class": "mr-6"
 };
-var _hoisted_8 = {
-  "class": "flex items-center justify-self-center"
-};
-
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Add Logentry");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
-
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     "class": "ml-2",
     id: "from",
@@ -20661,31 +20632,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.enddate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [$props.nutrienttotals.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_6, "No Nutrient Totals")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $props.nutrienttotals.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 1
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.nutrienttotals, function (nutrienttotal) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrienttotal.NutrientSymbol) + ": ", 1
-    /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round(nutrienttotal.total)), 1
-    /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(nutrienttotal.NutrientUnit), 1
-    /* TEXT */
-    )])]);
-  }), 256
-  /* UNKEYED_FRAGMENT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
-    "class": "mt-2 ml-2",
-    onClick: $options.addLogentry
-  }, {
-    "default": _withId(function () {
-      return [_hoisted_9];
-    }),
-    _: 1
-    /* STABLE */
-
-  }, 8
-  /* PROPS */
-  , ["onClick"])])])]);
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.enddate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_6, "KCal: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($props.kcalTotal)) + "kcal", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_7, "K: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($props.potassiumTotal)) + "mg", 1
+  /* TEXT */
+  )])])]);
 });
 
 /***/ }),
@@ -22926,7 +22877,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onAddLogentry: $options.addLogentry
       }, null, 8
       /* PROPS */
-      , ["nutrienttotals", "startdate", "enddate", "onDatechange", "onAddLogentry"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                    <Button class=\"mt-2 ml-2\" @click=\"addLogentry\">Add Logentry</Button>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentries.data, function (logentry) {
+      , ["nutrienttotals", "startdate", "enddate", "onDatechange", "onAddLogentry"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentries.data, function (logentry) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_log_entry_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: logentry.id,
@@ -22981,6 +22932,9 @@ var _hoisted_3 = {
 var _hoisted_4 = {
   "class": "p-6 bg-white border-b border-gray-200"
 };
+var _hoisted_5 = {
+  "class": "p-6 bg-white border-b border-gray-200"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_log_entry_header = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("log-entry-header");
 
@@ -22992,15 +22946,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_breeze_authenticated_layout, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_log_entry_header, {
-        nutrienttotals: $props.nutrienttotals.data,
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_log_entry_header, {
+        kcalTotal: $props.kcalTotal,
+        potassiumTotal: $props.potassiumTotal,
         startdate: $data.startdate,
         enddate: $data.enddate,
-        onDatechange: $options.handleDateRangeChange,
-        onAddLogentry: $options.addLogentry
+        onDatechange: $options.handleDateRangeChange
       }, null, 8
       /* PROPS */
-      , ["nutrienttotals", "startdate", "enddate", "onDatechange", "onAddLogentry"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentries.data, function (logentry) {
+      , ["kcalTotal", "potassiumTotal", "startdate", "enddate", "onDatechange"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.logentries.data, function (logentry) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_log_entry_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: logentry.id,
@@ -23020,7 +22974,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         paginatordata: $props.logentries.meta
       }, null, 8
       /* PROPS */
-      , ["onFirst", "onPrevious", "onNext", "onLast", "paginatordata"])])])])];
+      , ["onFirst", "onPrevious", "onNext", "onLast", "paginatordata"])])])])])];
     }),
     _: 1
     /* STABLE */

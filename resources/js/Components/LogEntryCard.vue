@@ -18,11 +18,8 @@
                 </span>
             </div>
             <div class="flex justify-between">
-                <span v-for="nutrient in logentry.nutrients">
-                    <span>{{nutrient.NutrientSymbol}}: </span>
-                    <string-text :value="Math.round(nutrient.NutrientAmount)"/>
-                    <span>{{nutrient.NutrientUnit}}</span>
-                </span>
+                <span>KCal: {{Math.round(logentry.KCalValue)}}kcal</span>
+                <span>K: {{Math.round(logentry.PotassiumValue)}}mg</span>
                 <span>{{logentry.FoodGroupName}}</span>
             </div>
         </div>
