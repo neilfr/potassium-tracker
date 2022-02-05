@@ -106,7 +106,6 @@
                 this.enddate = d.toISOString().substring(0,10);
             },
             destroy(logentry) {
-                console.log('destroy', logentry.id);
                 let url = route('newlogentries.destroy', logentry.id);
                 this.$inertia.delete(url, {
                     preserveState: true,
@@ -114,7 +113,6 @@
                 });
             },
             handleLogentryCardUpdate(logentry){
-                console.log('update');
                 let url = route('newlogentries.update', logentry.id);
                 this.$inertia.visit(url, {
                     method: 'patch',

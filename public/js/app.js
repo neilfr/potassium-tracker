@@ -19774,7 +19774,6 @@ __webpack_require__.r(__webpack_exports__);
       this.enddate = d.toISOString().substring(0, 10);
     },
     destroy: function destroy(logentry) {
-      console.log('destroy', logentry.id);
       var url = route('newlogentries.destroy', logentry.id);
       this.$inertia["delete"](url, {
         preserveState: true,
@@ -19782,7 +19781,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     handleLogentryCardUpdate: function handleLogentryCardUpdate(logentry) {
-      console.log('update');
       var url = route('newlogentries.update', logentry.id);
       this.$inertia.visit(url, {
         method: 'patch',

@@ -24,17 +24,17 @@ class Newlogentry extends Model
 
         if (is_null($from) && is_null($to)){
             return $query->where('ConsumedAt', '>=', $now->toDateString())
-                ->where('ConsumedAt', '<=', $now->addDay()->toDateString());
+                ->where('ConsumedAt', '<=', $now->toDateString());
         }
 
         if (is_null($from)){
-            return $query->whereDate('ConsumedAt', '<=', Carbon::parse($to)->addDay()->toDateString());
+            return $query->whereDate('ConsumedAt', '<=', Carbon::parse($to)->toDateString());
         }
 
         if (is_null($to)){
             return $query->whereDate('ConsumedAt', '>=', Carbon::parse($from)->toDateString());
         }
 
-        $query->whereBetween('ConsumedAt', [Carbon::parse($from)->toDateString(), Carbon::parse($to)->addDay()->toDateString()]);
+        $query->whereBetween('ConsumedAt', [Carbon::parse($from)->toDateString(), Carbon::parse($to)->toDateString()]);
     }
 }
