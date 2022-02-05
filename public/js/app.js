@@ -20692,6 +20692,8 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_7, "K: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($props.potassiumTotal)) + "mg", 1
   /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.potassiumTotal === null || $props.potassiumTotal === 0 ? 'NA' : ($props.kcalTotal / $props.potassiumTotal).toFixed(2)) + " kcal/mg", 1
+  /* TEXT */
   )])])]);
 });
 

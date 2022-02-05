@@ -10,6 +10,7 @@
             <div class="flex items-center">
                 <span class="mr-6">KCal: {{Math.round(kcalTotal)}}kcal</span>
                 <span class="mr-6">K: {{Math.round(potassiumTotal)}}mg</span>
+                <span>{{potassiumTotal === null || potassiumTotal === 0 ? 'NA' : (kcalTotal / potassiumTotal).toFixed(2)}} kcal/mg</span>
             </div>
         </span>
     </div>
