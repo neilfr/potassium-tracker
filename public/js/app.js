@@ -19775,6 +19775,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     destroy: function destroy(logentry) {
       console.log('destroy');
+      console.log('destroy');
       var url = route('newlogentries.destroy', logentry.id);
       this.$inertia["delete"](url, {
         preserveState: true,
@@ -19782,16 +19783,16 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     handleLogentryCardUpdate: function handleLogentryCardUpdate(logentry) {
-      var url = route('newlogentries.update', logentry.id);
-      this.$inertia.visit(url, {
-        method: 'patch',
-        data: {
-          'ConsumedAt': logentry.ConsumedAt,
-          'portion': logentry.portion
-        },
-        preserveState: true,
-        preserveScroll: true
-      });
+      console.log('update'); // let url = route('newlogentries.update', logentry.id);
+      // this.$inertia.visit(url, {
+      //     method: 'patch',
+      //     data:{
+      //         'ConsumedAt':logentry.ConsumedAt,
+      //         'portion':logentry.portion,
+      //     },
+      //     preserveState: true,
+      //     preserveScroll: true,
+      // });
     }
   }
 });

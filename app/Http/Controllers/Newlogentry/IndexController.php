@@ -19,8 +19,10 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
+//        dd('request params', $request->query('from'), $request->query('to'));
         $logentries = Newlogentry::query()
             ->where('UserID', auth()->user()->id)
+            ->inDateRange($request->query('from'), $request->query('to'))
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
 
         $portionAdjustedNutrientAmountsForLogentries = DB::table('newlogentries')
