@@ -19782,16 +19782,17 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     handleLogentryCardUpdate: function handleLogentryCardUpdate(logentry) {
-      console.log('update'); // let url = route('newlogentries.update', logentry.id);
-      // this.$inertia.visit(url, {
-      //     method: 'patch',
-      //     data:{
-      //         'ConsumedAt':logentry.ConsumedAt,
-      //         'portion':logentry.portion,
-      //     },
-      //     preserveState: true,
-      //     preserveScroll: true,
-      // });
+      console.log('update');
+      var url = route('newlogentries.update', logentry.id);
+      this.$inertia.visit(url, {
+        method: 'patch',
+        data: {
+          'ConsumedAt': logentry.ConsumedAt,
+          'portion': logentry.portion
+        },
+        preserveState: true,
+        preserveScroll: true
+      });
     }
   }
 });

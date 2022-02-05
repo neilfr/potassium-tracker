@@ -41,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/newlogentries', App\Http\Controllers\Newlogentry\IndexController::class)->name('newlogentries.index');
     Route::post('/newlogentries/store', App\Http\Controllers\Newlogentry\StoreController::class)->name('newlogentries.store');
+    Route::patch('/newlogentries/update/{logentry}', App\Http\Controllers\Newlogentry\UpdateController::class)->name('newlogentries.update');
     Route::delete('/newlogentries/destroy/{logentry}', App\Http\Controllers\Newlogentry\DestroyController::class)->name('newlogentries.destroy');
 });
 
