@@ -1,29 +1,28 @@
 <template>
     <div class="flex px-4 py-2">
-        <div class="flex-none col-span-2 row-span-2 flex items-center justify-self-center">
-            <input class="rounded" id="consumedAt" v-model="consumedAtDate" type="date" @change="handleUpdate"/>
-        </div>
-        <div class="flex-grow px-6">
-            <div class="flex justify-between">
-                <span>{{logentry.FoodDescription}} - {{logentry.MeasureDescription}}</span>
-                <span>
-                    <label for="portion">Portion (%): </label>
-                    <input
-                        id="portion"
-                        type="number"
-                        min="0"
-                        v-model="portion"
-                        @change="handleUpdate"
-                    />
-                </span>
+        <input class="w-48 rounded" id="consumedAt" v-model="consumedAtDate" type="date" @change="handleUpdate"/>
+        <div class="flex-grow ml-4">
+            <div class="flex">
+                <span class="flex-grow">{{logentry.FoodDescription}} - {{logentry.MeasureDescription}}</span>
             </div>
-            <div class="flex justify-between">
-                <span>KCal: {{Math.round(logentry.KCalValue)}}kcal</span>
-                <span>K: {{Math.round(logentry.PotassiumValue)}}mg</span>
-                <span>{{logentry.FoodGroupName}}</span>
+            <div class="text-sm grid grid-cols-11 justify-between">
+                <span class="col-span-2">KCal: {{Math.round(logentry.KCalValue)}} kcal</span>
+                <span class="col-span-2">K: {{Math.round(logentry.PotassiumValue)}} mg</span>
+                <span class="col-span-2">{{logentry.NutrientDensity}} KCal/mg</span>
+                <span class="ml-4 col-span-5">{{logentry.FoodGroupName}}</span>
             </div>
         </div>
-        <div class="flex-none flex items-center justify-self-center col-span-1 row-span-2">
+        <div class="ml-8">
+            <label for="portion">Portion(%): </label>
+            <input class="w-20"
+                   id="portion"
+                   type="number"
+                   min="0"
+                   v-model="portion"
+                   @change="handleUpdate"
+            />
+        </div>
+        <div class="ml-4">
             <Button @click="destroy">Delete</Button>
         </div>
     </div>

@@ -8,9 +8,18 @@
             <label class="flex-none" for="search">Search:</label>
             <input class="flex-grow ml-2 rounded" type="text" id="search" @input="updateSearchText" v-model="searchText"/>
         </span>
-        <div class="flex-none flex items-center justify-self-center">
-            <Button class="mt-2 ml-2" @click="addFood">Add Food</Button>
-        </div>
+        <span>
+            <label class="flex-none" for="sort">Sort:</label>
+            <select id="sort" class="ml-2 rounded" @click="updateSort">
+                <option value="density-des">KCal/K (9..1)</option>
+                <option value="density-asc">KCal/K (1..9)</option>
+                <option value="food-description-asc">Food (a..z)</option>
+                <option value="food-description-des">Food (z..a)</option>
+            </select>
+        </span>
+        <span class="ml-8 flex-none flex items-center justify-self-center">
+            <Button @click="addFood">Add Food</Button>
+        </span>
     </div>
 </template>
 
@@ -52,6 +61,9 @@
             },
             addFood(){
                 this.$emit('addFood');
+            },
+            updateSort(){
+                console.log('update sort');
             }
         }
     }

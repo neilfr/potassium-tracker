@@ -23,8 +23,9 @@ class NewlogentryResource extends JsonResource
             'FoodDescription' => $this->newfood->FoodDescription,
             'FoodGroupName' => $this->newfood->foodgroup->FoodGroupName,
             'MeasureDescription' => $this->newfood->MeasureDescription,
-            'KCalValue' => $this->newfood->KCalValue * $this->portion,
-            'PotassiumValue' => $this->newfood->PotassiumValue * $this->portion,
+            'KCalValue' => $this->newfood->KCalValue * $this->portion / 100,
+            'PotassiumValue' => $this->newfood->PotassiumValue * $this->portion / 100,
+            'NutrientDensity' => $this->newfood->NutrientDensity,
         ];
     }
 }

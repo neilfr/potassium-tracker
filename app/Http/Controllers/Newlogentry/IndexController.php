@@ -31,8 +31,8 @@ class IndexController extends Controller
 
         $nutrientTotals = $alllogentries->reduce(function($acc, $logentry){
             return [
-                'kcal' => $acc['kcal'] + $logentry->newfood->KCalValue * $logentry->portion,
-                'k' => $acc['k'] + $logentry->newfood->PotassiumValue * $logentry->portion,
+                'kcal' => $acc['kcal'] + $logentry->newfood->KCalValue * $logentry->portion / 100,
+                'k' => $acc['k'] + $logentry->newfood->PotassiumValue * $logentry->portion / 100,
             ];
         }, ['kcal' => 0, 'k' => 0]);
 
