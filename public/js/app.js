@@ -19774,8 +19774,7 @@ __webpack_require__.r(__webpack_exports__);
       this.enddate = d.toISOString().substring(0, 10);
     },
     destroy: function destroy(logentry) {
-      console.log('destroy');
-      console.log('destroy');
+      console.log('destroy', logentry.id);
       var url = route('newlogentries.destroy', logentry.id);
       this.$inertia["delete"](url, {
         preserveState: true,
@@ -21010,7 +21009,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Navigation Links "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_breeze_nav_link, {
     "class": "text-2xl",
-    href: _ctx.route('logentries.index'),
+    href: _ctx.route('newlogentries.index'),
     active: _ctx.route().current('logentries.index')
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {

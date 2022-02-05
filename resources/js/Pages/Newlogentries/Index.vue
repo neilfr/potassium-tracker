@@ -106,8 +106,7 @@
                 this.enddate = d.toISOString().substring(0,10);
             },
             destroy(logentry) {
-                console.log('destroy');
-                console.log('destroy');
+                console.log('destroy', logentry.id);
                 let url = route('newlogentries.destroy', logentry.id);
                 this.$inertia.delete(url, {
                     preserveState: true,
