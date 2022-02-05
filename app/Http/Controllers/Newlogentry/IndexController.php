@@ -19,30 +19,25 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-//        dd('request params', $request->query('from'), $request->query('to'));
-        $logentries = Newlogentry::query()
+        $paginatedLogentries = Newlogentry::query()
             ->where('UserID', auth()->user()->id)
             ->inDateRange($request->query('from'), $request->query('to'))
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
 
-        $portionAdjustedNutrientAmountsForLogentries = DB::table('newlogentries')
-            ->join('newfoods','newlogentries.NewfoodID', '=', 'newfoods.NewfoodID')
-            ->select(
-                DB::raw('newfoods.KCalValue * newlogentries.portion as adjustedkcal'),
-                DB::raw('newfoods.PotassiumValue * newlogentries.portion as adjustedpotassium')
-            )
-            ->where('newlogentries.UserID', '=', auth()->user()->id)
+        $alllogentries = Newlogentry::query()
+            ->where('UserID', auth()->user()->id)
+            ->inDateRange($request->query('from'), $request->query('to'))
             ->get();
 
-        $nutrientTotals = $portionAdjustedNutrientAmountsForLogentries->reduce(function($acc, $logentry) {
+        $nutrientTotals = $alllogentries->reduce(function($acc, $logentry){
             return [
-                'kcal' => $acc['kcal'] + $logentry->adjustedkcal,
-                'k' => $acc['k'] + $logentry->adjustedpotassium,
+                'kcal' => $acc['kcal'] + $logentry->newfood->KCalValue * $logentry->portion,
+                'k' => $acc['k'] + $logentry->newfood->PotassiumValue * $logentry->portion,
             ];
         }, ['kcal' => 0, 'k' => 0]);
 
         return Inertia::render('Newlogentries/Index', [
-            'logentries' => NewlogentryResource::collection($logentries),
+            'logentries' => NewlogentryResource::collection($paginatedLogentries),
             'kcalTotal' => $nutrientTotals['kcal'],
             'potassiumTotal' => $nutrientTotals['k'],
         ]);
