@@ -11,10 +11,7 @@
         <span>
             <label class="flex-none" for="sort">Sort:</label>
             <select id="sort" class="ml-2 rounded" v-model="selectedSortOrder" @change="handleUpdateSortOrder">
-                <option value="density-des">KCal/K (9..1)</option>
-                <option value="density-asc">KCal/K (1..9)</option>
-                <option value="food-description-asc">Food (a..z)</option>
-                <option value="food-description-des">Food (z..a)</option>
+                <option v-for="sortOption in sortOrderOptions" :value="sortOption.value">{{sortOption.description}}</option>
             </select>
         </span>
         <span class="ml-8 flex-none flex items-center justify-self-center">
@@ -40,6 +37,9 @@
             'addFoodFactor',
         ],
         mounted() {
+            if(localStorage.sortOrder){
+
+            }
             if(this.favouritefilter==='yes'){
                 this.updatedFavouriteFilter = true;
             } else {
@@ -50,6 +50,24 @@
             return {
                 searchText: '',
                 updatedFavouriteFilter: Boolean,
+                sortOrderOptions:[
+                    {
+                        value: "density-des",
+                        description: "KCal / K(9..1)"
+                    },
+                    {
+                        value:"density-asc",
+                        description:"KCal/K (1..9)"
+                    },
+                    {
+                        value:"food-description-asc",
+                        description:"Food (a..z)"
+                    },
+                    {
+                        value:"food-description-des",
+                        description:"Food (z..a)"
+                    }
+                ],
                 selectedSortOrder: Object,
             }
         },
@@ -64,6 +82,7 @@
                 this.$emit('addFood');
             },
             handleUpdateSortOrder(){
+                localStorage.sortOrder = this.selectedSortOrder;
                 this.$emit('updateSort', this.selectedSortOrder);
                 console.log('update sort');
             }

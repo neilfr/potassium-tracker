@@ -18327,6 +18327,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   emits: ['search', 'toggleFavouriteFilter', 'addFoodFactor'],
   mounted: function mounted() {
+    if (localStorage.sortOrder) {}
+
     if (this.favouritefilter === 'yes') {
       this.updatedFavouriteFilter = true;
     } else {
@@ -18337,6 +18339,19 @@ __webpack_require__.r(__webpack_exports__);
     return {
       searchText: '',
       updatedFavouriteFilter: Boolean,
+      sortOrderOptions: [{
+        value: "density-des",
+        description: "KCal / K(9..1)"
+      }, {
+        value: "density-asc",
+        description: "KCal/K (1..9)"
+      }, {
+        value: "food-description-asc",
+        description: "Food (a..z)"
+      }, {
+        value: "food-description-des",
+        description: "Food (z..a)"
+      }],
       selectedSortOrder: Object
     };
   },
@@ -18351,6 +18366,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('addFood');
     },
     handleUpdateSortOrder: function handleUpdateSortOrder() {
+      localStorage.sortOrder = this.selectedSortOrder;
       this.$emit('updateSort', this.selectedSortOrder);
       console.log('update sort');
     }
@@ -20368,35 +20384,11 @@ var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 /* HOISTED */
 );
 
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
-  value: "density-des"
-}, "KCal/K (9..1)", -1
-/* HOISTED */
-);
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
-  value: "density-asc"
-}, "KCal/K (1..9)", -1
-/* HOISTED */
-);
-
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
-  value: "food-description-asc"
-}, "Food (a..z)", -1
-/* HOISTED */
-);
-
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
-  value: "food-description-des"
-}, "Food (z..a)", -1
-/* HOISTED */
-);
-
-var _hoisted_11 = {
+var _hoisted_7 = {
   "class": "ml-8 flex-none flex items-center justify-self-center"
 };
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Add Food");
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Add Food");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
@@ -20432,13 +20424,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[5] || (_cache[5] = function () {
       return $options.handleUpdateSortOrder && $options.handleUpdateSortOrder.apply($options, arguments);
     })
-  }, [_hoisted_7, _hoisted_8, _hoisted_9, _hoisted_10], 544
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.sortOrderOptions, function (sortOption) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
+      value: sortOption.value
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(sortOption.description), 9
+    /* TEXT, PROPS */
+    , ["value"]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  ))], 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSortOrder]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSortOrder]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
     onClick: $options.addFood
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_12];
+      return [_hoisted_8];
     }),
     _: 1
     /* STABLE */
