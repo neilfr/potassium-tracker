@@ -47,6 +47,12 @@ class Newfood extends Model
             case 'density-asc':
                 $query->orderBy('NutrientDensity');
                 break;
+            case 'food-description-asc':
+                $query->orderBy('FoodDescription');
+                break;
+            case 'food-description-des':
+                $query->orderByDesc('FoodDescription');
+                break;
             default:
                 break;
         }
