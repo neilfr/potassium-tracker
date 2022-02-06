@@ -38,6 +38,20 @@ class Newfood extends Model
         });
     }
 
+    public function scopeOrderBySortOrder(Builder $query, $sortOrder)
+    {
+        switch ($sortOrder) {
+            case 'density-des':
+                $query->orderByDesc('NutrientDensity');
+                break;
+            case 'density-asc':
+                $query->orderBy('NutrientDensity');
+                break;
+            default:
+                break;
+        }
+    }
+
     public function getFavouriteAttribute()
     {
         return User::find(auth()->user()->id)

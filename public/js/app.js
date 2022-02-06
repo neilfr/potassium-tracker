@@ -18336,7 +18336,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       searchText: '',
-      updatedFavouriteFilter: Boolean
+      updatedFavouriteFilter: Boolean,
+      selectedSortOrder: Object
     };
   },
   methods: {
@@ -18349,7 +18350,8 @@ __webpack_require__.r(__webpack_exports__);
     addFood: function addFood() {
       this.$emit('addFood');
     },
-    updateSort: function updateSort() {
+    handleUpdateSortOrder: function handleUpdateSortOrder() {
+      this.$emit('updateSort', this.selectedSortOrder);
       console.log('update sort');
     }
   }
@@ -19491,7 +19493,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       searchText: String,
-      updatedFavouriteFilter: ''
+      updatedFavouriteFilter: '',
+      sortOrder: String
     };
   },
   mounted: function mounted() {
@@ -19519,6 +19522,7 @@ __webpack_require__.r(__webpack_exports__);
       var url = route('foods.index');
       url += "?searchText=".concat(this.searchText);
       url += "&favouritefilter=".concat(this.updatedFavouriteFilter);
+      url += "&sortOrder=".concat(this.sortOrder);
       this.$inertia.visit(url, {
         data: {
           'page': page
@@ -19557,14 +19561,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     handleEditFood: function handleEditFood(food) {
       var url = route('foods.edit', food.NewfoodID);
-      console.log('handleeditfood', food);
-      console.log('url', url);
       this.$inertia.visit(url, {
         method: 'get',
         data: {},
         preserveState: true,
         preserveScroll: true
       });
+    },
+    updateSortOrder: function updateSortOrder(sortOrder) {
+      console.log('sortOrder', sortOrder);
+      this.sortOrder = sortOrder;
+      this.first();
     }
   }
 });
@@ -20279,11 +20286,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* PROPS, HYDRATE_EVENTS */
   , ["checked"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.food.FoodDescription) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.food.MeasureDescription), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.food.KCalValue), 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat($props.food.KCalValue).toFixed(1)), 1
   /* TEXT */
-  ), _hoisted_7]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.food.PotassiumValue), 1
+  ), _hoisted_7]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat($props.food.PotassiumValue).toFixed(1)), 1
   /* TEXT */
-  ), _hoisted_9]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.food.NutrientDensity === null ? 'NA' : parseFloat($props.food.NutrientDensity).toFixed(3)) + " ", 1
+  ), _hoisted_9]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.food.NutrientDensity === null ? 'NA' : parseFloat($props.food.NutrientDensity).toFixed(1)) + " ", 1
   /* TEXT */
   ), _hoisted_10]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.food.FoodGroupName), 1
   /* TEXT */
@@ -20416,13 +20423,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchText]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchText]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
     id: "sort",
     "class": "ml-2 rounded",
-    onClick: _cache[4] || (_cache[4] = function () {
-      return $options.updateSort && $options.updateSort.apply($options, arguments);
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.selectedSortOrder = $event;
+    }),
+    onChange: _cache[5] || (_cache[5] = function () {
+      return $options.handleUpdateSortOrder && $options.handleUpdateSortOrder.apply($options, arguments);
     })
-  }, [_hoisted_7, _hoisted_8, _hoisted_9, _hoisted_10])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+  }, [_hoisted_7, _hoisted_8, _hoisted_9, _hoisted_10], 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSortOrder]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
     onClick: $options.addFood
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -20576,11 +20588,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* HYDRATE_EVENTS, NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.consumedAtDate]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.FoodDescription) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.MeasureDescription), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_6, "KCal: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($props.logentry.KCalValue)) + " kcal", 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_6, "KCal: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat($props.logentry.KCalValue).toFixed(1)) + " kcal", 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_7, "K: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($props.logentry.PotassiumValue)) + " mg", 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_7, "K: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat($props.logentry.PotassiumValue).toFixed(1)) + " mg", 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.NutrientDensity) + " KCal/mg", 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat($props.logentry.NutrientDensity).toFixed(1)) + " KCal/mg", 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.logentry.FoodGroupName), 1
   /* TEXT */
@@ -20688,11 +20700,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.enddate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_6, "KCal: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($props.kcalTotal)) + "kcal", 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $props.enddate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_6, "KCal: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat($props.kcalTotal).toFixed(1)) + "kcal", 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_7, "K: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($props.potassiumTotal)) + "mg", 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_7, "K: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(parseFloat($props.potassiumTotal).toFixed(1)) + "mg", 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.potassiumTotal === null || $props.potassiumTotal === 0 ? 'NA' : ($props.kcalTotal / $props.potassiumTotal).toFixed(2)) + " kcal/mg", 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.potassiumTotal === null || $props.potassiumTotal === 0 ? 'NA' : ($props.kcalTotal / $props.potassiumTotal).toFixed(1)) + " kcal/mg", 1
   /* TEXT */
   )])])]);
 });
@@ -22858,10 +22870,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         onSearch: $options.handleSearch,
         onToggleFavouriteFilter: $options.handleFavouriteFilter,
         onAddFood: $options.addFood,
+        onUpdateSort: $options.updateSortOrder,
         favouritefilter: $props.favouritefilter
       }, null, 8
       /* PROPS */
-      , ["onSearch", "onToggleFavouriteFilter", "onAddFood", "favouritefilter"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.foods.data, function (food) {
+      , ["onSearch", "onToggleFavouriteFilter", "onAddFood", "onUpdateSort", "favouritefilter"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.foods.data, function (food) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_food_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: food.NewfoodID,

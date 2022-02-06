@@ -6,9 +6,9 @@
                 <span class="flex-grow">{{logentry.FoodDescription}} - {{logentry.MeasureDescription}}</span>
             </div>
             <div class="text-sm grid grid-cols-11 justify-between">
-                <span class="col-span-2">KCal: {{Math.round(logentry.KCalValue)}} kcal</span>
-                <span class="col-span-2">K: {{Math.round(logentry.PotassiumValue)}} mg</span>
-                <span class="col-span-2">{{logentry.NutrientDensity}} KCal/mg</span>
+                <span class="col-span-2">KCal: {{parseFloat(logentry.KCalValue).toFixed(1)}} kcal</span>
+                <span class="col-span-2">K: {{parseFloat(logentry.PotassiumValue).toFixed(1)}} mg</span>
+                <span class="col-span-2">{{parseFloat(logentry.NutrientDensity).toFixed(1)}} KCal/mg</span>
                 <span class="ml-4 col-span-5">{{logentry.FoodGroupName}}</span>
             </div>
         </div>

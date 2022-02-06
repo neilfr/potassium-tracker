@@ -8,6 +8,7 @@
                             @search="handleSearch"
                             @toggleFavouriteFilter="handleFavouriteFilter"
                             @addFood="addFood"
+                            @updateSort="updateSortOrder"
                             :favouritefilter="favouritefilter"
                         />
                         <food-card
@@ -64,6 +65,7 @@
             return {
                 searchText: String,
                 updatedFavouriteFilter: '',
+                sortOrder: String,
             }
         },
         mounted() {
@@ -91,6 +93,7 @@
                 let url = route('foods.index');
                 url += `?searchText=${this.searchText}`;
                 url += `&favouritefilter=${this.updatedFavouriteFilter}`;
+                url += `&sortOrder=${this.sortOrder}`;
                 this.$inertia.visit(url, {
                     data:{
                         'page':page,
@@ -129,8 +132,6 @@
             },
             handleEditFood(food){
                 let url = route('foods.edit', food.NewfoodID);
-                console.log('handleeditfood', food);
-                console.log('url', url);
                 this.$inertia.visit(url,
                     {
                         method: 'get',
@@ -138,6 +139,11 @@
                         preserveState: true,
                         preserveScroll: true,
                     });
+            },
+            updateSortOrder(sortOrder){
+                console.log('sortOrder',sortOrder);
+                this.sortOrder=sortOrder;
+                this.first();
             }
         }
     }

@@ -12,16 +12,16 @@
             <div class="grid grid-cols-4">
                 <span>
                     <span>KCAL: </span>
-                    <span>{{food.KCalValue}}</span>
+                    <span>{{parseFloat(food.KCalValue).toFixed(1)}}</span>
                     <span> KCal</span>
                 </span>
                 <span>
                     <span>K: </span>
-                    <span>{{food.PotassiumValue}}</span>
+                    <span>{{parseFloat(food.PotassiumValue).toFixed(1)}}</span>
                     <span> mg</span>
                 </span>
                 <span>
-                    <span>{{food.NutrientDensity === null ? 'NA' : parseFloat(food.NutrientDensity).toFixed(3)}}&nbsp</span>
+                    <span>{{food.NutrientDensity === null ? 'NA' : parseFloat(food.NutrientDensity).toFixed(1)}}&nbsp</span>
                     <span> KCal / mgs</span>
                 </span>
                 <span>{{food.FoodGroupName}}</span>

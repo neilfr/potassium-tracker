@@ -8,9 +8,9 @@
                 <input class="ml-2" id="to" v-model="enddate" type="date" @change="handleDateRangeChange"/>
             </span>
             <div class="flex items-center">
-                <span class="mr-6">KCal: {{Math.round(kcalTotal)}}kcal</span>
-                <span class="mr-6">K: {{Math.round(potassiumTotal)}}mg</span>
-                <span>{{potassiumTotal === null || potassiumTotal === 0 ? 'NA' : (kcalTotal / potassiumTotal).toFixed(2)}} kcal/mg</span>
+                <span class="mr-6">KCal: {{parseFloat(kcalTotal).toFixed(1)}}kcal</span>
+                <span class="mr-6">K: {{parseFloat(potassiumTotal).toFixed(1)}}mg</span>
+                <span>{{potassiumTotal === null || potassiumTotal === 0 ? 'NA' : (kcalTotal / potassiumTotal).toFixed(1)}} kcal/mg</span>
             </div>
         </span>
     </div>

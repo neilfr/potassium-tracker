@@ -20,10 +20,13 @@ class IndexController extends Controller
     {
         $searchText = $request->query('searchText');
         $favouritefilter = $request->query('favouritefilter') ?: 'yes';
+        $sortOrder = $request->query('sortOrder');
+//        dd('sortOrder', $sortOrder);
         $foods = Newfood::query()
             ->favouriteFilter($favouritefilter)
             ->newfoodSearch($searchText)
-            ->orderByDesc('NutrientDensity')
+            ->orderBySortOrder($sortOrder)
+//            ->orderByDesc('NutrientDensity')
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
 
         return Inertia::render('Foods/Index', [

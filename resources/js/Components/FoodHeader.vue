@@ -10,7 +10,7 @@
         </span>
         <span>
             <label class="flex-none" for="sort">Sort:</label>
-            <select id="sort" class="ml-2 rounded" @click="updateSort">
+            <select id="sort" class="ml-2 rounded" v-model="selectedSortOrder" @change="handleUpdateSortOrder">
                 <option value="density-des">KCal/K (9..1)</option>
                 <option value="density-asc">KCal/K (1..9)</option>
                 <option value="food-description-asc">Food (a..z)</option>
@@ -50,6 +50,7 @@
             return {
                 searchText: '',
                 updatedFavouriteFilter: Boolean,
+                selectedSortOrder: Object,
             }
         },
         methods:{
@@ -62,7 +63,8 @@
             addFood(){
                 this.$emit('addFood');
             },
-            updateSort(){
+            handleUpdateSortOrder(){
+                this.$emit('updateSort', this.selectedSortOrder);
                 console.log('update sort');
             }
         }
