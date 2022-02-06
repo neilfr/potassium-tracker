@@ -38,7 +38,7 @@
         ],
         mounted() {
             if(localStorage.sortOrder){
-
+                console.log('starting sort order', localStorage.sortOrder);
             }
             if(this.favouritefilter==='yes'){
                 this.updatedFavouriteFilter = true;

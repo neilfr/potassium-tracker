@@ -38,8 +38,9 @@ class Newfood extends Model
         });
     }
 
-    public function scopeOrderBySortOrder(Builder $query, $sortOrder)
+    public function scopeOrderBySortOrder(Builder $query)
     {
+        $sortOrder = User::find(auth()->user()->id)->newfoodsort;
         switch ($sortOrder) {
             case 'density-des':
                 $query->orderByDesc('NutrientDensity');

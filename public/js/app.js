@@ -18327,7 +18327,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   emits: ['search', 'toggleFavouriteFilter', 'addFoodFactor'],
   mounted: function mounted() {
-    if (localStorage.sortOrder) {}
+    if (localStorage.sortOrder) {
+      console.log('starting sort order', localStorage.sortOrder);
+    }
 
     if (this.favouritefilter === 'yes') {
       this.updatedFavouriteFilter = true;

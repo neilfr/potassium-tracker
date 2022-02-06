@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Newfood;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NewfoodResource;
 use App\Models\Newfood;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -21,11 +22,15 @@ class IndexController extends Controller
         $searchText = $request->query('searchText');
         $favouritefilter = $request->query('favouritefilter') ?: 'yes';
         $sortOrder = $request->query('sortOrder');
-//        dd('sortOrder', $sortOrder);
+        $user = User::find(auth()->user()->id);
+        if($sortOrder){
+            $user->newfoodsort = $sortOrder;
+            $user->save();
+        }
         $foods = Newfood::query()
             ->favouriteFilter($favouritefilter)
             ->newfoodSearch($searchText)
-            ->orderBySortOrder($sortOrder)
+            ->orderBySortOrder()
 //            ->orderByDesc('NutrientDensity')
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
 
