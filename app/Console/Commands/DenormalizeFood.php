@@ -53,7 +53,7 @@ class DenormalizeFood extends Command
             ->join('measurenames', 'measurenames.MeasureID', '=', 'conversionfactors.MeasureID')
             ->join('foodnames', 'foodnames.FoodID', '=', 'conversionfactors.FoodID')
             ->where('conversionfactors.user_id', '=', null)
-            ->orWhere('conversionfactors.user_id', '=', 1)
+            ->orWhere('conversionfactors.user_id', '=', 14)
             ->select(
                 'conversionfactors.id as ConversionFactorID',
                 'conversionfactors.user_id as UserID',
