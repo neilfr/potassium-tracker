@@ -3,30 +3,32 @@
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <log-entry-header
-                        :nutrienttotals="nutrienttotals.data"
-                        :startdate="startdate"
-                        :enddate="enddate"
-                        @datechange="handleDateRangeChange"
-                        @addLogentry="addLogentry"
-                    />
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <log-entry-card
-                            class="bg-gray-100 rounded-lg mb-2"
-                            v-for="logentry in logentries.data"
-                            :key="logentry.id"
-                            :logentry="logentry"
-                            @destroy="destroy"
-                            @updated="handleLogentryCardUpdate"
+                        <log-entry-header
+                            :kcalTotal="kcalTotal"
+                            :potassiumTotal="potassiumTotal"
+                            :startdate="startdate"
+                            :enddate="enddate"
+                            @datechange="handleDateRangeChange"
+                        />
+                        <div class="p-6 bg-white border-b border-gray-200">
+                            <log-entry-card
+                                class="bg-gray-100 rounded-lg mb-2"
+                                v-for="logentry in logentries.data"
+                                :key="logentry.id"
+                                :logentry="logentry"
+                                @destroy="destroy"
+                                @updated="handleLogentryCardUpdate"
+                            />
+                        </div>
+                        <paginator
+                            @first="first"
+                            @previous="previous"
+                            @next="next"
+                            @last="last"
+                            :paginatordata="logentries.meta"
                         />
                     </div>
-                    <paginator
-                        @first="first"
-                        @previous="previous"
-                        @next="next"
-                        @last="last"
-                        :paginatordata="logentries.meta"
-                    />
                 </div>
             </div>
         </div>
@@ -50,7 +52,8 @@
         },
         props: {
             logentries: Object,
-            nutrienttotals: Object,
+            kcalTotal: Number,
+            potassiumTotal: Number,
         },
         data(){
             return {
@@ -62,17 +65,6 @@
             this.resetDateRange();
         },
         methods: {
-            addLogentry() {
-                let url = route('conversionfactors.index');
-                url += `?searchText=`;
-                url += `&favourite=true`;
-                this.$inertia.visit(url, {
-                    method:'get',
-                    data:{},
-                    preserveState: true,
-                    preserveScroll: true,
-                });
-            },
             handleDateRangeChange(dates) {
                 this.startdate=dates.startdate;
                 this.enddate=dates.enddate;
@@ -96,7 +88,7 @@
                 this.goToPage(this.logentries.meta.last_page);
             },
             goToPage(page) {
-                let url = route('logentries.index');
+                let url = route('newlogentries.index');
                 url += `?from=${this.startdate}`;
                 url += `&to=${this.enddate}`;
                 this.$inertia.visit(url, {
@@ -114,15 +106,14 @@
                 this.enddate = d.toISOString().substring(0,10);
             },
             destroy(logentry) {
-                console.log('destroy');
-                let url = route('logentries.destroy', logentry.id);
+                let url = route('newlogentries.destroy', logentry.id);
                 this.$inertia.delete(url, {
                     preserveState: true,
                     preserveScroll: true
                 });
             },
             handleLogentryCardUpdate(logentry){
-                let url = route('logentries.update', logentry.id);
+                let url = route('newlogentries.update', logentry.id);
                 this.$inertia.visit(url, {
                     method: 'patch',
                     data:{

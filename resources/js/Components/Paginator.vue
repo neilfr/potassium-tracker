@@ -33,7 +33,7 @@
             last() {
                 this.$emit('last');
             }
-        }
+        },
     }
 </script>
 

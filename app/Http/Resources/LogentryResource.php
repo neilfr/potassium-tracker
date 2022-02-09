@@ -16,7 +16,7 @@ class LogentryResource extends JsonResource
     {
         $nutrients = $this->conversionfactor->nutrients->map(function ($nutrient) {
             return array_merge($nutrient, [
-                'NutrientAmount' => $nutrient['NutrientAmount'] * $this->portion / 100,
+                'NutrientAmount' => (int)$nutrient['NutrientAmount'] * (int)$this->portion / 100,
             ]);
         });
         return [

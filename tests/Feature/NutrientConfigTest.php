@@ -13,6 +13,6 @@ class NutrientConfigTest extends TestCase
     {
         $nutrients = explode(',', env('NUTRIENTS'));
 
-        $this->assertEquals($nutrients, [208,306]);
+        $this->assertEquals($nutrients, [306,208]);
     }
 }

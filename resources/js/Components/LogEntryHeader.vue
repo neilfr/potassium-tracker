@@ -8,17 +8,9 @@
                 <input class="ml-2" id="to" v-model="enddate" type="date" @change="handleDateRangeChange"/>
             </span>
             <div class="flex items-center">
-                <span v-if="nutrienttotals.length === 0">No Nutrient Totals</span>
-                <span v-if="nutrienttotals.length > 0" class="mr-6" v-for="nutrienttotal in nutrienttotals">
-                    <span>
-                        <span>{{nutrienttotal.NutrientSymbol}}: </span>
-                        <span>{{Math.round(nutrienttotal.total)}}</span>
-                        <span>{{nutrienttotal.NutrientUnit}}</span>
-                    </span>
-                </span>
-            </div>
-            <div class="flex items-center justify-self-center">
-                <Button class="mt-2 ml-2" @click="addLogentry">Add Logentry</Button>
+                <span class="mr-6">KCal: {{parseFloat(kcalTotal).toFixed(1)}}kcal</span>
+                <span class="mr-6">K: {{parseFloat(potassiumTotal).toFixed(1)}}mg</span>
+                <span>{{potassiumTotal === null || potassiumTotal === 0 ? 'NA' : (kcalTotal / potassiumTotal).toFixed(1)}} kcal/mg</span>
             </div>
         </span>
     </div>
@@ -33,7 +25,8 @@
           Button,
         },
         props: {
-            nutrienttotals: Object,
+            kcalTotal: Number,
+            potassiumTotal: Number,
             startdate: String,
             enddate: String
         },
@@ -48,9 +41,6 @@
                     enddate: this.enddate,
                 })
             },
-            addLogentry() {
-                this.$emit('addLogentry');
-            }
         },
     }
 </script>

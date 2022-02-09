@@ -2,18 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Foodname;
-use App\Models\Foodgroup;
+use App\Models\Newfood;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class FoodnameFactory extends Factory
+class NewfoodFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Foodname::class;
+    protected $model = Newfood::class;
 
     /**
      * Define the model's default state.
@@ -23,9 +22,6 @@ class FoodnameFactory extends Factory
     public function definition()
     {
         return [
-            'FoodDescription' => $this->faker->sentence,
-            'FoodCode' => null,
         ];
     }
-
 }

@@ -15,10 +15,10 @@
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <breeze-nav-link class="text-2xl" :href="route('logentries.index')" :active="route().current('logentries.index')">
+                                <breeze-nav-link class="text-2xl" :href="route('newlogentries.index')" :active="route().current('logentries.index')">
                                     Log Entries
                                 </breeze-nav-link>
-                                <breeze-nav-link class="text-2xl" :href="route('conversionfactors.index')" :active="route().current('conversionfactors.index')">
+                                <breeze-nav-link class="text-2xl" :href="route('foods.index')" :active="route().current('foods.index')">
                                     Foods
                                 </breeze-nav-link>
                             </div>

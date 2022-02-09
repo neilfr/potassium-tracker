@@ -33,6 +33,9 @@ class ConversionfactorResource extends JsonResource
                 ->where('ConversionFactorID', $this->id)
                 ->exists(),
             'editable' => $this->user_id === auth()->user()->id,
+            'NutrientDensityUnit' => $this->nutrientDensity['unit'],
+            'NutrientDensityValue' => $this->nutrientDensity['value'],
         ];
     }
+
 }

@@ -22,7 +22,6 @@ class ConversionfactorFactory extends Factory
     public function definition()
     {
         return [
-            //
         ];
     }
 }

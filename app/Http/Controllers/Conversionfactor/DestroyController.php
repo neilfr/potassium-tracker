@@ -38,7 +38,6 @@ class DestroyController extends Controller
         $conversionfactor->delete();
         $measurename->delete();
         $foodname->delete();
-//        dd('here');
 
         return redirect()->route('conversionfactors.index');
     }

@@ -6,36 +6,31 @@
         <div class="flex-grow px-6">
             <div class="flex justify-between">
                 <span>
-                    {{conversionfactor.FoodDescription}} - {{conversionfactor.MeasureDescription}}
+                    {{food.FoodDescription}} - {{food.MeasureDescription}}
                 </span>
             </div>
             <div class="grid grid-cols-4">
-                <span v-for="nutrient in conversionfactor.nutrients">
-                    <span>{{nutrient.NutrientSymbol}}: </span>
-                    <string-text :value="isNaN(nutrient.NutrientAmount)?nutrient.NutrientAmount:Math.round(nutrient.NutrientAmount)"/>
-                    <span>&nbsp{{isNaN(nutrient.NutrientAmount)?'':nutrient.NutrientUnit}}</span>
+                <span>
+                    <span>KCAL: </span>
+                    <span>{{parseFloat(food.KCalValue).toFixed(1)}}</span>
+                    <span> KCal</span>
                 </span>
                 <span>
-                    <span>{{conversionfactor.KCalSymbol}}: </span>
-                    <span>{{conversionfactor.KCalValue}}</span>
-                    <span>{{conversionfactor.KCalUnit}}</span>
+                    <span>K: </span>
+                    <span>{{parseFloat(food.PotassiumValue).toFixed(1)}}</span>
+                    <span> mg</span>
                 </span>
                 <span>
-                    <span>{{conversionfactor.PotassiumSymbol}}: </span>
-                    <span>{{conversionfactor.PotassiumValue}}</span>
-                    <span>{{conversionfactor.PotassiumUnit}}</span>
+                    <span>{{food.NutrientDensity === null ? 'NA' : parseFloat(food.NutrientDensity).toFixed(1)}}&nbsp</span>
+                    <span> KCal / mgs</span>
                 </span>
-                <span>
-                    <span>{{Number.parseFloat(conversionfactor.NutrientDensity).toFixed(3)}}&nbsp</span>
-                    <span>{{conversionfactor.KCalUnit}}/{{conversionfactor.PotassiumUnit}}</span>
-                </span>
-                <span>{{conversionfactor.FoodGroupName}}</span>
+                <span>{{food.FoodGroupName}}</span>
             </div>
         </div>
         <div class="flex-none col-span-2 row-span-2 flex items-center justify-self-center">
             <Button class="ml-2 self-center" @click="log">Log</Button>
             <Button
-                v-if="conversionfactor.editable"
+                v-if="food.Editable"
                 class="ml-2 self-center"
                 @click="edit"
             >
@@ -55,9 +50,9 @@
             NumberText,
             Button
         },
-        name: "Conversionfactor",
+        name: "Food",
         props:{
-            conversionfactor:Object,
+            food:Object,
         },
         emits:[
             'toggle-favourite'
@@ -68,28 +63,25 @@
             }
         },
         mounted() {
-          this.favourite = this.conversionfactor.Favourite;
+            this.favourite = this.food.Favourite;
         },
         methods:{
             emitToggleFavourite(){
                 this.favourite = !this.favourite;
-                this.$emit('toggle-favourite', {
-                    'conversionfactor': this.conversionfactor
-                });
+                this.$emit('toggle-favourite', this.food);
             },
             log(){
-                let url = route('logentries.store');
+                console.log('log')
+                let url = route('newlogentries.store');
                 this.$inertia.visit(url, {
                     method: 'post',
                     data:{
-                        'id':this.conversionfactor.ConversionFactorID
+                        'NewfoodID':this.food.NewfoodID
                     },
                 });
             },
             edit(){
-                this.$emit('edit', {
-                    'conversionfactor': this.conversionfactor
-                });
+                this.$emit('edit', this.food);
             }
 
         }

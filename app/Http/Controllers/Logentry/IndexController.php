@@ -27,7 +27,6 @@ class IndexController extends Controller
                 ->orderBy('ConsumedAt', 'desc')
                 ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'))
         );
-
         $allLogentries = LogentryResource::collection(
             Logentry::query()
                 ->where('UserID', Auth::user()->id)
@@ -68,5 +67,4 @@ class IndexController extends Controller
              ]
         ]);
     }
-
 }

@@ -45,4 +45,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Conversionfactor::class, 'favourites','user_id' ,'ConversionFactorID');
     }
+
+    public function foodfavourites()
+    {
+        return $this->belongsToMany(Newfood::class, 'food_favourites','UserID' ,'NewfoodID');
+    }
+
 }
