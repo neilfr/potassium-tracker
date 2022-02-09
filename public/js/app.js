@@ -18323,13 +18323,19 @@ __webpack_require__.r(__webpack_exports__);
     Button: _Components_Button__WEBPACK_IMPORTED_MODULE_0__.default
   },
   props: {
-    favouritefilter: String
+    favouritefilter: String,
+    sortorder: String
   },
   emits: ['search', 'toggleFavouriteFilter', 'addFoodFactor'],
   mounted: function mounted() {
-    if (localStorage.sortOrder) {
-      console.log('starting sort order', localStorage.sortOrder);
-    }
+    // const bar = this.sortOrderOptions.filter(
+    //     (option) => {
+    //         return option.value === this.sortOrder;
+    //         }
+    //     );
+    // this.selectedSortOrder = bar[0].value;
+    console.log('sortorder in header', this.sortorder);
+    console.log('favouritefilter in header', this.favouritefilter); // console.log('bar', bar);
 
     if (this.favouritefilter === 'yes') {
       this.updatedFavouriteFilter = true;
@@ -18339,6 +18345,19 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      bar: null,
+      sortOrder: '',
+      poo: 3,
+      stuff: [{
+        value: 1,
+        text: 'a'
+      }, {
+        value: 2,
+        text: 'b'
+      }, {
+        value: 3,
+        text: 'c'
+      }],
       searchText: '',
       updatedFavouriteFilter: Boolean,
       sortOrderOptions: [{
@@ -18367,10 +18386,9 @@ __webpack_require__.r(__webpack_exports__);
     addFood: function addFood() {
       this.$emit('addFood');
     },
-    handleUpdateSortOrder: function handleUpdateSortOrder() {
-      localStorage.sortOrder = this.selectedSortOrder;
-      this.$emit('updateSort', this.selectedSortOrder);
-      console.log('update sort');
+    handleUpdateSortOrder: function handleUpdateSortOrder(e) {
+      console.log('handleupdatesortorder, e.target.value', e.target.value);
+      this.$emit('updateSort', e.target.value); // console.log('update sort');
     }
   }
 });
@@ -19505,19 +19523,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     foods: Object,
-    favouritefilter: String
+    favouritefilter: String,
+    sortorder: String
   },
   emits: ['toggleFavouriteFilter'],
   data: function data() {
     return {
       searchText: String,
       updatedFavouriteFilter: '',
-      sortOrder: String
+      sortOrder: ''
     };
   },
   mounted: function mounted() {
     this.searchText = '';
     this.updatedFavouriteFilter = this.favouritefilter;
+    console.log('in index, sort order = initial sort order', this.sortorder);
+    console.log('in index, updatedfavouritefilter = this.favouritefilter', this.updatedFavouriteFilter);
   },
   methods: {
     first: function first() {
@@ -19586,9 +19607,10 @@ __webpack_require__.r(__webpack_exports__);
         preserveScroll: true
       });
     },
-    updateSortOrder: function updateSortOrder(sortOrder) {
-      console.log('sortOrder', sortOrder);
-      this.sortOrder = sortOrder;
+    updateSortOrder: function updateSortOrder(value) {
+      console.log('value', value);
+      this.sortOrder = value;
+      console.log('sortOrder', this.sortOrder);
       this.first();
     }
   }
@@ -20380,17 +20402,23 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 );
 
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+  "for": "arg"
+}, "SORTORDER:", -1
+/* HOISTED */
+);
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "class": "flex-none",
   "for": "sort"
 }, "Sort:", -1
 /* HOISTED */
 );
 
-var _hoisted_7 = {
+var _hoisted_8 = {
   "class": "ml-8 flex-none flex items-center justify-self-center"
 };
 
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Add Food");
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Add Food");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Button");
@@ -20417,37 +20445,50 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchText]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchText]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.stuff, function (item) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
+      value: "item.value",
+      selected: item.value === 2
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 9
+    /* TEXT, PROPS */
+    , ["selected"]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    id: "arg",
+    type: "text",
+    value: $props.sortorder
+  }, null, 8
+  /* PROPS */
+  , ["value"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
     id: "sort",
     "class": "ml-2 rounded",
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-      return $data.selectedSortOrder = $event;
-    }),
-    onChange: _cache[5] || (_cache[5] = function () {
+    onChange: _cache[4] || (_cache[4] = function () {
       return $options.handleUpdateSortOrder && $options.handleUpdateSortOrder.apply($options, arguments);
     })
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.sortOrderOptions, function (sortOption) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
-      value: sortOption.value
+      value: sortOption.value,
+      selected: sortOption.value == $props.sortorder
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(sortOption.description), 9
     /* TEXT, PROPS */
-    , ["value"]);
+    , ["value", "selected"]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))], 544
-  /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSortOrder]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+  ))], 32
+  /* HYDRATE_EVENTS */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
     onClick: $options.addFood
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_8];
+      return [_hoisted_9];
     }),
     _: 1
     /* STABLE */
 
   }, 8
   /* PROPS */
-  , ["onClick"])])]);
+  , ["onClick"])])])]);
 }
 
 /***/ }),
@@ -22873,10 +22914,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         onToggleFavouriteFilter: $options.handleFavouriteFilter,
         onAddFood: $options.addFood,
         onUpdateSort: $options.updateSortOrder,
-        favouritefilter: $props.favouritefilter
+        favouritefilter: $props.favouritefilter,
+        sortorder: $props.sortorder
       }, null, 8
       /* PROPS */
-      , ["onSearch", "onToggleFavouriteFilter", "onAddFood", "onUpdateSort", "favouritefilter"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.foods.data, function (food) {
+      , ["onSearch", "onToggleFavouriteFilter", "onAddFood", "onUpdateSort", "favouritefilter", "sortorder"]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.foods.data, function (food) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_food_card, {
           "class": "bg-gray-100 rounded-lg mb-2",
           key: food.NewfoodID,

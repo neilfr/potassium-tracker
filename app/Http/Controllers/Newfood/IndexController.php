@@ -22,21 +22,24 @@ class IndexController extends Controller
         $searchText = $request->query('searchText');
         $favouritefilter = $request->query('favouritefilter') ?: 'yes';
         $sortOrder = $request->query('sortOrder');
+
         $user = User::find(auth()->user()->id);
-        if($sortOrder){
+        if(in_array($sortOrder,['density-asc', 'density-des', 'food-description-asc', 'food-description-des'])){
             $user->newfoodsort = $sortOrder;
             $user->save();
+        } else {
+            $sortOrder = User::find(auth()->user()->id)->newfoodsort;
         }
+//$sortOrder = 'density-des';
         $foods = Newfood::query()
             ->favouriteFilter($favouritefilter)
             ->newfoodSearch($searchText)
-            ->orderBySortOrder()
-//            ->orderByDesc('NutrientDensity')
+            ->orderBySortOrder($sortOrder)
             ->paginate(env('LOGENTRY_PAGINATION_PAGE_LENGTH'));
-
         return Inertia::render('Foods/Index', [
             'foods' => NewfoodResource::collection($foods),
             'favouritefilter' => $favouritefilter,
+            'sortorder' => $sortOrder
         ]);
     }
 }

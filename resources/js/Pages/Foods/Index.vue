@@ -10,6 +10,7 @@
                             @addFood="addFood"
                             @updateSort="updateSortOrder"
                             :favouritefilter="favouritefilter"
+                            :sortorder="sortorder"
                         />
                         <food-card
                             class="bg-gray-100 rounded-lg mb-2"
@@ -57,6 +58,7 @@
         props: {
             foods: Object,
             favouritefilter: String,
+            sortorder: String,
         },
         emits: [
             'toggleFavouriteFilter',
@@ -65,12 +67,14 @@
             return {
                 searchText: String,
                 updatedFavouriteFilter: '',
-                sortOrder: String,
+                sortOrder:'',
             }
         },
         mounted() {
             this.searchText = '';
             this.updatedFavouriteFilter = this.favouritefilter;
+            console.log('in index, sort order = initial sort order', this.sortorder);
+            console.log('in index, updatedfavouritefilter = this.favouritefilter', this.updatedFavouriteFilter)
         },
         methods: {
             first() {
@@ -140,9 +144,10 @@
                         preserveScroll: true,
                     });
             },
-            updateSortOrder(sortOrder){
-                console.log('sortOrder',sortOrder);
-                this.sortOrder=sortOrder;
+            updateSortOrder(value){
+                console.log('value', value);
+                this.sortOrder=value;
+                console.log('sortOrder',this.sortOrder);
                 this.first();
             }
         }
