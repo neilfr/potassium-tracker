@@ -40,7 +40,6 @@ class Newfood extends Model
 
     public function scopeOrderBySortOrder(Builder $query, $sortOrder)
     {
-
         switch ($sortOrder) {
             case 'density-des':
                 $query->orderByDesc('NutrientDensity');
@@ -55,6 +54,7 @@ class Newfood extends Model
                 $query->orderByDesc('FoodDescription');
                 break;
             default:
+                $query->orderBy('FoodDescription');
                 break;
         }
     }

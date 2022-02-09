@@ -19531,13 +19531,14 @@ __webpack_require__.r(__webpack_exports__);
     return {
       searchText: String,
       updatedFavouriteFilter: '',
-      sortOrder: ''
+      updatedSortOrder: ''
     };
   },
   mounted: function mounted() {
     this.searchText = '';
     this.updatedFavouriteFilter = this.favouritefilter;
-    console.log('in index, sort order = initial sort order', this.sortorder);
+    this.updatedSortOrder = this.sortorder;
+    console.log('in index, sort order = initial sort order', this.updatedSortOrder);
     console.log('in index, updatedfavouritefilter = this.favouritefilter', this.updatedFavouriteFilter);
   },
   methods: {
@@ -19561,7 +19562,7 @@ __webpack_require__.r(__webpack_exports__);
       var url = route('foods.index');
       url += "?searchText=".concat(this.searchText);
       url += "&favouritefilter=".concat(this.updatedFavouriteFilter);
-      url += "&sortOrder=".concat(this.sortOrder);
+      url += "&sortOrder=".concat(this.updatedSortOrder);
       this.$inertia.visit(url, {
         data: {
           'page': page
@@ -19609,8 +19610,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateSortOrder: function updateSortOrder(value) {
       console.log('value', value);
-      this.sortOrder = value;
-      console.log('sortOrder', this.sortOrder);
+      this.updatedSortOrder = value;
+      console.log('sortOrder', this.updatedSortOrder);
       this.first();
     }
   }
