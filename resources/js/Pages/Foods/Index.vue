@@ -74,8 +74,6 @@
             this.searchText = '';
             this.updatedFavouriteFilter = this.favouritefilter;
             this.updatedSortOrder = this.sortorder
-            console.log('in index, sort order = initial sort order', this.updatedSortOrder);
-            console.log('in index, updatedfavouritefilter = this.favouritefilter', this.updatedFavouriteFilter)
         },
         methods: {
             first() {
@@ -146,9 +144,7 @@
                     });
             },
             updateSortOrder(value){
-                console.log('value', value);
                 this.updatedSortOrder=value;
-                console.log('sortOrder',this.updatedSortOrder);
                 this.first();
             }
         }

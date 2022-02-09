@@ -30,7 +30,7 @@ class IndexController extends Controller
         } else {
             $sortOrder = User::find(auth()->user()->id)->newfoodsort;
         }
-//$sortOrder = 'density-des';
+
         $foods = Newfood::query()
             ->favouriteFilter($favouritefilter)
             ->newfoodSearch($searchText)

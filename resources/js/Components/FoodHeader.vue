@@ -8,13 +8,6 @@
             <label class="flex-none" for="search">Search:</label>
             <input class="flex-grow ml-2 rounded" type="text" id="search" @input="updateSearchText" v-model="searchText"/>
         </span>
-        <select>
-            <option v-for="item in stuff" value="item.value" :selected="item.value === 2">{{item.text}}</option>
-        </select>
-        <div>
-
-        <label for="arg">SORTORDER:</label>
-        <input id="arg" type="text" :value="sortorder"/>
         <span>
             <label class="flex-none" for="sort">Sort:</label>
             <select id="sort" class="ml-2 rounded" @change="handleUpdateSortOrder">
@@ -24,7 +17,6 @@
         <span class="ml-8 flex-none flex items-center justify-self-center">
             <Button @click="addFood">Add Food</Button>
         </span>
-        </div>
     </div>
 </template>
 
@@ -46,16 +38,6 @@
             'addFoodFactor',
         ],
         mounted() {
-            // const bar = this.sortOrderOptions.filter(
-            //     (option) => {
-            //         return option.value === this.sortOrder;
-            //         }
-            //     );
-            // this.selectedSortOrder = bar[0].value;
-            console.log('sortorder in header', this.sortorder);
-            console.log('favouritefilter in header', this.favouritefilter);
-            // console.log('bar', bar);
-
             if(this.favouritefilter==='yes'){
                 this.updatedFavouriteFilter = true;
             } else {
@@ -64,17 +46,7 @@
         },
         data(){
             return {
-                bar: null,
                 sortOrder: '',
-                poo: 3,
-                stuff: [{
-                        value:1, text:'a'
-                    },{
-                        value:2, text:'b'
-                    },{
-                        value:3, text:'c'
-                    }
-                ],
                 searchText: '',
                 updatedFavouriteFilter: Boolean,
                 sortOrderOptions:[
@@ -109,9 +81,7 @@
                 this.$emit('addFood');
             },
             handleUpdateSortOrder(e){
-                console.log('handleupdatesortorder, e.target.value', e.target.value)
                 this.$emit('updateSort', e.target.value);
-                // console.log('update sort');
             }
         }
     }
