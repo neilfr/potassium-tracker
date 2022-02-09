@@ -13,8 +13,8 @@
         "laravel/framework": "^8.40",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
-        "tightenco/ziggy": "^1.0",
-      "ext-http": "*"
+        "php-http/curl-client": "^2.2",
+        "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
